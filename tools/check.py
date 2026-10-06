@@ -14,6 +14,7 @@ Site check: catches what would break the portfolio before it goes live.
              in the same order on the homepage as in the registry
   counts     words like "Four projects" match how many projects there are
   todo       no TODO placeholders left (tools/new_project.py leaves them on purpose)
+  analytics  every page, and the case-study bar (return.js), loads assets/js/analytics.js
   versions   every page loads site.css / site.js with the same ?v=
   css        braces balance in site.css
   scripts    (Chrome) every homepage feature starts without errors; every case study shows the portfolio bar
@@ -218,6 +219,11 @@ def check_text(projects):
     for i, line in enumerate(index.splitlines(), 1):
         if "TODO" in line:
             fail("todo", f"index.html:{i} still has a TODO placeholder")
+    for rel in PAGES:
+        if "assets/js/analytics.js" not in (ROOT / rel).read_text(encoding="utf-8"):
+            fail("analytics", f"{rel} doesn't load assets/js/analytics.js, so Google Analytics misses it")
+    if "assets/js/analytics.js" not in (ROOT / "assets/js/return.js").read_text(encoding="utf-8"):
+        fail("analytics", "assets/js/return.js no longer loads analytics.js, so case studies aren't measured")
     versions = {}
     for rel in PAGES:
         for m in re.finditer(r"site\.(css|js)\?v=([\w.-]+)", (ROOT / rel).read_text(encoding="utf-8")):

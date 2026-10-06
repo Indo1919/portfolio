@@ -887,10 +887,11 @@ ul, ol { list-style: none; }
   -webkit-mask-image: radial-gradient(70% 70% at 50% 50%, #000, transparent); mask-image: radial-gradient(70% 70% at 50% 50%, #000, transparent);
 }
 .mark-big, .mark-guides { position: absolute; width: 64%; height: auto; color: #f5f5f7; }
-.mk-path { stroke-dasharray: 1; stroke-dashoffset: 1; transition: stroke-dashoffset 1.8s var(--ease-in-out); }
-.mk-dot { transform-box: fill-box; transform-origin: center; transform: scale(0); transition: transform .9s var(--spring) 1.4s; }
-.mark-card.is-in .mk-path { stroke-dashoffset: 0; }
-.mark-card.is-in .mk-dot { transform: scale(1); }
+/* drawn by default; hidden for the draw-in only once the reveal observer runs (html.js-reveal) */
+.mk-path { stroke-dasharray: 1; stroke-dashoffset: 0; transition: stroke-dashoffset 1.8s var(--ease-in-out); }
+.mk-dot { transform-box: fill-box; transform-origin: center; transform: scale(1); transition: transform .9s var(--spring) 1.4s; }
+.js-reveal .mark-card:not(.is-in) .mk-path { stroke-dashoffset: 1; }
+.js-reveal .mark-card:not(.is-in) .mk-dot { transform: scale(0); }
 .mark-guides { opacity: 0; transition: opacity .6s var(--ease); }
 .mark-guides line, .mark-guides circle { fill: none; stroke: #FF2E6A; stroke-width: .5; vector-effect: non-scaling-stroke; }
 .mark-guides line { stroke: rgba(255,255,255,.28); stroke-dasharray: 3 3; }
@@ -1097,6 +1098,8 @@ img.is-missing { visibility: hidden; }
 .is-capture .stage { --p: 1 !important; }
 .is-capture .project { --enter: 1 !important; }
 .is-capture .parallax { transform: none !important; }
+.is-capture .mk-path { stroke-dashoffset: 0 !important; transition: none !important; }
+.is-capture .mk-dot { transform: none !important; transition: none !important; }
 .is-capture .nav-pill { transition: none; }
 .is-capture[data-capture-from] .nav { display: none; }
 .is-capture *, .is-capture *::before, .is-capture *::after { animation-play-state: paused !important; }

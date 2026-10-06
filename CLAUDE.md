@@ -24,8 +24,10 @@ too, and won't publish while it fails (the last good version stays live).
 2. **No invented facts.** Every claim, number, quote and role on the site must come from the project
    pages in `work/`, the résumé (`assets/docs/Matias-Indacochea-Resume.pdf`), or Matias's notes in
    `~/Desktop/IID Senior S2/matias-archive/`. Never fabricate metrics, outcomes, research or quotes.
-3. **Voice:** first person, plain-spoken, short sentences, no jargon, no em-dash flourishes. Lead with
-   what the person gets. Match the copy already on the page.
+3. **Voice:** written for recruiters and hiring managers at companies of any size, corporate included.
+   First person, confident and concrete: lead with ownership ("I designed", "I led"), show curiosity and a
+   current, cutting-edge approach, and back every claim with a fact. Short sentences, no jargon, no generic
+   adjectives, no em-dash flourishes. Labels say "Resume" (no accents). Match the copy already on the page.
 4. **One registry.** `assets/data/projects.json` is the list of projects, in display order. The case-study
    bar, sync and screenshots all read it.
 5. **Verify visually after any visual change** (see QA below). Don't call it done from the code alone.
@@ -40,6 +42,7 @@ too, and won't publish while it fails (the last good version stays live).
 | `index.html` | The whole homepage. Sections in order: `#top` hero, `#projects` at-a-glance index, proof strip, `#work` case-study panels (`#halo`, `#arriba`, `#aiios`, `#scowtt`), `#process`, `#about`, `#experience`, `#contact`, footer, then the live-preview sheet and film dialogs |
 | `assets/css/site.css` | Design tokens (`:root`), then components in page order, then breakpoints (1100, 900, 700) |
 | `assets/js/site.js` | Nav (active section, sliding indicator, light/dark tone), showcase, scroll motion, live preview sheet, demos. Reads project data from `data-*` attributes in the markup, so content edits are HTML-only |
+| `assets/js/analytics.js` | Google Analytics 4: the measurement ID and every custom event (see Analytics below) |
 | `assets/js/return.js` | The bar injected into every case study: "Back to portfolio", prev/next, all-projects menu. Reads `projects.json` |
 | `assets/data/projects.json` | Project registry: slug, name, anchor, accent, repo, files to mirror, pages to inject, screenshot recipes |
 | `work/<slug>/` | Mirrored case studies. `work/sync.json` records commits, file fingerprints and review state |
@@ -112,6 +115,27 @@ custom domain set in that repo's Settings → Pages, Enforce HTTPS on; no CNAME 
   A red run means `check.py` failed: the old version stays live; read the log, fix, push again.
 - For instant updates when a project changes, a project repo can send a `repository_dispatch` of type
   `project-updated` (needs a token with access to this repo). Otherwise it picks changes up within 30 min.
+
+## Analytics
+
+Google Analytics 4, property "Matias Portfolio" (measurement ID `G-CXQW1Q5LL0`, web stream URL
+https://matiasindacochea.com; the old myportfolio.com site still reports into it until it's retired, so filter
+by hostname if needed). `assets/js/analytics.js` is the only place with the ID. Every page loads it, and
+`return.js` loads it on every case study; `check.py` fails if one stops.
+- **Accuracy:** it skips iframes (the live phones and preview sheet), local hosts (so `check.py` and previews never
+  report), and Matias's own browsers: https://matiasindacochea.com/?no-analytics once per browser
+  (`?analytics` undoes it). `?ga-debug` sends to Admin > DebugView; the active "Developer traffic" filter keeps
+  those hits out of reports.
+- **Events:** `resume_download`, `contact_click` (method), `case_study_open`, `project_jump`, `project_preview`,
+  `live_preview_open`, `prototype_tap`, `film_play`, `section_view` (section), `portfolio_bar_click` (action,
+  destination). Parameters `project`, `link_location`, `method`, `section`, `action`, `destination` are
+  registered custom dimensions. A new parameter needs a new custom dimension (Admin > Custom definitions).
+- **GA settings already made:** key events `resume_download` and `contact_click` (once per session, no value);
+  event data retention 14 months; enhanced measurement keeps page loads, scrolls, outbound clicks, file
+  downloads and site search, with history-based page views and form interactions turned off (the homepage's
+  #anchors would otherwise count as extra page views).
+- Test changes locally the way they were built: fetch `analytics.js` in the preview, strip the local-host return
+  and the Google library line, eval it, click things, and read `window.dataLayer`. Nothing is sent that way.
 
 ## QA
 
