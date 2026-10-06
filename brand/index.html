@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>The mi mark · Matias Indacochea</title>
+<meta name="description" content="The personal mark of Matias Indacochea: construction, optical sizes, lockups, color and downloads.">
+<meta name="theme-color" content="#000000">
+<link rel="icon" href="../assets/logo/mi-icon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="../assets/logo/apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap">
+<link rel="stylesheet" href="../assets/css/site.css?v=20261006j">
+<style>
+  .bnav { position: fixed; top: 14px; left: 0; right: 0; z-index: 50; display: flex; justify-content: center; padding: 0 12px; pointer-events: none; }
+  .bnav a { pointer-events: auto; display: inline-flex; align-items: center; gap: 12px; height: 50px; padding: 0 20px 0 10px; border-radius: 999px;
+    background: rgba(22,22,24,.62); -webkit-backdrop-filter: blur(28px) saturate(180%); backdrop-filter: blur(28px) saturate(180%);
+    box-shadow: inset 0 0 0 1px rgba(255,255,255,.1), 0 12px 40px rgba(0,0,0,.28); font-size: 14px; font-weight: 600; }
+  .bnav svg.m { width: 24px; height: auto; margin-left: 8px; }
+  .bnav .ic { width: 15px; height: 15px; color: var(--text-2); }
+  .b-hero { padding: 180px 0 120px; text-align: center; position: relative; overflow: hidden; isolation: isolate; }
+  .b-hero .hero-aurora { opacity: .35; }
+  .b-hero .big { width: min(440px, 70vw); margin: 0 auto 56px; color: #f5f5f7; }
+  .b-hero h1 { font-size: clamp(48px, 8vw, 104px); line-height: .98; letter-spacing: -.05em; font-weight: 700; }
+  .b-hero p { margin: 22px auto 0; max-width: 640px; font-size: clamp(19px, 1.8vw, 23px); line-height: 1.42; color: var(--text-2); font-weight: 500; letter-spacing: -.018em; }
+  .b-sec { padding: clamp(80px, 10vw, 140px) 0; }
+  .b-sec.light { background: var(--l-bg); }
+  .b-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .b-card { border-radius: 28px; padding: 32px; background: var(--card); box-shadow: inset 0 0 0 1px var(--line); display: flex; flex-direction: column; gap: 22px; }
+  .light .b-card { background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 40px -20px rgba(0,0,0,.12); }
+  .b-card h3 { font-size: 21px; letter-spacing: -.024em; font-weight: 700; }
+  .b-card p { font-size: 15px; line-height: 1.5; color: var(--text-2); }
+  .light .b-card p { color: var(--l-text-2); }
+  .b-art { display: grid; place-items: center; min-height: 220px; border-radius: 18px; }
+  .b-art svg { width: 62%; height: auto; }
+  .construct { border-radius: 32px; background: linear-gradient(180deg, #121215, #09090b); box-shadow: inset 0 0 0 1px var(--line); padding: clamp(24px, 4vw, 56px); }
+  .construct svg { width: 100%; height: auto; max-height: 72vh; margin: 0 auto; color: #f5f5f7; }
+  .construct .ln { stroke: rgba(255,255,255,.22); stroke-width: .35; stroke-dasharray: 2 2; fill: none; }
+  .construct .cc { stroke: #FF2E6A; stroke-width: .45; fill: none; }
+  .construct .ann { font: 600 4.2px var(--font); fill: rgba(255,255,255,.62); letter-spacing: .02em; }
+  .construct .dim { stroke: rgba(255,255,255,.5); stroke-width: .35; fill: none; }
+  .notes { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; margin-top: 36px; }
+  .notes div { padding-top: 18px; border-top: 1px solid var(--line); }
+  .notes b { display: block; font-size: 15px; margin-bottom: 4px; letter-spacing: -.014em; }
+  .notes span { font-size: 14px; color: var(--text-2); line-height: 1.45; }
+  .lockups { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .lock { border-radius: 28px; min-height: 260px; display: grid; place-items: center; padding: 40px; }
+  .lock.dk { background: #000; box-shadow: inset 0 0 0 1px var(--line); color: #f5f5f7; }
+  .lock.lt { background: #fff; color: #1d1d1f; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 40px -20px rgba(0,0,0,.12); }
+  .lock .row { display: flex; align-items: flex-end; gap: .34em; font-size: clamp(26px, 3.4vw, 44px); font-weight: 600; letter-spacing: -.024em; line-height: .74; }
+  .lock .row svg { height: .98em; width: auto; }
+  .icons { display: flex; flex-wrap: wrap; align-items: flex-end; gap: 28px; }
+  .icons img { border-radius: 22.5%; }
+  .swatch-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .sw { border-radius: 22px; overflow: hidden; background: #fff; box-shadow: 0 1px 2px rgba(0,0,0,.04), 0 10px 40px -20px rgba(0,0,0,.12); }
+  .sw i { display: block; height: 140px; background: var(--c); }
+  .sw div { padding: 16px 18px 18px; }
+  .sw b { display: block; font-size: 15px; letter-spacing: -.014em; }
+  .sw span { font-size: 13px; color: var(--l-text-2); font-variant-numeric: tabular-nums; }
+  .grad-bar { margin-top: 14px; height: 64px; border-radius: 22px; background: var(--grad); }
+  .dl { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 8px; }
+  .dl a { display: inline-flex; align-items: center; gap: 8px; height: 40px; padding: 0 16px; border-radius: 999px; font-size: 14px; font-weight: 600;
+    background: rgba(255,255,255,.08); box-shadow: inset 0 0 0 1px rgba(255,255,255,.12); }
+  .dl a:hover { background: rgba(255,255,255,.14); }
+  .dl .ic { width: 15px; height: 15px; }
+  .rules { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 18px; }
+  @media (max-width: 900px) {
+    .b-grid, .lockups, .rules { grid-template-columns: 1fr; }
+    .notes, .swatch-row { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="mi-dot" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF7A1A"/><stop offset=".4" stop-color="#FF2E6A"/><stop offset=".72" stop-color="#A35BFF"/><stop offset="1" stop-color="#2F7BFF"/></linearGradient>
+    <symbol id="i-back" viewBox="0 0 24 24"><path d="M19 12H6M11 6l-6 6 6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-dl" viewBox="0 0 24 24"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </defs>
+</svg>
+
+<nav class="bnav" aria-label="Back">
+  <a href="../#about"><svg class="ic" aria-hidden="true"><use href="#i-back"/></svg><svg class="m" viewBox="0 -31.04 112.5 95.04" aria-hidden="true"><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#mi-dot)"/></svg>Matias Indacochea</a>
+</nav>
+
+<main>
+  <section class="b-hero">
+    <div class="hero-aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <svg class="big" viewBox="0 -31.04 112.5 95.04" role="img" aria-label="The mi mark"><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#mi-dot)"/></svg>
+    <div class="wrap">
+      <p class="eyebrow">Identity</p>
+      <h1>The mi mark.</h1>
+      <p>My initials, and “my” in Spanish. Two languages in two letters, drawn with the same restraint I bring to interfaces: one shape, one color, nothing extra.</p>
+    </div>
+  </section>
+
+  <section class="b-sec">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">Construction</p>
+        <h2 class="section-title">Built on a grid.</h2>
+        <p class="section-lead">Every curve and gap comes from one 32-unit rhythm, so the mark holds together at 16 pixels and at 16 feet.</p>
+      </header>
+      <div class="construct">
+        <svg viewBox="-26 -46 168 124" aria-label="Construction drawing of the mi mark" role="img">
+          <line class="ln" x1="-26" y1="0" x2="142" y2="0"/><line class="ln" x1="-26" y1="64" x2="142" y2="64"/><line class="ln" x1="-26" y1="23" x2="142" y2="23"/>
+          <line class="ln" x1="7" y1="-46" x2="7" y2="78"/><line class="ln" x1="39" y1="-46" x2="39" y2="78"/><line class="ln" x1="71" y1="-46" x2="71" y2="78"/><line class="ln" x1="103" y1="-46" x2="103" y2="78"/>
+          <path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14" opacity=".92"/>
+          <circle cx="103" cy="-21.54" r="9.5" fill="url(#mi-dot)"/>
+          <circle class="cc" cx="23" cy="23" r="16"/><circle class="cc" cx="55" cy="23" r="16"/><circle class="cc" cx="23" cy="23" r="23"/><circle class="cc" cx="55" cy="23" r="23"/>
+          <text class="ann" x="-24" y="-2">x-height</text><text class="ann" x="-24" y="21">shoulder</text><text class="ann" x="-24" y="62">baseline</text>
+          <path class="dim" d="M7 72h32M7 70v4M39 70v4"/><text class="ann" x="16" y="77.5">32 units</text>
+          <path class="dim" d="M71 72h32M71 70v4M103 70v4"/><text class="ann" x="80" y="77.5">32 units</text>
+          <text class="ann" x="116" y="-20">dot · r 9.5</text><text class="ann" x="116" y="30">stem · 14</text>
+          <text class="ann" x="31" y="-30">r 16 / 23</text>
+        </svg>
+      </div>
+      <div class="notes">
+        <div><b>True semicircles</b><span>The shoulders are perfect half circles, so the arch lands exactly on the x-height.</span></div>
+        <div><b>One rhythm</b><span>Stems sit 32 units apart, and the gap before the i matches the counters of the m.</span></div>
+        <div><b>One color</b><span>The dot is the only color in the system. Everything else is ink.</span></div>
+        <div><b>Flat top i</b><span>The i stops at the x-height, level with the tops of the arches.</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="b-sec light">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">Optical sizes</p>
+        <h2 class="section-title">Three weights, one mark.</h2>
+        <p class="section-lead">A thin stroke disappears at favicon size and a heavy one gets clumsy on a poster, so the mark comes in three optical sizes.</p>
+      </header>
+      <div class="b-grid">
+        <article class="b-card">
+          <div class="b-art" style="background:#f5f5f7;color:#1d1d1f"><svg viewBox="0 -27.32 110.5 91.32" aria-hidden="true"><path d="M6 64V22a16 16 0 0 1 32 0v42M38 22a16 16 0 0 1 32 0v42M102 64V0" fill="none" stroke="currentColor" stroke-width="12"/><circle cx="102" cy="-18.82" r="8.5" fill="url(#mi-dot)"/></svg></div>
+          <div><h3>Display</h3><p>Stroke 12. Posters, title slides, anything over 120 pixels tall.</p></div>
+        </article>
+        <article class="b-card">
+          <div class="b-art" style="background:#f5f5f7;color:#1d1d1f"><svg viewBox="0 -31.04 112.5 95.04" aria-hidden="true"><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#mi-dot)"/></svg></div>
+          <div><h3>Text</h3><p>Stroke 14. The default, for navigation, lockups and documents.</p></div>
+        </article>
+        <article class="b-card">
+          <div class="b-art" style="background:#f5f5f7;color:#1d1d1f"><svg viewBox="0 -39.48 117 103.48" aria-hidden="true"><path d="M9 64V25a16 16 0 0 1 32 0v39M41 25a16 16 0 0 1 32 0v39M105 64V0" fill="none" stroke="currentColor" stroke-width="18"/><circle cx="105" cy="-27.48" r="12" fill="url(#mi-dot)"/></svg></div>
+          <div><h3>Small</h3><p>Stroke 18. Favicons and app icons, anything under 32 pixels.</p></div>
+        </article>
+      </div>
+
+      <div class="section-head" style="margin:clamp(80px,10vw,120px) 0 40px"><p class="eyebrow">Lockups</p><h2 class="sub-title">With the name.</h2></div>
+      <div class="lockups">
+        <div class="lock dk"><div class="row"><svg viewBox="0 -31.04 112.5 95.04" aria-hidden="true"><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#mi-dot)"/></svg>Matias Indacochea</div></div>
+        <div class="lock lt"><div class="row"><svg viewBox="0 -31.04 112.5 95.04" aria-hidden="true"><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#mi-dot)"/></svg>Matias Indacochea</div></div>
+      </div>
+      <div class="rules">
+        <article class="b-card"><h3>Clear space</h3><p>Keep at least one stem width of empty space on every side of the mark, and two in a lockup. The mark sits on the baseline of the name, and its height matches the cap height.</p></article>
+        <article class="b-card"><h3>Don’t</h3><p>Recolor the strokes, put the gradient on anything but the dot, outline it, stretch it, or set the name in a different typeface. The wordmark is SF Pro Display Semibold, with Inter Semibold as the web fallback.</p></article>
+      </div>
+
+      <div class="section-head" style="margin:clamp(80px,10vw,120px) 0 40px"><p class="eyebrow">Color</p><h2 class="sub-title">Mixed from the work.</h2><p class="section-lead">The dot blends one color from each project on this site, in the order you meet them.</p></div>
+      <div class="swatch-row">
+        <div class="sw"><i style="--c:#FF7A1A"></i><div><b>Signal</b><span>#FF7A1A · from Halo</span></div></div>
+        <div class="sw"><i style="--c:#FF2E6A"></i><div><b>Andes</b><span>#FF2E6A · from Arriba Perú</span></div></div>
+        <div class="sw"><i style="--c:#A35BFF"></i><div><b>Glow</b><span>#A35BFF · from AI Native iOS</span></div></div>
+        <div class="sw"><i style="--c:#2F7BFF"></i><div><b>Lead</b><span>#2F7BFF · from Scowtt</span></div></div>
+      </div>
+      <div class="grad-bar" aria-hidden="true"></div>
+    </div>
+  </section>
+
+  <section class="b-sec">
+    <div class="wrap">
+      <header class="section-head">
+        <p class="eyebrow">Icon</p>
+        <h2 class="section-title">At every size.</h2>
+      </header>
+      <div class="icons">
+        <img src="../assets/logo/mi-icon.svg" width="200" height="200" alt="mi app icon, dark">
+        <img src="../assets/logo/mi-icon-light.svg" width="200" height="200" alt="mi app icon, light">
+        <img src="../assets/logo/mi-icon.svg" width="96" height="96" alt="">
+        <img src="../assets/logo/mi-icon.svg" width="48" height="48" alt="">
+        <img src="../assets/logo/mi-icon.svg" width="32" height="32" alt="">
+        <img src="../assets/logo/mi-icon.svg" width="16" height="16" alt="">
+      </div>
+
+      <div class="section-head" style="margin:clamp(80px,10vw,120px) 0 28px"><p class="eyebrow">Downloads</p><h2 class="sub-title">Files.</h2></div>
+      <div class="dl">
+        <a href="../assets/logo/mi-mark.svg" download><svg class="ic" aria-hidden="true"><use href="#i-dl"/></svg>Mark, SVG</a>
+        <a href="../assets/logo/mi-mark-white.svg" download><svg class="ic" aria-hidden="true"><use href="#i-dl"/></svg>Mark on dark, SVG</a>
+        <a href="../assets/logo/mi-mark-black.svg" download><svg class="ic" aria-hidden="true"><use href="#i-dl"/></svg>Mark on light, SVG</a>
+        <a href="../assets/logo/mi-mark-mono-white.svg" download><svg class="ic" aria-hidden="true"><use href="#i-dl"/></svg>One color, white</a>
+        <a href="../assets/logo/mi-mark-mono-black.svg" download><svg class="ic" aria-hidden="true"><use href="#i-dl"/></svg>One color, black</a>
+        <a href="../assets/logo/mi-icon.svg" download><svg class="ic" aria-hidden="true"><use href="#i-dl"/></svg>App icon, SVG</a>
+        <a href="../assets/logo/icon-512.png" download><svg class="ic" aria-hidden="true"><use href="#i-dl"/></svg>App icon, PNG</a>
+        <a href="../assets/logo/mi-lockup-dark.png" download><svg class="ic" aria-hidden="true"><use href="#i-dl"/></svg>Lockup on dark, PNG</a>
+        <a href="../assets/logo/mi-lockup-light.png" download><svg class="ic" aria-hidden="true"><use href="#i-dl"/></svg>Lockup on light, PNG</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer">
+  <div class="wrap footer-inner">
+    <a class="footer-brand" href="../"><svg viewBox="0 -31.04 112.5 95.04" aria-hidden="true"><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#mi-dot)"/></svg><span>Matias Indacochea</span></a>
+    <nav class="footer-links" aria-label="Footer"><a href="../#work">Work</a><a href="../#about">About</a><a href="../#contact">Contact</a></nav>
+  </div>
+</footer>
+<script>document.documentElement.classList.remove("no-js");</script>
+</body>
+</html>

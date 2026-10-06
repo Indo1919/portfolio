@@ -1,0 +1,81 @@
+# Keeps the case studies in work/ identical to their GitHub repos, checks the site, then publishes it.
+#
+# Runs when this repo is pushed, every 30 minutes, on demand (Actions tab > Run workflow),
+# and instantly when a project repo sends a "project-updated" repository_dispatch (see CLAUDE.md).
+#
+# Safety: tools/check.py must pass before anything is published. If it fails, the run goes red,
+# the last good version stays live, and the log lists exactly what to fix.
+#
+# One-time setup in this repo: Settings > Pages > Build and deployment > Source: GitHub Actions.
+
+name: Sync projects and publish
+
+on:
+  push:
+    branches: [main]
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+  repository_dispatch:
+    types: [project-updated]
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Pull the latest of every project
+        run: python3 tools/sync.py
+
+      - name: Check the site
+        run: python3 tools/check.py
+
+      - name: Commit what changed
+        id: commit
+        run: |
+          if [ -n "$(git status --porcelain work)" ]; then
+            git config user.name "portfolio-sync"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add work
+            git commit -m "Sync case studies from their repos"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+  publish:
+    needs: sync
+    # scheduled runs only publish when a project actually changed
+    if: needs.sync.outputs.changed == 'true' || github.event_name != 'schedule'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - name: Collect the site (the pages people visit, not the tools or notes)
+        run: |
+          mkdir _site
+          cp -R index.html 404.html .nojekyll brand work assets _site/
+          rm -f _site/work/sync.json
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deployment
+        uses: actions/deploy-pages@v4

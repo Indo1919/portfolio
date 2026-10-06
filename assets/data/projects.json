@@ -1,0 +1,97 @@
+{
+  "_about": "The project registry. Order here is the order everywhere (case-study pill, sync, screenshots). Edit this file to add, remove or reorder a project, then run python3 tools/sync.py. See CLAUDE.md.",
+  "projects": [
+    {
+      "slug": "halo",
+      "name": "Halo",
+      "anchor": "halo",
+      "accent": "#FF5A1F",
+      "repo": "Indo1919/Halo",
+      "branch": "main",
+      "include": [
+        "index.html",
+        "halo.config.js",
+        "manifest.webmanifest",
+        "LICENSE",
+        "assets/fonts/**",
+        "brand/favicon/**",
+        "brand/social/**",
+        "film/*.mp4",
+        "film/*.jpg"
+      ],
+      "inject": ["index.html"],
+      "shots": [
+        { "from_repo": "docs/screenshots/home.png", "out": "halo-home.jpg" },
+        { "from_repo": "docs/screenshots/home-dark.png", "out": "halo-home-dark.jpg" },
+        { "from_repo": "docs/screenshots/phone-home.png", "out": "halo-phone.jpg", "max": 1688 }
+      ]
+    },
+    {
+      "slug": "arriba-peru",
+      "name": "Arriba Perú",
+      "anchor": "arriba",
+      "accent": "#E0483F",
+      "repo": "Indo1919/Arriba-Peru",
+      "branch": "main",
+      "include": ["index.html", "prototype.html"],
+      "inject": ["index.html"],
+      "embeds": [
+        {
+          "what": "Android status bar inside the homepage phone (EMBED_CSS \"android-app\" in site.js)",
+          "page": "prototype.html",
+          "needs": ["innerWidth<=560", "header class=\"top\"", "id=\"devWrap\"", "class=\"sbar\"", "class=\"cam\"", "class=\"gest\"", "body.frameless .tb"],
+          "homepage": "data-embed=\"android-app\""
+        }
+      ],
+      "shots": [
+        { "page": "index.html", "out": "arriba-hero.jpg" },
+        { "page": "index.html", "out": "arriba-phone.jpg", "crop": [2060, 246, 600, 1348] }
+      ]
+    },
+    {
+      "slug": "ai-native-ios",
+      "name": "AI Native iOS",
+      "anchor": "aiios",
+      "accent": "#4C8DFF",
+      "repo": "Indo1919/AI-Native-IOS",
+      "branch": "main",
+      "include": ["index.html"],
+      "inject": ["index.html"],
+      "embeds": [
+        {
+          "what": "live phone on the homepage, cropped from this page's hero (data-crop in index.html)",
+          "page": "index.html",
+          "needs": ["id=\"heroMount\"", "<div class=\"phone\">"],
+          "homepage": "data-crop=\"#heroMount .phone\""
+        }
+      ],
+      "shots": [
+        { "page": "index.html", "out": "aiios-hero.jpg", "wait": 5000 },
+        { "page": "index.html", "out": "aiios-phone.jpg", "wait": 5000, "crop": [1803, 234, 663, 1404] }
+      ]
+    },
+    {
+      "slug": "scowtt",
+      "name": "Scowtt",
+      "anchor": "scowtt",
+      "accent": "#8F86FF",
+      "repo": "Indo1919/Scowtt",
+      "branch": "main",
+      "include": ["index.html"],
+      "inject": ["index.html"],
+      "shots": [
+        {
+          "page": "index.html", "out": "scowtt-product.jpg", "section": "product",
+          "css": "header.nav{display:none!important} #product .sh,#product .cmp-tabs{display:none!important} #product{padding-top:40px!important}",
+          "crop": [320, 80, 2240, 1398]
+        },
+        {
+          "page": "index.html", "out": "scowtt-website.jpg", "section": "website",
+          "css": "header.nav{display:none!important} #website .sh,#website .qs{display:none!important} #website{padding-top:40px!important}",
+          "crop": [902, 342, 1591, 928]
+        }
+      ]
+    }
+  ],
+  "legacy_links": ["matiasindacochea.myportfolio.com"]
+}

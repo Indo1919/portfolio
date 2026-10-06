@@ -1,0 +1,10 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>review frame</title>
+<style>html, body { margin: 0; background: #000; } body { display: flex; justify-content: center; } iframe { display: block; border: 0; flex: none; }</style>
+<iframe id="f"></iframe>
+<script>
+  // Renders a page at an exact width (Chrome won't open a headless window narrower than ~500px).
+  const p = new URLSearchParams(location.search), f = document.getElementById("f");
+  f.width = p.get("w"); f.height = p.get("h"); f.src = p.get("src");
+</script>

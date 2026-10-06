@@ -1,0 +1,158 @@
+{
+  "halo": {
+    "repo": "Indo1919/Halo",
+    "commit": "edc29009b530449c63da1389afa46124504711a7",
+    "synced_at": "2026-10-06T08:05:22+00:00",
+    "files": {
+      "LICENSE": "ee1065e7989c3f19",
+      "assets/fonts/Geist-Variable-latin-ext.woff2": "58a6b173d5ca1dec",
+      "assets/fonts/Geist-Variable-latin.ttf": "eaacdc026b468995",
+      "assets/fonts/Geist-Variable-latin.woff2": "9b6f5ff45b278c74",
+      "assets/fonts/GeistMono-Variable-latin-ext.woff2": "745994b5cd950ec2",
+      "assets/fonts/GeistMono-Variable-latin.ttf": "2cd1e834d572e071",
+      "assets/fonts/GeistMono-Variable-latin.woff2": "5f3d6ad60f29d6cb",
+      "assets/fonts/OFL.txt": "41af7dc2a94ee519",
+      "brand/favicon/apple-touch-icon.png": "7e81af79e66e5ad8",
+      "brand/favicon/favicon-16.png": "bb7804bf2980a7fb",
+      "brand/favicon/favicon-32.png": "96fe56e7622fd99c",
+      "brand/favicon/favicon-48.png": "e3f8a5d5a5e5204c",
+      "brand/favicon/favicon-64.png": "cc819ce3f861d9b9",
+      "brand/favicon/favicon-tile.svg": "18ab949b53166429",
+      "brand/favicon/favicon.ico": "712df88232a4d023",
+      "brand/favicon/favicon.svg": "06e4493fe533e2df",
+      "brand/favicon/icon-192.png": "ccfdfb7b356677eb",
+      "brand/favicon/icon-512.png": "8088339c24db4c99",
+      "brand/favicon/icon-fullbleed.svg": "c555e1437cc41d55",
+      "brand/favicon/icon-maskable-512.png": "f2caf8cc87cc03ee",
+      "brand/favicon/icon-maskable.svg": "03e78bf7485d3405",
+      "brand/social/og-image.png": "83a916176701a2d2",
+      "brand/social/social-avatar-400.png": "432c14742763c787",
+      "brand/social/social-banner-1500x500.png": "7fc55242aa839527",
+      "film/halo-explainer-loop.mp4": "6f19571056c294cb",
+      "film/halo-explainer-poster.jpg": "d169ba83707bbed8",
+      "film/halo-film-poster.jpg": "e71c071a8912fc83",
+      "film/halo-launch-15s-vertical.mp4": "ca16f77b42115496",
+      "film/halo-launch-film.mp4": "0f7d754e6488f737",
+      "halo.config.js": "8cda3971a3089302",
+      "index.html": "6d62711fb108a800",
+      "manifest.webmanifest": "6bd529e3f37abb94"
+    },
+    "facts": {
+      "title": "Halo",
+      "description": "Halo turns the signal you already create into updates in your own voice, so you never write another status update.",
+      "text": "88fdff2a31a2303d"
+    },
+    "reviewed": {
+      "files": {
+        "LICENSE": "ee1065e7989c3f19",
+        "assets/fonts/Geist-Variable-latin-ext.woff2": "58a6b173d5ca1dec",
+        "assets/fonts/Geist-Variable-latin.ttf": "eaacdc026b468995",
+        "assets/fonts/Geist-Variable-latin.woff2": "9b6f5ff45b278c74",
+        "assets/fonts/GeistMono-Variable-latin-ext.woff2": "745994b5cd950ec2",
+        "assets/fonts/GeistMono-Variable-latin.ttf": "2cd1e834d572e071",
+        "assets/fonts/GeistMono-Variable-latin.woff2": "5f3d6ad60f29d6cb",
+        "assets/fonts/OFL.txt": "41af7dc2a94ee519",
+        "brand/favicon/apple-touch-icon.png": "7e81af79e66e5ad8",
+        "brand/favicon/favicon-16.png": "bb7804bf2980a7fb",
+        "brand/favicon/favicon-32.png": "96fe56e7622fd99c",
+        "brand/favicon/favicon-48.png": "e3f8a5d5a5e5204c",
+        "brand/favicon/favicon-64.png": "cc819ce3f861d9b9",
+        "brand/favicon/favicon-tile.svg": "18ab949b53166429",
+        "brand/favicon/favicon.ico": "712df88232a4d023",
+        "brand/favicon/favicon.svg": "06e4493fe533e2df",
+        "brand/favicon/icon-192.png": "ccfdfb7b356677eb",
+        "brand/favicon/icon-512.png": "8088339c24db4c99",
+        "brand/favicon/icon-fullbleed.svg": "c555e1437cc41d55",
+        "brand/favicon/icon-maskable-512.png": "f2caf8cc87cc03ee",
+        "brand/favicon/icon-maskable.svg": "03e78bf7485d3405",
+        "brand/social/og-image.png": "83a916176701a2d2",
+        "brand/social/social-avatar-400.png": "432c14742763c787",
+        "brand/social/social-banner-1500x500.png": "7fc55242aa839527",
+        "film/halo-explainer-loop.mp4": "6f19571056c294cb",
+        "film/halo-explainer-poster.jpg": "d169ba83707bbed8",
+        "film/halo-film-poster.jpg": "e71c071a8912fc83",
+        "film/halo-launch-15s-vertical.mp4": "ca16f77b42115496",
+        "film/halo-launch-film.mp4": "0f7d754e6488f737",
+        "halo.config.js": "8cda3971a3089302",
+        "index.html": "6d62711fb108a800",
+        "manifest.webmanifest": "6bd529e3f37abb94"
+      },
+      "facts": {
+        "title": "Halo",
+        "description": "Halo turns the signal you already create into updates in your own voice, so you never write another status update.",
+        "text": "88fdff2a31a2303d"
+      }
+    }
+  },
+  "arriba-peru": {
+    "repo": "Indo1919/Arriba-Peru",
+    "commit": "a68cb69016a9f174e1d396fca3caeb16dc4f8524",
+    "synced_at": "2026-10-06T08:05:22+00:00",
+    "files": {
+      "index.html": "89c6223cc906f436",
+      "prototype.html": "e772e9679738daf1"
+    },
+    "facts": {
+      "title": "Arriba Perú — Safer work, clearer rights",
+      "description": "Arriba Perú: a co-designed mobile app bringing safety, clarity and opportunity to Peru’s domestic workers. Live bilingual prototype by Matias Indacochea.",
+      "text": "1935a4f809854e04"
+    },
+    "reviewed": {
+      "files": {
+        "index.html": "89c6223cc906f436",
+        "prototype.html": "e772e9679738daf1"
+      },
+      "facts": {
+        "title": "Arriba Perú — Safer work, clearer rights",
+        "description": "Arriba Perú: a co-designed mobile app bringing safety, clarity and opportunity to Peru’s domestic workers. Live bilingual prototype by Matias Indacochea.",
+        "text": "1935a4f809854e04"
+      }
+    }
+  },
+  "ai-native-ios": {
+    "repo": "Indo1919/AI-Native-IOS",
+    "commit": "b33208736834095f7634c90cfe5aa024d4ea0f43",
+    "synced_at": "2026-10-06T08:05:22+00:00",
+    "files": {
+      "index.html": "f3ec826f24008659"
+    },
+    "facts": {
+      "title": "AI Native iOS",
+      "description": "A speculative iOS 27 concept by Matias Indacochea: the assistant moves into the dock, answers land on the home screen, and nothing acts without a preview.",
+      "text": "0bca5680540fb1b1"
+    },
+    "reviewed": {
+      "files": {
+        "index.html": "f3ec826f24008659"
+      },
+      "facts": {
+        "title": "AI Native iOS",
+        "description": "A speculative iOS 27 concept by Matias Indacochea: the assistant moves into the dock, answers land on the home screen, and nothing acts without a preview.",
+        "text": "0bca5680540fb1b1"
+      }
+    }
+  },
+  "scowtt": {
+    "repo": "Indo1919/Scowtt",
+    "commit": "e30e2eca0473bb53b026fd229555dbfc5e5559d1",
+    "synced_at": "2026-10-06T08:07:17+00:00",
+    "files": {
+      "index.html": "37f913de94469cda"
+    },
+    "facts": {
+      "title": "Scowtt, by Matias Indacochea",
+      "description": "How I designed Scowtt's colors, original website and product interface, from the first logo directions to a working app.",
+      "text": "1c8cfe95d939bb41"
+    },
+    "reviewed": {
+      "files": {
+        "index.html": "37f913de94469cda"
+      },
+      "facts": {
+        "title": "Scowtt, by Matias Indacochea",
+        "description": "How I designed Scowtt's colors, original website and product interface, from the first logo directions to a working app.",
+        "text": "1c8cfe95d939bb41"
+      }
+    }
+  }
+}

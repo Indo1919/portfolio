@@ -1,0 +1,13 @@
+Copyright (c) 2026 Halo. All rights reserved.
+
+This repository contains the Halo product prototype, brand system, launch film and
+supporting tools. No part of it may be reproduced or redistributed without permission,
+except as allowed by the third-party licenses below.
+
+Third-party components
+- Geist and Geist Mono typefaces: SIL Open Font License 1.1 (see assets/fonts/OFL.txt).
+- Connector logos (Google Calendar, Slack, Figma, GitHub, Jira, Zoom and others) are
+  trademarks of their respective owners. They appear as simplified marks for
+  identification only and do not imply endorsement.
+
+All people, companies and data in the demo workspace ("Brightwater") are fictional.

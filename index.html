@@ -1,0 +1,774 @@
+<!doctype html>
+<html lang="en" class="no-js">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Matias Indacochea · UI/UX & Product Designer</title>
+<meta name="description" content="Matias Indacochea is a UI/UX and product designer working where design meets AI. Four case studies, each one a working product: Halo, Arriba Perú, AI Native iOS and Scowtt.">
+<meta name="theme-color" content="#000000">
+<meta name="color-scheme" content="dark light">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Matias Indacochea · UI/UX & Product Designer">
+<meta property="og:description" content="Research-led, systems-minded, AI-fluent UI/UX and product designer. Four case studies, each one a working product you can open and use.">
+<meta property="og:image" content="assets/img/og-image.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/logo/mi-icon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/logo/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="assets/logo/apple-touch-icon.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400..800&display=swap">
+<link rel="preload" as="image" href="assets/img/halo-home.jpg">
+<script>
+  /* Safety nets that don't depend on site.js: show the intro after 3s even if the script fails,
+     and hide any image that fails to load instead of showing a broken icon. */
+  document.documentElement.classList.remove("no-js");
+  setTimeout(function () { document.documentElement.classList.add("is-ready"); }, 3000);
+  addEventListener("error", function (e) { var t = e.target; if (t && t.tagName === "IMG") t.classList.add("is-missing"); }, true);
+</script>
+<link rel="stylesheet" href="assets/css/site.css?v=20261006j">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Matias Indacochea",
+  "jobTitle": "UI/UX & Product Designer",
+  "email": "mailto:matiasindacochea@outlook.com",
+  "telephone": "+1-425-785-2519",
+  "sameAs": ["https://www.linkedin.com/in/matias-indacochea-104a54250/", "https://github.com/Indo1919"],
+  "alumniOf": [
+    {"@type": "CollegeOrUniversity", "name": "Syracuse University"},
+    {"@type": "CollegeOrUniversity", "name": "Parsons School of Design, The New School"}
+  ],
+  "knowsLanguage": ["English", "Spanish"]
+}
+</script>
+</head>
+<body>
+
+<!-- Icon sprite -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <linearGradient id="mi-dot" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF7A1A"/><stop offset=".4" stop-color="#FF2E6A"/><stop offset=".72" stop-color="#A35BFF"/><stop offset="1" stop-color="#2F7BFF"/></linearGradient>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h13M13 6l6 6-6 6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 5v13M6 13l6 6 6-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-ext" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v5a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path d="M8 5.5v13a.5.5 0 0 0 .77.42l10.2-6.5a.5.5 0 0 0 0-.84L8.77 5.08A.5.5 0 0 0 8 5.5z" fill="currentColor"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="i-check" viewBox="0 0 24 24"><path d="M5 12.5l4.5 4.5L19 7.5" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6L6 18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+    <symbol id="i-phone" viewBox="0 0 24 24"><path d="M6.6 3.5h2.6l1.4 4.1-2 1.5a12 12 0 0 0 6.3 6.3l1.5-2 4.1 1.4v2.6a2 2 0 0 1-2.2 2A16.5 16.5 0 0 1 4.6 5.7a2 2 0 0 1 2-2.2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M4 7l8 6 8-6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-linkedin" viewBox="0 0 24 24"><path fill="currentColor" d="M4.98 3.5a2.5 2.5 0 1 1 0 5 2.5 2.5 0 0 1 0-5zM3 9.75h4V21H3zM9.5 9.75h3.8v1.6h.06c.53-1 1.83-2.05 3.77-2.05 4.03 0 4.77 2.6 4.77 6V21h-4v-5c0-1.2-.02-2.73-1.66-2.73-1.67 0-1.93 1.3-1.93 2.64V21h-4z"/></symbol>
+    <symbol id="i-doc" viewBox="0 0 24 24"><path d="M7 3h7l5 5v12a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z M14 3v5h5M9 13h6M9 17h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+    <symbol id="i-hand" viewBox="0 0 24 24"><path d="M9 11V5.5a1.5 1.5 0 0 1 3 0V11m0-1.5a1.5 1.5 0 0 1 3 0V11m0-.5a1.5 1.5 0 0 1 3 0V15a6 6 0 0 1-6 6h-.6a6 6 0 0 1-4.6-2.15L4.6 16.3a1.5 1.5 0 0 1 2.3-1.94L9 16.5V11" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="mi" viewBox="0 -31.04 112.5 95.04"><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#mi-dot)"/></symbol>
+  </defs>
+</svg>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<!-- ============ Floating navigation ============ -->
+<header class="nav" id="nav" data-tone="dark">
+  <nav class="nav-pill" aria-label="Primary">
+    <a class="nav-mark" href="#top" aria-label="Matias Indacochea, back to top">
+      <svg viewBox="0 0 112.5 95.04" aria-hidden="true"><use href="#mi"/></svg>
+    </a>
+    <div class="nav-links" id="nav-links">
+      <span class="nav-indicator" aria-hidden="true"></span>
+      <a href="#projects" data-section="work">Work</a>
+      <a href="#process" data-section="process">Process</a>
+      <a href="#about" data-section="about">About</a>
+      <a href="#experience" data-section="experience">Experience</a>
+      <a href="#contact" data-section="contact">Contact</a>
+    </div>
+    <span class="nav-current" aria-hidden="true">Home</span>
+    <a class="nav-cta" href="assets/docs/Matias-Indacochea-Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="nav-links" aria-label="Open menu">
+      <span></span><span></span>
+    </button>
+    <span class="nav-progress" aria-hidden="true"></span>
+  </nav>
+</header>
+
+<main id="main">
+
+<!-- ============ Hero ============ -->
+<section class="hero" id="top" data-tone="dark">
+  <div class="hero-aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+  <div class="hero-spot" aria-hidden="true"></div>
+  <div class="wrap hero-inner">
+    <p class="chip hero-chip reveal"><span class="pulse" aria-hidden="true"></span>Open to UI/UX and product design roles</p>
+    <h1 class="hero-title"><span class="word">Matias</span> <span class="word">Indacochea</span></h1>
+    <p class="hero-beats" aria-label="Research-led, systems-minded, AI-fluent"><span class="beat b1">Research-led.</span> <span class="beat b2">Systems-minded.</span> <span class="beat b3">AI-fluent.</span></p>
+    <p class="hero-lead reveal">A UI/UX and product designer working where design meets AI. Every project here is a working product. <strong>Open one and use it.</strong></p>
+    <div class="hero-cta reveal">
+      <a class="btn btn-light magnetic" href="#projects">See the work <svg class="ic" aria-hidden="true"><use href="#i-down"/></svg></a>
+      <a class="btn btn-glass magnetic" href="#contact">Get in touch</a>
+    </div>
+  </div>
+
+</section>
+
+<!-- ============ The work at a glance ============ -->
+<section class="showcase" id="projects" data-tone="dark" aria-labelledby="showcase-title">
+  <div class="wrap showcase-head reveal">
+    <div>
+      <p class="eyebrow">The work at a glance</p>
+      <h2 class="showcase-title" id="showcase-title">Four projects. <span class="muted">Pick one.</span></h2>
+    </div>
+    <p class="showcase-hint"><span class="hint-fine">Hover a project to preview it, click to open it.</span><span class="hint-touch">Tap a project to open it.</span></p>
+  </div>
+
+  <div class="stage" id="stage">
+    <div class="stage-tilt">
+      <div class="stage-grid">
+        <div class="window stage-window">
+          <div class="window-bar">
+            <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="window-url"><span class="url-text">work/halo</span></span>
+          </div>
+          <a class="stage-screen" href="work/halo/" aria-label="Open the Halo case study">
+            <img class="is-active" src="assets/img/halo-home.jpg" alt="The Halo dashboard: what Halo is saying about you, today’s digest, schedule and work in progress" width="2000" height="1250" fetchpriority="high">
+            <img src="assets/img/arriba-hero.jpg" alt="Arriba Perú product page with the live app in a phone" width="2000" height="1250" loading="lazy" decoding="async">
+            <img src="assets/img/aiios-hero.jpg" alt="AI Native iOS page: AI, under your thumb." width="2000" height="1250" loading="lazy" decoding="async">
+            <img src="assets/img/scowtt-product.jpg" alt="Scowtt: my original wireframe beside the rebuilt app console" width="2000" height="1248" loading="lazy" decoding="async">
+            <!-- stage-images:end -->
+          </a>
+          <div class="stage-overlay">
+            <p class="so-text"><span class="so-name">Halo</span><span class="so-kicker">AI product · Stanford capstone · 2026</span></p>
+            <div class="so-actions">
+              <a class="btn btn-light btn-sm so-open" href="work/halo/">View case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+              <button class="btn btn-glass btn-sm so-live" type="button" data-live="work/halo/" data-live-title="Halo">Try it live</button>
+            </div>
+          </div>
+        </div>
+
+        <ol class="stage-list" aria-label="All four projects">
+          <li><a class="stage-item is-active" href="#halo" style="--c:#FF5A1F" data-path="work/halo/" data-preview="work/halo/" data-preview-device="" data-kicker="AI product · Stanford capstone · 2026">
+            <span class="si-num">01</span>
+            <span class="si-thumb" aria-hidden="true"><img src="assets/img/halo-home.jpg" alt="" width="2000" height="1250" loading="lazy" decoding="async"></span>
+            <span class="si-body"><span class="si-name">Halo</span><span class="si-kind">AI product · Stanford</span><span class="si-line">Your work, represented.</span></span>
+            <svg class="si-go ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+            <span class="si-bar" aria-hidden="true"></span>
+          </a></li>
+          <li><a class="stage-item" href="#arriba" style="--c:#E0483F" data-path="work/arriba-peru/" data-preview="work/arriba-peru/prototype.html" data-preview-device="phone" data-preview-embed="android-app" data-kicker="Mobile · Syracuse capstone · 2026">
+            <span class="si-num">02</span>
+            <span class="si-thumb" aria-hidden="true"><img src="assets/img/arriba-hero.jpg" alt="" width="2000" height="1250" loading="lazy" decoding="async"></span>
+            <span class="si-body"><span class="si-name">Arriba Perú</span><span class="si-kind">Mobile app · Syracuse</span><span class="si-line">Safer work. Clearer rights.</span></span>
+            <svg class="si-go ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+            <span class="si-bar" aria-hidden="true"></span>
+          </a></li>
+          <li><a class="stage-item" href="#aiios" style="--c:#4C8DFF" data-path="work/ai-native-ios/" data-preview="work/ai-native-ios/#prototype" data-preview-device="" data-kicker="Concept · iOS 27 · 2026">
+            <span class="si-num">03</span>
+            <span class="si-thumb" aria-hidden="true"><img src="assets/img/aiios-hero.jpg" alt="" width="2000" height="1250" loading="lazy" decoding="async"></span>
+            <span class="si-body"><span class="si-name">AI Native iOS</span><span class="si-kind">iOS concept</span><span class="si-line">AI, under your thumb.</span></span>
+            <svg class="si-go ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+            <span class="si-bar" aria-hidden="true"></span>
+          </a></li>
+          <li><a class="stage-item" href="#scowtt" style="--c:#8F86FF" data-path="work/scowtt/" data-preview="work/scowtt/#product" data-preview-device="" data-kicker="Brand &amp; product · AI startup · 2024–25">
+            <span class="si-num">04</span>
+            <span class="si-thumb" aria-hidden="true"><img src="assets/img/scowtt-product.jpg" alt="" width="2000" height="1248" loading="lazy" decoding="async"></span>
+            <span class="si-body"><span class="si-name">Scowtt</span><span class="si-kind">Brand &amp; product · AI startup</span><span class="si-line">Finds the best leads, books the meeting.</span></span>
+            <svg class="si-go ic" aria-hidden="true"><use href="#i-arrow"/></svg>
+            <span class="si-bar" aria-hidden="true"></span>
+          </a></li>
+          <!-- stage-list:end -->
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Proof strip ============ -->
+<section class="proof" aria-label="Where I've designed and studied" data-tone="dark">
+  <div class="wrap proof-inner reveal">
+    <div class="proof-group">
+      <p class="proof-label">Designed for</p>
+      <ul class="proof-list"><li>Greenopia</li><li>DzynLit</li><li>Jetzy</li><li>Scowtt</li></ul>
+    </div>
+    <span class="proof-sep" aria-hidden="true"></span>
+    <div class="proof-group">
+      <p class="proof-label">Trained at</p>
+      <ul class="proof-list"><li>Parsons</li><li>Stanford</li><li>Syracuse</li></ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Work ============ -->
+<section class="work" id="work" data-tone="dark">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="eyebrow">Case studies</p>
+      <h2 class="section-title">One minute each.<br><span class="muted">Then open the real thing.</span></h2>
+      <p class="section-lead">The goal, the challenge and the result for every project, right up top. Each case study is a working product, not a slideshow.</p>
+    </header>
+  </div>
+
+  <!-- 01 Halo -->
+  <article class="project" id="halo" style="--accent:#FF5A1F;--accent-ink:#FF7A45;--tint:#1a0d07">
+    <div class="project-card" data-href="work/halo/">
+      <div class="project-glow" aria-hidden="true"></div>
+      <header class="project-head">
+        <div class="project-titles reveal">
+          <p class="project-kicker"><span class="num">01</span>AI product · Stanford capstone · 2026</p>
+          <h3 class="project-title">Halo</h3>
+          <p class="project-tagline">Your work, represented.</p>
+        </div>
+        <div class="project-intro reveal">
+          <p>An AI layer that turns the signal you already create, like meetings, commits, design edits and tickets, into status updates in your own voice, sized for a teammate, a manager or an exec. It speaks for you, never about you.</p>
+          <div class="project-cta">
+            <a class="btn btn-light magnetic" href="work/halo/">View case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <button class="btn btn-glass magnetic" type="button" data-live="work/halo/" data-live-title="Halo">Try it live</button>
+            <button class="btn btn-text" type="button" data-film="work/halo/film/halo-launch-film.mp4" data-poster="work/halo/film/halo-film-poster.jpg"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg>Watch the film</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="project-media media-halo">
+        <div class="window halo-window parallax" data-speed="-0.04">
+          <div class="window-bar">
+            <span class="lights" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="window-url"><span>Halo · Home</span></span>
+            <div class="seg seg-sm" role="group" aria-label="Theme">
+              <button type="button" class="is-on" data-halo-theme="light" aria-pressed="true">Light</button>
+              <button type="button" data-halo-theme="dark" aria-pressed="false">Dark</button>
+            </div>
+          </div>
+          <div class="halo-screens">
+            <img class="is-on" data-theme-img="light" src="assets/img/halo-home.jpg" alt="Halo home screen in light mode: what Halo is saying about you, today's digest, schedule and work in progress" width="2000" height="1250" loading="lazy" decoding="async">
+            <img data-theme-img="dark" src="assets/img/halo-home-dark.jpg" alt="Halo home screen in dark mode" width="2000" height="1250" loading="lazy" decoding="async">
+          </div>
+        </div>
+        <figure class="iphone halo-phone parallax" data-speed="0.06">
+          <span class="iphone-btn ib-action" aria-hidden="true"></span><span class="iphone-btn ib-up" aria-hidden="true"></span><span class="iphone-btn ib-down" aria-hidden="true"></span><span class="iphone-btn ib-power" aria-hidden="true"></span>
+          <div class="iphone-screen">
+            <div class="ios-status" aria-hidden="true">
+              <span class="ios-time">9:41</span>
+              <span class="ios-island"></span>
+              <span class="ios-icons"><svg viewBox="0 0 18 12"><rect x="0" y="8" width="3" height="4" rx=".8"/><rect x="5" y="5.5" width="3" height="6.5" rx=".8"/><rect x="10" y="3" width="3" height="9" rx=".8"/><rect x="15" y="0" width="3" height="12" rx=".8"/></svg><svg viewBox="0 0 16 12"><path d="M8 2.6c2.2 0 4.2.9 5.7 2.3l1.1-1.1A9.6 9.6 0 0 0 8 1 9.6 9.6 0 0 0 1.2 3.8l1.1 1.1A8 8 0 0 1 8 2.6zm0 3.2c1.3 0 2.5.5 3.4 1.3l1.1-1.1A6.4 6.4 0 0 0 8 4.2a6.4 6.4 0 0 0-4.5 1.8l1.1 1.1A4.8 4.8 0 0 1 8 5.8zm0 3.2c.5 0 .9.2 1.2.5L8 10.8 6.8 9.5c.3-.3.7-.5 1.2-.5z"/></svg><svg class="ios-batt" viewBox="0 0 27 13"><rect x=".5" y=".5" width="23" height="12" rx="3.5" fill="none" stroke="currentColor" opacity=".4"/><rect x="2" y="2" width="20" height="9" rx="2"/><path d="M25 4.5v4c.8-.3 1.3-1.1 1.3-2s-.5-1.7-1.3-2z" opacity=".45"/></svg></span>
+            </div>
+            <img class="ios-content" src="assets/img/halo-phone.jpg" alt="Halo on iPhone: the home screen with what Halo is saying about you and today’s digest" width="780" height="1688" loading="lazy" decoding="async">
+            <div class="ios-tabbar" aria-hidden="true"><img src="assets/img/halo-phone.jpg" alt="" width="780" height="1688" loading="lazy" decoding="async"></div>
+            <span class="ios-home" aria-hidden="true"></span>
+          </div>
+        </figure>
+        <div class="float-card halo-dial parallax" data-speed="0.1" aria-hidden="true">
+          <span class="fc-label">Trust mode</span>
+          <span class="fc-seg"><i>Curated</i><i class="on">Balanced</i><i>Ambient</i></span>
+          <span class="fc-note">Routine updates share themselves. Sensitive ones wait for you.</span>
+        </div>
+      </div>
+
+      <dl class="gcr">
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#5E9BFF"></span>Goal</dt><dd>Take status updates off people’s plates without turning their work into something to be monitored.</dd></div>
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#FF9F43"></span>Challenge</dt><dd>An AI that talks about your work has to earn trust: what it shares, who sees it, and when you get a say.</dd></div>
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#3ECF8E"></span>Result</dt><dd>A full working product with one trust dial (Curated, Balanced, Ambient), a brand system and an 84-second launch film.</dd></div>
+      </dl>
+      <dl class="meta">
+        <div><dt>Role</dt><dd>Sole designer and product lead</dd></div>
+        <div><dt>Context</dt><dd>Capstone, UX Design for AI Products, Stanford</dd></div>
+        <div><dt>Deliverables</dt><dd>Product, brand guidelines, launch film</dd></div>
+        <div><dt>Tools</dt><dd>Figma, Claude, HTML/CSS</dd></div>
+      </dl>
+    </div>
+  </article>
+
+  <!-- 02 Arriba Perú -->
+  <article class="project" id="arriba" style="--accent:#C2302B;--accent-ink:#FF8A7A;--tint:#1c0908">
+    <div class="project-card" data-href="work/arriba-peru/">
+      <div class="project-glow" aria-hidden="true"></div>
+      <header class="project-head">
+        <div class="project-titles reveal">
+          <p class="project-kicker"><span class="num">02</span>Mobile · Syracuse capstone · 2026</p>
+          <h3 class="project-title">Arriba Perú</h3>
+          <p class="project-tagline">Safer work. Clearer rights. In the phone they already have.</p>
+        </div>
+        <div class="project-intro reveal">
+          <p>A bilingual mobile platform co-designed with 15 domestic workers in Lima: verified families, pay checked against the legal minimum, rights read aloud, Yape and cash in one wallet, and help that never draws attention.</p>
+          <div class="project-cta">
+            <a class="btn btn-light magnetic" href="work/arriba-peru/">View case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <button class="btn btn-glass magnetic" type="button" data-live="work/arriba-peru/prototype.html" data-live-title="Arriba Perú" data-live-device="phone" data-embed="android-app">Open full screen</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="project-media media-arriba">
+        <div class="andes" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+        <ul class="callouts callouts-left" aria-label="What the app does">
+          <li class="reveal"><b>Verified families</b>Anonymous ratings from past workers.</li>
+          <li class="reveal"><b>Fair-pay check</b>Every offer against Peru’s legal minimum.</li>
+          <li class="reveal"><b>Rights, read aloud</b>Six color-coded doors replace the maze.</li>
+        </ul>
+        <div class="device-live" data-live-embed>
+          <div class="device-frame android">
+            <span class="android-btn ab-power" aria-hidden="true"></span><span class="android-btn ab-volume" aria-hidden="true"></span>
+            <div class="device-screen">
+              <iframe title="Arriba Perú, live prototype" data-src="work/arriba-peru/prototype.html" data-embed="android-app" tabindex="-1" loading="lazy"></iframe>
+              <img class="device-poster" src="assets/img/arriba-phone.jpg" alt="" aria-hidden="true" loading="lazy" decoding="async">
+              <button class="device-activate" type="button" aria-label="Use the live Arriba Perú app"><span class="da-chip"><svg class="ic" aria-hidden="true"><use href="#i-hand"/></svg>Tap to use the app</span></button>
+            </div>
+          </div>
+          <button class="device-release chip" type="button" hidden><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Done, back to scrolling</button>
+          <p class="device-note"><span class="live-dot"></span>Live prototype. Tap the screen to use it.</p>
+        </div>
+        <ul class="callouts callouts-right" aria-label="More of what the app does">
+          <li class="reveal"><b>Every sol, accounted for</b>Yape syncs, cash takes one tap.</li>
+          <li class="reveal"><b>Learn by video</b>A listen-only mode for busy hands.</li>
+          <li class="reveal"><b>Help, quietly</b>Soft check-ins and one slide to alert.</li>
+        </ul>
+      </div>
+
+      <blockquote class="pull reveal">
+        <p>“Safety in domestic work today is not built into the system. It is built into relationships.”</p>
+        <footer>Insight from my conversation with Dr. María Amalia Pesantes, medical anthropologist</footer>
+      </blockquote>
+
+      <dl class="gcr">
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#5E9BFF"></span>Goal</dt><dd>Bring safety, clarity and opportunity to Peru’s 420,000 to 500,000 domestic workers, most of whom work behind closed doors.</dd></div>
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#FF9F43"></span>Challenge</dt><dd>Design it with them, not for them, from Syracuse, on the tools they already trust: WhatsApp video calls and voice-note diaries.</dd></div>
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#3ECF8E"></span>Result</dt><dd>A working Android-first prototype in Spanish and English, with six flows from sign-up to a discreet emergency alert.</dd></div>
+      </dl>
+      <dl class="meta">
+        <div><dt>Role</dt><dd>Sole designer and researcher</dd></div>
+        <div><dt>Co-designers</dt><dd>15 domestic workers in Lima</dd></div>
+        <div><dt>Guidance</dt><dd>Dr. María Amalia Pesantes, medical anthropologist</dd></div>
+        <div><dt>Built with</dt><dd>Material 3 expressive, Google Sans Flex</dd></div>
+      </dl>
+    </div>
+  </article>
+
+  <!-- 03 AI Native iOS -->
+  <article class="project" id="aiios" style="--accent:#2F7BFF;--accent-ink:#7FB0FF;--tint:#060b1a">
+    <div class="project-card" data-href="work/ai-native-ios/">
+      <div class="project-glow" aria-hidden="true"></div>
+      <header class="project-head">
+        <div class="project-titles reveal">
+          <p class="project-kicker"><span class="num">03</span>Concept · iOS 27 · 2026</p>
+          <h3 class="project-title">AI Native iOS</h3>
+          <p class="project-tagline">AI, under your thumb.</p>
+        </div>
+        <div class="project-intro reveal">
+          <p>A concept for iOS 27. The assistant moves into the dock, answers land on your home screen, and nothing sends, books or changes without your yes. Designed twice: once for iOS 26, then rebuilt when iOS 27 shipped.</p>
+          <div class="project-cta">
+            <a class="btn btn-light magnetic" href="work/ai-native-ios/">View case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <button class="btn btn-glass magnetic" type="button" data-live="work/ai-native-ios/#prototype" data-live-title="AI Native iOS">Try the prototype</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="project-media media-aiios">
+        <ol class="decisions decisions-left">
+          <li class="reveal"><span class="dn">1</span><div><b>Answers land on your home screen.</b>Small questions get small answers. Your apps stay put.</div></li>
+          <li class="reveal"><span class="dn">2</span><div><b>It shows you before it acts.</b>A preview, one clear button and five seconds to undo.</div></li>
+          <li class="reveal"><span class="dn">3</span><div><b>You can see where it thinks.</b>On iPhone, Private Cloud, or the assistant you chose.</div></li>
+        </ol>
+        <div class="device-live crop-live aiios-live" data-live-embed data-crop="#heroMount .phone">
+          <div class="device-screen">
+            <iframe title="AI Native iOS, live prototype" data-src="work/ai-native-ios/" data-viewport="1440x900" data-embed="lock-scroll" tabindex="-1" loading="lazy"></iframe>
+            <img class="device-poster" src="assets/img/aiios-phone.jpg" alt="The AI Native iOS prototype: an ask bar in the dock above the keyboard, with suggested questions on the home screen" width="663" height="1404" loading="lazy" decoding="async">
+            <button class="device-activate" type="button" aria-label="Use the live AI Native iOS prototype"><span class="da-chip"><svg class="ic" aria-hidden="true"><use href="#i-hand"/></svg>Tap to try the prototype</span></button>
+          </div>
+          <button class="device-release chip" type="button" hidden><svg class="ic" aria-hidden="true"><use href="#i-check"/></svg>Done, back to scrolling</button>
+          <p class="device-note"><span class="live-dot"></span>Live prototype. Tap the screen to use it.</p>
+        </div>
+        <ol class="decisions decisions-right" start="4">
+          <li class="reveal"><span class="dn">4</span><div><b>Only one dock slot moves.</b>Phone, Messages and Mail never do, so muscle memory works.</div></li>
+          <li class="reveal"><span class="dn">5</span><div><b>Your history is one swipe up.</b>Not in a separate app. Kept on your iPhone for 30 days.</div></li>
+          <li class="reveal decisions-more"><a class="link" href="work/ai-native-ios/#decisions">See how each one traces back to the research <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></li>
+        </ol>
+      </div>
+
+      <dl class="gcr">
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#5E9BFF"></span>Goal</dt><dd>Make AI feel like part of iOS, not another app you have to open.</dd></div>
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#FF9F43"></span>Challenge</dt><dd>iOS 27 made the assistant smarter, but typing to it still starts at the top of the screen, and its history lives in a separate app.</dd></div>
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#3ECF8E"></span>Result</dt><dd>A working iOS 27 prototype with nine flows, from quick answers to a booked table, and a clear record of how it grew out of version 1.</dd></div>
+      </dl>
+      <dl class="meta">
+        <div><dt>Role</dt><dd>Sole designer, both versions</dd></div>
+        <div><dt>Type</dt><dd>Speculative concept, revamped in 2026</dd></div>
+        <div><dt>Platform</dt><dd>iPhone, iOS 27</dd></div>
+        <div><dt>Tools</dt><dd>Figma, Illustrator, Photoshop, Procreate, Vizcom, HTML</dd></div>
+      </dl>
+    </div>
+  </article>
+
+  <!-- 04 Scowtt -->
+  <article class="project" id="scowtt" style="--accent:#9C8B7E;--accent-ink:#C9B9AC;--tint:#100e0d">
+    <div class="project-card" data-href="work/scowtt/">
+      <div class="project-glow" aria-hidden="true"></div>
+      <header class="project-head">
+        <div class="project-titles reveal">
+          <p class="project-kicker"><span class="num">04</span>Brand &amp; product · AI startup · 2024–25</p>
+          <h3 class="project-title">Scowtt</h3>
+          <p class="project-tagline">AI that finds a company’s best leads and books the meeting.</p>
+        </div>
+        <div class="project-intro reveal">
+          <p>I designed its colors, its original website and its product, and explored its first logo directions, growing from design intern to Head of Design and staying on as a contractor through its $12M Series A.</p>
+          <div class="project-cta">
+            <a class="btn btn-light magnetic" href="work/scowtt/">View case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+            <button class="btn btn-glass magnetic" type="button" data-live="work/scowtt/#product" data-live-title="Scowtt">Try the product</button>
+          </div>
+        </div>
+      </header>
+
+      <div class="project-media media-scowtt">
+        <div class="window scowtt-back parallax" data-speed="0.05">
+          <div class="window-bar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="window-url"><span>The original website</span></span></div>
+          <img src="assets/img/scowtt-website.jpg" alt="The original Scowtt homepage, rebuilt from my screens: AI SDR that drives outcomes" width="2000" height="1166" loading="lazy" decoding="async">
+        </div>
+        <div class="window scowtt-front parallax" data-speed="-0.04">
+          <div class="window-bar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="window-url"><span>From wireframes to a working app</span></span></div>
+          <img src="assets/img/scowtt-product.jpg" alt="My original Scowtt wireframe beside the rebuilt app console, split by a comparison slider" width="2000" height="1248" loading="lazy" decoding="async">
+        </div>
+        <div class="float-card palette parallax" data-speed="0.09">
+          <span class="fc-label">The colors I made</span>
+          <div class="swatches" role="list">
+            <button role="listitem" type="button" style="--s:#000000" data-name="Black" data-role="Headlines and body text"></button>
+            <button role="listitem" type="button" style="--s:#6A6460" data-name="Warm grey" data-role="The deep side of the sign-up page"></button>
+            <button role="listitem" type="button" style="--s:#7C7672" data-name="Slate taupe" data-role="The light side of the sign-up page"></button>
+            <button role="listitem" type="button" style="--s:#9C8B7E" data-name="Taupe" data-role="Get started, the one action color" class="is-on"></button>
+            <button role="listitem" type="button" style="--s:#B3A99E" data-name="Sand" data-role="Where the contact gradient lands"></button>
+            <button role="listitem" type="button" style="--s:#B8B4B1" data-name="Stone" data-role="The lattice behind the hero"></button>
+            <button role="listitem" type="button" style="--s:#D6D2CE" data-name="Greige" data-role="The page itself"></button>
+            <button role="listitem" type="button" style="--s:#FFFFFF" data-name="White" data-role="Products and form fields"></button>
+          </div>
+          <span class="fc-note swatch-info" aria-live="polite"><b>Taupe</b> · Get started, the one action color</span>
+        </div>
+      </div>
+
+      <dl class="gcr">
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#5E9BFF"></span>Goal</dt><dd>Help a sales leader understand a brand-new category, the AI SDR, and trust it, in one scroll.</dd></div>
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#FF9F43"></span>Challenge</dt><dd>The product works where nobody can see it, inside a CRM and an inbox, and the pitch kept moving.</dd></div>
+        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#3ECF8E"></span>Result</dt><dd>Four logo directions, an eight-color palette, the original website and a UI system for web and mobile, carried through the Series A.</dd></div>
+      </dl>
+      <dl class="meta">
+        <div><dt>Role</dt><dd>Design intern, then Head of Design, then contractor</dd></div>
+        <div><dt>Team</dt><dd>A startup of about 15</dd></div>
+        <div><dt>Timeline</dt><dd>About a year, through the $12M Series A</dd></div>
+        <div><dt>What I made</dt><dd>Logo directions, color palette, original website, product UI</dd></div>
+      </dl>
+    </div>
+  </article>
+  <!-- projects:end -->
+</section>
+
+<!-- ============ Process ============ -->
+<section class="process light" id="process" data-tone="light">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="eyebrow">Process</p>
+      <h2 class="section-title">How I work.</h2>
+      <p class="section-lead">Six habits that show up in every project. A few of them you can try.</p>
+    </header>
+
+    <div class="bento">
+      <article class="tile tile-research reveal">
+        <div class="tile-copy">
+          <h3>Research is a design decision.</h3>
+          <p>For Arriba Perú I couldn’t get to Lima, so the research went where people already were: WhatsApp video calls and voice-note diaries. No typing, no scheduled calls, no literacy barrier. That choice shaped the product.</p>
+        </div>
+        <div class="voice" aria-hidden="true">
+          <div class="voice-note"><span class="vn-play"><svg class="ic"><use href="#i-play"/></svg></span><span class="vn-wave"></span><span class="vn-time">0:42</span></div>
+          <div class="voice-note vn-2"><span class="vn-play"><svg class="ic"><use href="#i-play"/></svg></span><span class="vn-wave"></span><span class="vn-time">1:18</span></div>
+          <div class="voice-note vn-3"><span class="vn-play"><svg class="ic"><use href="#i-play"/></svg></span><span class="vn-wave"></span><span class="vn-time">0:27</span></div>
+        </div>
+      </article>
+
+      <article class="tile tile-proto reveal">
+        <div class="tile-copy">
+          <h3>Prototypes are arguments.</h3>
+          <p>A mockup can’t tell you if five seconds is long enough to undo. A working prototype can. Try it.</p>
+        </div>
+        <div class="undo-demo" data-undo>
+          <div class="ud-card">
+            <p class="ud-title">Book a table for 2 at 8:00?</p>
+            <p class="ud-sub">Union Square · 4 min walk</p>
+            <div class="ud-actions"><button type="button" class="ud-cancel">Cancel</button><button type="button" class="ud-book">Book</button></div>
+          </div>
+          <div class="ud-toast" aria-live="polite"><span class="ud-msg">Booked for 8:00</span><button type="button" class="ud-undo">Undo <span class="ud-count">5</span></button></div>
+        </div>
+      </article>
+
+      <article class="tile tile-trust reveal">
+        <div class="tile-copy">
+          <h3>Trust is an interface element.</h3>
+          <p>In Halo, how much the AI shares on its own is one dial, not a buried setting. Turn it.</p>
+        </div>
+        <div class="dial" data-dial>
+          <div class="seg" role="radiogroup" aria-label="Trust mode">
+            <button type="button" role="radio" aria-checked="false" data-mode="0">Curated</button>
+            <button type="button" role="radio" aria-checked="true" class="is-on" data-mode="1">Balanced</button>
+            <button type="button" role="radio" aria-checked="false" data-mode="2">Ambient</button>
+          </div>
+          <div class="dial-readout">
+            <div class="dial-ring"><svg viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="50" class="ring-bg"/><circle cx="60" cy="60" r="50" class="ring-fg" pathLength="12"/></svg><span class="dial-num">4</span></div>
+            <p class="dial-text"><b class="dial-head">4 updates need you</b><span class="dial-sub">8 shared automatically. Sensitive ones wait for a once-a-day digest.</span></p>
+          </div>
+        </div>
+      </article>
+
+      <article class="tile tile-system reveal">
+        <div class="tile-copy">
+          <h3>Systems before screens.</h3>
+          <p>Industrial design taught me that the object, the packaging, the shelf and the interaction are one system. A screen is one output of it.</p>
+        </div>
+        <div class="rings" aria-hidden="true">
+          <span style="--n:4">Experience</span><span style="--n:3">Service</span><span style="--n:2">Brand</span><span style="--n:1">Screen</span>
+        </div>
+      </article>
+
+      <article class="tile tile-ai reveal">
+        <div class="tile-copy">
+          <h3>AI, used on purpose.</h3>
+          <p>Claude and ChatGPT help me synthesize research and explore copy. AI-assisted code lets me turn designs into working prototypes fast. The decisions about layout, interaction and trust stay mine.</p>
+        </div>
+        <ul class="tools-cloud" aria-label="Tools">
+          <li>Figma</li><li>Claude</li><li>ChatGPT</li><li>Illustrator</li><li>Photoshop</li><li>HTML/CSS</li><li>Procreate</li><li>Vizcom</li>
+        </ul>
+      </article>
+    </div>
+
+    <dl class="numbers">
+      <div class="reveal"><dt><span class="count" data-to="4" data-count="projects">4</span></dt><dd>case studies, each one a working product</dd></div>
+      <div class="reveal"><dt><span class="count" data-to="15">15</span></dt><dd>domestic workers in Lima co-designed Arriba Perú</dd></div>
+      <div class="reveal"><dt>$<span class="count" data-to="12">12</span>M</dt><dd>Series A that Scowtt raised while I was its designer</dd></div>
+      <div class="reveal"><dt><span class="count" data-to="9">9</span></dt><dd>working flows in the AI Native iOS prototype</dd></div>
+    </dl>
+  </div>
+</section>
+
+<!-- ============ About ============ -->
+<section class="about" id="about" data-tone="dark">
+  <div class="wrap about-grid">
+    <div class="about-copy">
+      <p class="eyebrow reveal">About</p>
+      <h2 class="section-title reveal">Hi, I’m Matias.</h2>
+      <p class="about-lead reveal">I think in systems and human factors, <span class="muted">not just screens.</span></p>
+      <div class="about-body">
+        <p class="reveal">I trained in Industrial &amp; Interaction Design at Syracuse, took UX Design for AI Products at Stanford, and I’m now in the Communication Design MPS at Parsons in New York.</p>
+        <p class="reveal">I move fast and collaborate close. I ship with engineers, run research with users, and hold my own in the room with founders, PMs and marketers. I’ve led design end to end, from a startup’s first logo directions to a product carried through its Series A, so I know how to own scope and translate ambiguity into direction.</p>
+        <p class="reveal">I care about brand-specific, research-led work that resists copying whatever pattern the big platforms are running that week. I’m bilingual in English and Spanish, with roots in Peru, and that shapes what I choose to work on.</p>
+      </div>
+      <ul class="facts reveal">
+        <li><span>Based in</span>New York</li>
+        <li><span>Languages</span>English, Spanish</li>
+        <li><span>Member</span>Design Management Institute</li>
+      </ul>
+    </div>
+
+    <aside class="mark-card reveal" aria-labelledby="mark-title">
+      <div class="mark-stage" data-construct>
+        <svg class="mark-guides" viewBox="-12 -36 137 112" aria-hidden="true">
+          <g class="g-lines">
+            <line x1="-12" y1="0" x2="125" y2="0"/><line x1="-12" y1="64" x2="125" y2="64"/>
+            <line x1="7" y1="-36" x2="7" y2="76"/><line x1="39" y1="-36" x2="39" y2="76"/><line x1="71" y1="-36" x2="71" y2="76"/><line x1="103" y1="-36" x2="103" y2="76"/>
+          </g>
+          <g class="g-circles"><circle cx="23" cy="23" r="16"/><circle cx="55" cy="23" r="16"/><circle cx="103" cy="-21.54" r="9.5"/></g>
+          <g class="g-labels"><text x="-10" y="-3">x-height</text><text x="-10" y="73">baseline</text></g>
+        </svg>
+        <svg class="mark-big" viewBox="-12 -36 137 112" role="img" aria-label="The mi mark">
+          <path class="mk-path" d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14" pathLength="1"/>
+          <circle class="mk-dot" cx="103" cy="-21.54" r="9.5" fill="url(#mi-dot)"/>
+        </svg>
+      </div>
+      <div class="mark-copy">
+        <h3 id="mark-title">Behind the mark</h3>
+        <p><b>mi</b> is my initials, and “my” in Spanish. The shoulders are true semicircles on a 32-unit grid. The dot is the only color, mixed from the four projects on this page.</p>
+        <div class="mark-actions"><button class="btn btn-glass btn-sm" type="button" data-construct-toggle aria-pressed="false">Show construction</button><a class="link" href="brand/">See the full identity <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a></div>
+      </div>
+    </aside>
+  </div>
+</section>
+
+<!-- ============ Experience ============ -->
+<section class="experience light" id="experience" data-tone="light">
+  <div class="wrap">
+    <header class="section-head reveal">
+      <p class="eyebrow">Experience</p>
+      <h2 class="section-title">Where I’ve designed.</h2>
+    </header>
+
+    <ol class="roles">
+      <li class="role reveal">
+        <button class="role-head" type="button" aria-expanded="false">
+          <span class="role-co">DzynLit</span>
+          <span class="role-title">Part-Time UX/UI Designer</span>
+          <span class="role-when">Aug – Oct 2026 · Remote</span>
+          <span class="role-plus" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+        </button>
+        <div class="role-body"><div>
+          <ul>
+            <li>Prototype functional, interactive demos with AI tools, moving clients from concept to a testable product efficiently.</li>
+            <li>Integrate AI into the design workflow for research synthesis, copy exploration and deliverable production.</li>
+          </ul>
+        </div></div>
+      </li>
+      <li class="role reveal">
+        <button class="role-head" type="button" aria-expanded="false">
+          <span class="role-co">Greenopia</span>
+          <span class="role-title">Part-Time UX/UI Designer</span>
+          <span class="role-when">Jun 2026 – Present · Remote</span>
+          <span class="role-plus" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+        </button>
+        <div class="role-body"><div>
+          <ul>
+            <li>Lead design across product, brand and marketing for a sustainability data platform, shipping investor-facing deliverables that supported funding milestones.</li>
+            <li>Developed the brand system now used across product UI, the marketing site and investor decks, cutting design turnaround and keeping everything consistent.</li>
+            <li>Partner directly with the founding team to ship product UI, campaigns and data visualization.</li>
+          </ul>
+        </div></div>
+      </li>
+      <li class="role reveal">
+        <button class="role-head" type="button" aria-expanded="false">
+          <span class="role-co">Jetzy</span>
+          <span class="role-title">UX/UI Design Intern</span>
+          <span class="role-when">Sep 2025 – Jan 2026 · New York</span>
+          <span class="role-plus" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+        </button>
+        <div class="role-body"><div>
+          <ul>
+            <li>Collaborated with the product team on a new homepage that elevates the platform’s travel-focused brand and improves engagement.</li>
+            <li>Created wireframes and high-fidelity mockups that balance visual appeal with intuitive navigation.</li>
+            <li>Applied user-centered design principles for a cohesive experience across web and mobile.</li>
+          </ul>
+        </div></div>
+      </li>
+      <li class="role reveal">
+        <button class="role-head" type="button" aria-expanded="false">
+          <span class="role-co">Scowtt</span>
+          <span class="role-title">UX/UI Design Intern, then Head of Design</span>
+          <span class="role-when">May 2024 – Aug 2025 · Kirkland, WA</span>
+          <span class="role-plus" aria-hidden="true"><svg class="ic"><use href="#i-plus"/></svg></span>
+        </button>
+        <div class="role-body"><div>
+          <ul>
+            <li>Built a complete brand identity system that reflects the company’s mission and visual direction.</li>
+            <li>Designed the full user interface for the company website, translating brand standards into an intuitive digital experience.</li>
+            <li>Delivered a cohesive visual language and guidelines to keep print and digital touchpoints consistent.</li>
+          </ul>
+          <a class="link" href="work/scowtt/">Read the Scowtt case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+        </div></div>
+      </li>
+    </ol>
+
+    <div class="edu-head reveal"><h3 class="sub-title">Education</h3></div>
+    <div class="edu">
+      <article class="edu-card reveal">
+        <p class="edu-when">Aug 2026 – May 2027</p>
+        <h4>Parsons School of Design</h4>
+        <p class="edu-school">The New School, New York</p>
+        <p class="edu-what">Master’s in Communication Design (MPS)</p>
+      </article>
+      <article class="edu-card reveal">
+        <p class="edu-when">Jun – Aug 2026</p>
+        <h4>Stanford University</h4>
+        <p class="edu-school">Online</p>
+        <p class="edu-what">UX Design for AI Products</p>
+        <a class="link" href="#halo">Capstone: Halo <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </article>
+      <article class="edu-card reveal">
+        <p class="edu-when">May 2026</p>
+        <h4>Syracuse University</h4>
+        <p class="edu-school">Syracuse, NY</p>
+        <p class="edu-what">Bachelor of Industrial + Interaction Design, Minor in Sustainability</p>
+        <a class="link" href="#arriba">Capstone: Arriba Perú <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </article>
+    </div>
+
+    <div class="kit reveal">
+      <div>
+        <h3 class="sub-title">Toolkit</h3>
+        <ul class="pills">
+          <li>Figma</li><li>Adobe Creative Suite</li><li>Illustrator</li><li>Photoshop</li><li>Procreate</li><li>Vizcom</li><li>HTML/CSS</li><li>AI-assisted prototyping</li><li>Claude</li><li>ChatGPT</li>
+        </ul>
+      </div>
+      <div>
+        <h3 class="sub-title">Affiliations</h3>
+        <p class="kit-note"><b>DMI</b>, Design Management Institute · Member since September 2025</p>
+        <a class="btn btn-dark btn-sm" href="assets/docs/Matias-Indacochea-Resume.pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-doc"/></svg>Full résumé (PDF)</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ Contact ============ -->
+<section class="contact" id="contact" data-tone="dark">
+  <div class="contact-aurora" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap contact-inner">
+    <p class="eyebrow reveal">Contact</p>
+    <h2 class="contact-title reveal">Let’s talk about what <span class="grad">you’re building.</span></h2>
+    <p class="section-lead reveal">I’m open to UI/UX and product design roles. If you’re building something where design and AI meet, or you’re an early team that needs range across brand and product, I want to hear about it.</p>
+    <div class="contact-actions reveal">
+      <div class="email-pill">
+        <a class="email-link" href="mailto:matiasindacochea@outlook.com"><svg class="ic" aria-hidden="true"><use href="#i-mail"/></svg><span>matiasindacochea@outlook.com</span></a>
+        <button class="email-copy" type="button" data-copy="matiasindacochea@outlook.com" aria-label="Copy email address"><svg class="ic ic-copy" aria-hidden="true"><use href="#i-copy"/></svg><svg class="ic ic-done" aria-hidden="true"><use href="#i-check"/></svg></button>
+      </div>
+      <a class="btn btn-glass magnetic" href="tel:+14257852519" aria-label="Call or text (425) 785-2519"><svg class="ic" aria-hidden="true"><use href="#i-phone"/></svg>(425) 785-2519</a>
+      <a class="btn btn-glass magnetic" href="https://www.linkedin.com/in/matias-indacochea-104a54250/" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-linkedin"/></svg>LinkedIn</a>
+      <a class="btn btn-glass magnetic" href="assets/docs/Matias-Indacochea-Resume.pdf" target="_blank" rel="noopener"><svg class="ic" aria-hidden="true"><use href="#i-doc"/></svg>Résumé</a>
+    </div>
+    <p class="contact-note reveal">I reply within a day, usually the same one.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="footer" data-tone="dark">
+  <div class="wrap footer-inner">
+    <a class="footer-brand" href="#top" aria-label="Back to top">
+      <svg viewBox="0 0 112.5 95.04" aria-hidden="true"><use href="#mi"/></svg>
+      <span>Matias Indacochea</span>
+    </a>
+    <nav class="footer-links" aria-label="Footer">
+      <a href="#work">Work</a>
+      <a href="https://www.linkedin.com/in/matias-indacochea-104a54250/" target="_blank" rel="noopener">LinkedIn</a>
+      <a href="https://github.com/Indo1919" target="_blank" rel="noopener">GitHub</a>
+      <a href="brand/">Identity</a>
+      <a href="assets/docs/Matias-Indacochea-Resume.pdf" target="_blank" rel="noopener">Résumé</a>
+    </nav>
+    <p class="footer-fine"><span>© 2026 Matias Indacochea. AI Native iOS is an independent concept and isn’t affiliated with or endorsed by Apple. Scowtt’s current logo and website were made later by a design team and aren’t shown here. Names and data inside the prototypes are fictional.</span></p>
+  </div>
+</footer>
+
+<!-- ============ Live preview sheet ============ -->
+<div class="sheet" id="sheet" role="dialog" aria-modal="true" aria-labelledby="sheet-title" hidden>
+  <div class="sheet-backdrop" data-close></div>
+  <div class="sheet-panel">
+    <div class="sheet-bar">
+      <span class="lights"><button type="button" class="light-close" data-close aria-label="Close preview"></button><i></i><i></i></span>
+      <p class="sheet-title" id="sheet-title">Halo</p>
+      <span class="sheet-url"></span>
+      <div class="sheet-actions">
+        <a class="btn btn-glass btn-sm sheet-open" href="#" target="_blank" rel="noopener"><span>Open in new tab</span> <svg class="ic" aria-hidden="true"><use href="#i-ext"/></svg></a>
+        <button class="sheet-x" type="button" data-close aria-label="Close preview"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
+      </div>
+    </div>
+    <div class="sheet-body">
+      <div class="sheet-loading" aria-hidden="true"><span class="spinner"></span><span class="sheet-loading-text">Loading the live build</span></div>
+      <div class="sheet-frame"><iframe title="Live project preview"></iframe></div>
+    </div>
+  </div>
+</div>
+
+<!-- ============ Film player ============ -->
+<div class="sheet film" id="film" role="dialog" aria-modal="true" aria-label="Halo launch film" hidden>
+  <div class="sheet-backdrop" data-close></div>
+  <div class="film-panel">
+    <video controls playsinline preload="none"></video>
+    <button class="sheet-x film-x" type="button" data-close aria-label="Close film"><svg class="ic" aria-hidden="true"><use href="#i-close"/></svg></button>
+  </div>
+</div>
+
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script src="assets/js/site.js?v=20261006j" defer></script>
+</body>
+</html>
