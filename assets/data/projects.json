@@ -1,5 +1,6 @@
 {
   "_about": "The project registry. Order here is the order everywhere (case-study pill, sync, screenshots). Edit this file to add, remove or reorder a project, then run python3 tools/sync.py. See CLAUDE.md.",
+  "site": "https://matiasindacochea.com/",
   "projects": [
     {
       "slug": "halo",

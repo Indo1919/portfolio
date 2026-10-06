@@ -48,12 +48,14 @@ python3 tools/logo.py              # regenerate the logo SVGs
 GitHub runs the sync and the site check before every publish. If the check fails, nothing is published
 and the last good version stays live.
 
-## Publish on GitHub Pages
+## Publishing
 
-1. Create a public repo named exactly `Indo1919.github.io` and push this folder to it.
-2. Settings → Pages → Source: **GitHub Actions**.
+Live at **https://matiasindacochea.com/**, published from this repo (`Indo1919/portfolio`) by GitHub Pages:
+Settings → Pages → Source: **GitHub Actions**, Custom domain: `matiasindacochea.com`, Enforce HTTPS.
 
-The site goes live at https://indo1919.github.io/. The existing project sites keep working at their own paths (`/Halo/`, `/Arriba-Peru/` and so on).
+Only this repo uses the domain. The account's other GitHub Pages sites, including the original project sites
+(`indo1919.github.io/Halo/` and so on), stay on indo1919.github.io. The site's address is `"site"` in
+`assets/data/projects.json`; `tools/check.py` makes sure the page tags match it.
 
 ---
 

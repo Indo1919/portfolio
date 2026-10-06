@@ -6,6 +6,8 @@ Site check: catches what would break the portfolio before it goes live.
   python3 tools/check.py --static   skip the browser test
 
   links      every local link, image, video and data-* path in the site's pages points at a real file
+  site       the canonical link, og:url, og:image and JSON-LD url use the "site" address in projects.json
+             (share previews need a full address), and the files they name exist
   anchors    every #link (on the page, or into another of the site's pages) has a matching id; no duplicate ids
   icons      every <use href="#..."> has its <symbol>
   registry   assets/data/projects.json is valid; each project has its list row, panel, case study and images,
@@ -39,6 +41,16 @@ WORDS = {1: "one", 2: "two", 3: "three", 4: "four", 5: "five", 6: "six", 7: "sev
 errors, warnings = [], []
 
 
+def site_address():
+    try:
+        return json.loads((ROOT / "assets/data/projects.json").read_text()).get("site", "")
+    except Exception:  # noqa: BLE001  (check_registry reports a broken file)
+        return ""
+
+
+SITE = site_address()
+
+
 def fail(area, msg):
     errors.append(f"[{area}] {msg}")
 
@@ -51,6 +63,7 @@ class Page(HTMLParser):
     def __init__(self):
         super().__init__(convert_charrefs=True)
         self.refs, self.ids, self.uses, self.symbols = [], [], [], set()
+        self.site_refs = []  # canonical link, og:url, og:image: must be full addresses on SITE
 
     def handle_starttag(self, tag, attrs):
         a = dict(attrs)
@@ -66,8 +79,11 @@ class Page(HTMLParser):
                 self.uses.append((v, line))
             elif k in REF_ATTRS:
                 self.refs.append((k, v.strip(), line))
-        if tag == "meta" and a.get("property") == "og:image" and a.get("content"):
+        if tag == "meta" and a.get("property") in ("og:image", "og:url") and a.get("content"):
             self.refs.append(("content", a["content"], line))
+            self.site_refs.append((a["property"], a["content"], line))
+        if tag == "link" and a.get("rel") == "canonical" and a.get("href"):
+            self.site_refs.append(("canonical", a["href"], line))
 
     handle_startendtag = handle_starttag
 
@@ -115,7 +131,21 @@ def check_pages():
         for href, line in doc.uses:
             if href.startswith("#") and href[1:] not in doc.symbols:
                 fail("icons", f"{rel}:{line} <use href=\"{href}\"> has no matching <symbol>")
+        for what, ref, line in doc.site_refs:
+            if not SITE:
+                fail("site", "projects.json has no \"site\" address (e.g. \"https://matiasindacochea.com/\")")
+                break
+            if not ref.startswith(SITE):
+                fail("site", f"{rel}:{line} {what} is \"{ref}\" but the site is {SITE} (\"site\" in projects.json)")
+        if rel == "index.html":
+            if not any(w == "canonical" for w, _, _ in doc.site_refs):
+                fail("site", "index.html has no <link rel=\"canonical\">")
+            for m in re.finditer(r'"url":\s*"([^"]*)"', page.read_text(encoding="utf-8")):
+                if SITE and not m.group(1).startswith(SITE):
+                    fail("site", f"index.html JSON-LD url is \"{m.group(1)}\" but the site is {SITE}")
         for attr, ref, line in doc.refs:
+            if SITE and ref.startswith(SITE):
+                ref = "/" + ref[len(SITE):]  # a full address on this site: check the file it names
             r = resolve(page, ref)
             if not r:
                 continue

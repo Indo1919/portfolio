@@ -62,6 +62,11 @@ For a `[review]` item: read the updated page in `work/<slug>/`, update that proj
 `python3 tools/screenshots.py <slug>`, look at the images, then `python3 tools/sync.py --mark-reviewed <slug>`.
 Once the site is on GitHub, the workflow does the sync part on its own; the review part still needs you.
 
+### Change the domain
+1. DNS at the new registrar (records as above) and the new domain in this repo's Settings → Pages.
+2. Set `"site"` in `assets/data/projects.json`, then run `python3 tools/check.py`: it lists every canonical link,
+   `og:url`, `og:image` and JSON-LD `url` (in `index.html` and `brand/index.html`) still on the old address.
+
 ### Edit homepage copy
 Edit `index.html` directly. Each project appears in two places: its row in the `#projects` list
 (`.stage-item`: name, kind, tagline, `data-kicker`) and its panel in `#work` (`<article class="project">`).
@@ -91,7 +96,15 @@ PNGs (favicon, Apple touch icon, lockups, `assets/img/og-image.png`) are rendere
 with headless Chrome (see `tools/chrome.py`).
 
 ### Publish
-Live at https://indo1919.github.io/ from repo `Indo1919/Indo1919.github.io` (Pages source: GitHub Actions).
+Live at **https://matiasindacochea.com/** from repo `Indo1919/portfolio` (Pages source: GitHub Actions;
+custom domain set in that repo's Settings → Pages, Enforce HTTPS on; no CNAME file needed with Actions).
+- `Indo1919` is also Matias's school GitHub. Its other Pages sites (`manuscript`, and the original project
+  sites at `indo1919.github.io/Halo/` etc.) stay on github.io on purpose. **Never** rename this repo back to
+  `Indo1919.github.io` or give a repo with that name the custom domain: GitHub would move every Pages site on
+  the account to matiasindacochea.com. The four projects reach the domain as the mirrors in `work/`.
+- Domain registrar and DNS: GoDaddy (4 A + 4 AAAA records to GitHub Pages at `@`, `www` CNAME →
+  `indo1919.github.io`, TXT `_github-pages-challenge-Indo1919` for the domain verification on his GitHub
+  account). GoDaddy emails Matias a one-time code for every DNS save; only he can enter it.
 - This Mac's command-line git has **no GitHub credentials**. Commit locally; Matias pushes with GitHub
   Desktop (the repo is added there). `git pull` works without credentials.
 - Every push and every 30 minutes the workflow: syncs the four projects → runs `check.py` → commits any

@@ -6,7 +6,8 @@
 # Safety: tools/check.py must pass before anything is published. If it fails, the run goes red,
 # the last good version stays live, and the log lists exactly what to fix.
 #
-# One-time setup in this repo: Settings > Pages > Build and deployment > Source: GitHub Actions.
+# One-time setup in this repo: Settings > Pages > Build and deployment > Source: GitHub Actions,
+# Custom domain: matiasindacochea.com (Enforce HTTPS). No CNAME file is needed when publishing with Actions.
 
 name: Sync projects and publish
 
