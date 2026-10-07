@@ -245,15 +245,24 @@ def check_scripts(projects):
     from concurrent.futures import ThreadPoolExecutor
     httpd, port = serve()
 
-    def dump(path, budget):
+    def dump(path, budget, timeout=15):
         return chrome(["--window-size=1440,900", f"--virtual-time-budget={budget}", "--dump-dom",
-                       f"http://127.0.0.1:{port}/{path}"], timeout=15) or ""
+                       f"http://127.0.0.1:{port}/{path}"], timeout=timeout) or ""
     try:
         jobs = [("?capture", 6000)] + [(f"work/{p['slug']}/{p['inject'][0]}", 4000) for p in projects]
         with ThreadPoolExecutor(max_workers=5) as pool:
             doms = list(pool.map(lambda j: dump(*j), jobs))
+        # On a busy machine (GitHub's runners) Chrome sometimes returns nothing at all. That says nothing
+        # about the site, so give each empty page one more, slower try on its own before judging it.
+        for i, dom in enumerate(doms):
+            if "<html" not in dom:
+                doms[i] = dump(*jobs[i], timeout=40)
     finally:
         httpd.shutdown()
+    if not any("<html" in d for d in doms):
+        fail("scripts", "Chrome returned no page at all, twice (a problem with this machine's Chrome, not the site). "
+                        "Re-run the check; if it keeps happening, see tools/chrome.py")
+        return
     m = re.search(r"<html[^>]*>", doms[0])
     tag = m.group(0) if m else ""
     if 'data-portfolio="errors"' in tag:

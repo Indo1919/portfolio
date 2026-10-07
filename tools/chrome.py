@@ -52,7 +52,7 @@ def chrome(args, timeout=40, out=None):
     cmd = [CHROME, "--headless=new", "--disable-gpu", "--hide-scrollbars", "--mute-audio",
            f"--user-data-dir={prof}", *args]
     if sys.platform.startswith("linux"):
-        cmd.insert(1, "--no-sandbox")  # CI containers
+        cmd[1:1] = ["--no-sandbox", "--disable-dev-shm-usage"]  # CI containers (small /dev/shm crashes Chrome)
     try:
         if out is None:
             try:

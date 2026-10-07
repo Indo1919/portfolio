@@ -194,6 +194,9 @@ What a visitor sees never depends on everything working:
   pages; `tools/chrome.py` handles both. Scroll-based captures come out blank, so screenshots start at a
   section by hiding what's above it.
 - `sips -c H W --cropOffset 0 0` ignores zero offsets and crops from the center.
+- GitHub's runners occasionally get no page back from headless Chrome (2026-10-07: every `[scripts]` line failed at
+  once while the same files passed locally and on the next run). `check.py` now retries empty pages once, slowly.
+  If a red run shows every `[scripts]` check failing together and nothing else, re-run it before hunting for a bug.
 - `<use href="#mi">` inside an `<svg>`: the outer viewBox must be `0 0 112.5 95.04` (the symbol carries
   the real one), or the mark gets clipped.
 - System Python is 3.9: no backslashes inside f-string expressions, no `match`.
