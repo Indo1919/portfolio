@@ -39,7 +39,7 @@ too, and won't publish while it fails (the last good version stays live).
 
 | Path | What it is |
 |---|---|
-| `index.html` | The whole homepage. Sections in order: `#top` hero, `#projects` at-a-glance index, proof strip, `#work` case-study panels (`#halo`, `#arriba`, `#aiios`, `#scowtt`), `#process`, `#about`, `#experience`, `#contact`, footer, then the live-preview sheet and film dialogs |
+| `index.html` | The whole homepage. Sections in order: `#top` hero, `#projects` at-a-glance index, proof strip, `#work` case-study panels (`#halo`, `#arriba`, `#aiios`, `#scowtt`), `#process` (How I work, `#how-i-work`, then the numbers), `#about`, `#experience`, `#contact`, footer, then the live-preview sheet and film dialogs |
 | `assets/css/site.css` | Design tokens (`:root`), then components in page order, then breakpoints (1100, 900, 700) |
 | `assets/js/site.js` | Nav (active section, sliding indicator, light/dark tone), showcase, scroll motion, live preview sheet, demos. Reads project data from `data-*` attributes in the markup, so content edits are HTML-only |
 | `assets/js/analytics.js` | Google Analytics 4: the measurement ID and every custom event (see Analytics below) |
@@ -89,6 +89,46 @@ and case-study panel into `index.html` with `TODO` placeholders. Then:
 4. `python3 tools/check.py` must pass; `python3 tools/review.py` and look at every width.
 The project list and stat counter adapt to any number of projects on their own.
 
+### Edit "How I work" (`#how-i-work`, the Process section)
+Six moves on a ring (Listen, Frame, Build, Stress-test, Decide, Ship) and one route per tab: "My approach"
+first (Matias as a designer, `data-kind="approach"`), then one per project with every real step and loop back.
+Everything is markup in `index.html`; `site.js` ("how-i-work") draws it and walks the visitor through it once the
+card is on screen: the dot glides to a move (`TRAVEL`, 0.8s), the step fades in (title and one line, details half a
+second later) and stays long enough to read (1.7–3s, +0.5s with details): about 3.8s a step, ~27s for My approach.
+A route ends on its summary; the "Up next" button fills for `NEXT` (3.6s), then the next route starts, cycling
+through all routes forever. It plays continuously: no hold under the mouse (Matias asked), Back/Next/step clicks keep
+it playing, a move's card holds it only while open. It waits only when the card is off screen or the tab is hidden,
+and Pause is the one control that stops it (keep it: moving content needs a pause control). Progress bar, Back/Next
+and step clicks let people jump. Hovering a move shows its principle. Matias found 1.7s/~8s per step boring,
+~1.3s overwhelming, and ~4.7s a little slow: stay near 3.8s. One idea at a time, no counters.
+- A step: `<button class="hiw-step" data-move="…">` with `.hiw-step-label` (short, in the strip and as the panel
+  title), `.hiw-step-text` (what I did), and optional `.hiw-step-turn` ("Went back", "Reframed", "Rejected"…:
+  the step travels the dashed loop-back orbit), `.hiw-step-why` ("Why: …"), `.hiw-step-ai` ("AI: …", only where
+  AI really helped), `.hiw-step-me` ("Me: …"), `.hiw-step-out` ("Output: a · b · c"; add `data-eng` when it's
+  handed to engineers, which shows "Ready for engineers").
+- The storyline is "I lead, AI follows" (Matias's ask; no toggle). On the map my route is the bright leading line and
+  AI's is a dotted line one lane out that trails it by `LAG` (0.45s), drawn only into steps with a `.hiw-step-ai`;
+  when it arrives it pings the move (ripple and an "AI" tag). Every step card shows both rows, Me first, AI a beat
+  later: Me is `.hiw-step-me` or the move's me line; AI is `.hiw-step-ai`, else "No AI on this step" ("Never AI.
+  This call is mine." on Decide). A step never borrows its move's AI line. Each route's summary rows come from
+  `data-lead` and `data-follow` on its `<section>`; routes with no AI steps show `data-follow` muted.
+- A move's card: `.hiw-moves > article[data-move][data-ai]` (lead, body, AI line, me line). `data-ai="false"` only on
+  Decide. AI sources so far: Claude for synthesis, GPT-5 for copy, Cursor for AI-assisted code, ChatGPT and AI
+  critique in AI Native iOS v1, Claude live in Halo, scripts for deliverables (archive 10, case studies).
+- "Beyond UI/UX" tiles (`.hiw-xs`) sit under the card: each capability needs its proof line.
+- Rules (`check.py` enforces): six moves, each with a card; every step names a real move; a move never follows
+  itself; every route loops back at least once (the note under the card claims it); each route's tab names a
+  project in `projects.json` unless it's the approach route.
+- Facts only, as everywhere: each step must trace to that case study, its repo README, the resume or the archive.
+  Sources used so far: the four case studies and READMEs, archive files 01 (Halo), 02 (Arriba Perú), 03 (Greenopia),
+  04 (Jetzy, for the scoping tile), 09 (resume), 10 (tools, testing models the day they ship).
+- QA: `?capture&hiw-step=5` shows step 5 of the first route; `?capture` alone shows its end summary.
+  The browser preview caches the page: add a throwaway param (`&nc=2`) after changing files.
+  Headless screenshots of a scrolled page come out black: check timing with `--dump-dom` and look at it in the
+  browser preview with `?capture&from=<card top>`.
+- Layout: the ring and the panel sit side by side when the card is 1000px+ wide, stacked below that. Maps under
+  720px wide (`compact` in JS) run the routes inside the ring with labels outside; wider maps orbit outside.
+
 ### Remove or reorder a project
 Change `projects.json`, then match `index.html` (both places) and delete `work/<slug>/` if removed.
 
@@ -128,8 +168,10 @@ by hostname if needed). `assets/js/analytics.js` is the only place with the ID. 
   those hits out of reports.
 - **Events:** `resume_download`, `contact_click` (method), `case_study_open`, `project_jump`, `project_preview`,
   `live_preview_open`, `prototype_tap`, `film_play`, `section_view` (section), `portfolio_bar_click` (action,
-  destination). Parameters `project`, `link_location`, `method`, `section`, `action`, `destination` are
-  registered custom dimensions. A new parameter needs a new custom dimension (Admin > Custom definitions).
+  destination), `process_explore` (action: project, step, move, replay, next, back, next_route, restart; project; move) and
+  `process_complete` (project; watched a whole route play). Parameters `project`, `link_location`, `method`,
+  `section`, `action`, `destination` are registered custom dimensions; `move` still needs one (Admin > Custom
+  definitions) once How I work is live. A new parameter needs a new custom dimension.
 - **GA settings already made:** key events `resume_download` and `contact_click` (once per session, no value);
   event data retention 14 months; enhanced measurement keeps page loads, scrolls, outbound clicks, file
   downloads and site search, with history-based page views and form interactions turned off (the homepage's
@@ -173,6 +215,10 @@ What a visitor sees never depends on everything working:
   easing `--ease`. The gradient `--grad` (orange → pink → violet → blue) is the only accent; it comes from
   the four projects and is also the logo's dot.
 - Type: system SF Pro with Inter fallback, tight tracking (-0.03 to -0.055em on display sizes).
+- Type details: headings use `text-wrap: balance`, body copy `pretty`, and the `widows` feature in `site.js` keeps the
+  last two words of leads and card copy together. `optical-titles` pulls each project title left by its first letter's
+  side space so "Halo" lines up with its kicker like the others. Project heads are top-aligned so every card starts
+  at the same height. Use `&#8209;` (non-breaking hyphen) where a hyphenated word must not split ("co-designed").
 - Sections set `data-tone="dark|light"`; the nav switches glass tone to match.
 - Device frames: `.iphone` (Halo; status bar, Dynamic Island, tab bar kept via `.ios-tabbar`, sized in cqw) and
   `.device-frame.android` (Arriba; wraps a live iframe). Live embeds can get presentation-only CSS through

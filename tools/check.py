@@ -15,6 +15,9 @@ Site check: catches what would break the portfolio before it goes live.
   counts     words like "Four projects" match how many projects there are
   todo       no TODO placeholders left (tools/new_project.py leaves them on purpose)
   analytics  every page, and the case-study bar (return.js), loads assets/js/analytics.js
+  process    "How I work" (#how-i-work): six moves, each with its card; every route's tab, project and steps
+             are valid, no move follows itself, and every route loops back at least once (the note under it
+             says so)
   versions   every page loads site.css / site.js with the same ?v=
   css        braces balance in site.css
   scripts    (Chrome) every homepage feature starts without errors; every case study shows the portfolio bar
@@ -205,6 +208,43 @@ def check_registry():
     return projects
 
 
+def check_process(projects):
+    index = (ROOT / "index.html").read_text(encoding="utf-8")
+    m = re.search(r'<div class="[^"]*\bhiw\b[^"]*" id="how-i-work".*?<p class="hiw-note', index, re.S)
+    if not m:
+        warn("process", "index.html has no How I work block (#how-i-work)")
+        return
+    block = m.group(0)
+    moves = re.findall(r'class="hiw-node" type="button" data-move="([a-z]+)"', block)
+    cards = set(re.findall(r'<article data-move="([a-z]+)" data-ai="(?:true|false)">', block))
+    if len(moves) != 6 or len(set(moves)) != 6:
+        fail("process", f"How I work needs six different moves on the ring, found {moves}")
+    for mv in set(moves) - cards:
+        fail("process", f"How I work: the move \"{mv}\" has no card in .hiw-moves")
+    slugs = {p["slug"] for p in projects}
+    panels = re.findall(r'<section class="hiw-route" id="([^"]+)" role="tabpanel" aria-labelledby="([^"]+)" data-project="([^"]+)"([^>]*)>(.*?)</section>', block, re.S)
+    tabs = dict(re.findall(r'role="tab" id="([^"]+)" aria-controls="([^"]+)"', block))
+    if not panels:
+        fail("process", "How I work has no routes")
+    for pid, labelled, slug, attrs, body in panels:
+        if tabs.get(labelled) != pid:
+            fail("process", f"How I work: the tab for {pid} is missing or points elsewhere")
+        if slug not in slugs and 'data-kind="approach"' not in attrs:
+            fail("process", f"How I work: route {pid} names project \"{slug}\", which isn't in projects.json")
+        steps = re.findall(r'<button type="button" class="hiw-step" data-move="([a-z]+)">(.*?)</button>', body, re.S)
+        if len(steps) < 3:
+            fail("process", f"How I work: route {pid} has fewer than three steps")
+        for i, (mv, inner) in enumerate(steps, 1):
+            if mv not in moves:
+                fail("process", f"How I work: route {pid} step {i} uses unknown move \"{mv}\"")
+            if 'class="hiw-step-label"' not in inner or 'class="hiw-step-text"' not in inner:
+                fail("process", f"How I work: route {pid} step {i} needs a label and a sentence")
+            if i > 1 and mv == steps[i - 2][0]:
+                fail("process", f"How I work: route {pid} steps {i - 1} and {i} are both \"{mv}\" (a move can't follow itself)")
+        if "hiw-step-turn" not in body:
+            fail("process", f"How I work: route {pid} never loops back, but the note under the card says every project does")
+
+
 def check_text(projects):
     n = len(projects)
     files = ["index.html", "tools/og.html"]
@@ -282,6 +322,7 @@ def main():
     check_pages()
     projects = check_registry()
     check_text(projects)
+    check_process(projects)
     if not args.static:
         check_scripts(projects)
     for w in warnings:

@@ -17,7 +17,10 @@
      prototype_tap       project                  tapped a live phone to use it
      film_play           project                  Halo launch film
      section_view        section                  scrolled to a section or project panel, once each
-     portfolio_bar_click action, project          the bar at the bottom of a case study */
+     portfolio_bar_click action, project          the bar at the bottom of a case study
+     process_explore     action, project, move    "How I work": action = project | step | move | replay | next | back |
+                                                  next_route | restart
+     process_complete    project                  walked a route to its last step */
 (() => {
   const ID = "G-CXQW1Q5LL0";
 
@@ -102,6 +105,21 @@
     const href = el.getAttribute("href") || "";
     const where = areaOf(el);
 
+    // "How I work" (About): which project, step or move people explore. Links inside it fall through.
+    const hiw = el.closest("[data-hiw]");
+    if (hiw && !href) {
+      const panelOf = tab => tab && document.getElementById(tab.getAttribute("aria-controls"));
+      const active = panelOf(hiw.querySelector('[role="tab"][aria-selected="true"]'));
+      const project = active ? active.dataset.project : undefined;
+      if (el.getAttribute("role") === "tab") { const p = panelOf(el); return send("process_explore", { action: "project", project: p ? p.dataset.project : undefined }); }
+      if (el.classList.contains("hiw-step")) return send("process_explore", { action: "step", project, move: el.dataset.move });
+      if (el.classList.contains("hiw-node")) return send("process_explore", { action: "move", project, move: el.dataset.move });
+      if (el.classList.contains("hiw-play")) return send("process_explore", { action: "replay", project });
+      const walkAction = ["hiw-next", "hiw-back", "hiw-nextroute", "hiw-restart"].find(c => el.classList.contains(c));
+      if (walkAction) return send("process_explore", { action: walkAction.slice(4).replace("nextroute", "next_route"), project });
+      return;
+    }
+
     if (/Resume\.pdf/i.test(href)) return send("resume_download", { link_location: where });
     if (href.startsWith("mailto:")) return send("contact_click", { method: "email", link_location: where });
     if (el.hasAttribute("data-copy")) return send("contact_click", { method: "email_copy", link_location: where });
@@ -136,6 +154,7 @@
       io.unobserve(entry.target);
       send("section_view", { section: entry.target.matches("article.project") ? `work:${id}` : id });
     }), { rootMargin: "0px 0px -50% 0px" });
-    document.querySelectorAll("main section[id], article.project[id]").forEach(s => io.observe(s));
+    document.querySelectorAll("main section[id], article.project[id], #how-i-work").forEach(s => io.observe(s));
   });
+  document.addEventListener("hiw:complete", e => send("process_complete", { project: e.detail && e.detail.project }));
 })();
