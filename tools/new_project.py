@@ -101,42 +101,69 @@ def main():
           </a></li>
           ''')
     html = insert_before(html, "<!-- projects:end -->", f'''<!-- {n:02d} {name} -->
-  <article class="project" id="{anchor}" style="--accent:{accent};--accent-ink:{ink};--tint:{tint}">
+  <article class="project scene" id="{anchor}" style="--accent:{accent};--accent-ink:{ink};--tint:{tint}">
     <div class="project-card" data-href="work/{slug}/">
       <div class="project-glow" aria-hidden="true"></div>
-      <header class="project-head">
-        <div class="project-titles reveal">
-          <p class="project-kicker"><span class="num">{n:02d}</span>TODO kicker · year</p>
-          <h3 class="project-title">{name}</h3>
-          <p class="project-tagline">TODO tagline</p>
+      <div class="scene-grid">
+        <div class="scene-visual">
+          <div class="project-media">
+            <div class="window">
+              <div class="window-bar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="window-url"><span>{name}</span></span></div>
+              <img src="assets/img/{hero}" alt="TODO describe the {name} screenshot" width="2000" height="1250" loading="lazy" decoding="async">
+            </div>
+          </div>
         </div>
-        <div class="project-intro reveal">
-          <p>TODO two or three sentences: what it is, who it's for, what you did.</p>
+        <div class="scene-copy">
+          <div class="project-titles">
+            <p class="project-kicker"><span class="num">{n:02d}</span>TODO kicker · year</p>
+            <h3 class="project-title">{name}</h3>
+            <p class="project-tagline">TODO tagline</p>
+            <p class="scene-meta"><span>TODO your role</span><span>TODO the result, in a few words</span></p>
+          </div>
+          <div class="scene-segs reveal">
+            <div class="seg-tabs" role="tablist" aria-label="{name}, step by step">
+              <button type="button" role="tab" class="seg-tab is-on" id="{anchor}-seg-problem" aria-controls="{anchor}-seg-problem-p" aria-selected="true">Problem</button>
+              <button type="button" role="tab" class="seg-tab" id="{anchor}-seg-research" aria-controls="{anchor}-seg-research-p" aria-selected="false" tabindex="-1">Research</button>
+              <button type="button" role="tab" class="seg-tab" id="{anchor}-seg-people" aria-controls="{anchor}-seg-people-p" aria-selected="false" tabindex="-1">People</button>
+              <button type="button" role="tab" class="seg-tab" id="{anchor}-seg-market" aria-controls="{anchor}-seg-market-p" aria-selected="false" tabindex="-1">Market</button>
+              <button type="button" role="tab" class="seg-tab" id="{anchor}-seg-options" aria-controls="{anchor}-seg-options-p" aria-selected="false" tabindex="-1">Options</button>
+              <button type="button" role="tab" class="seg-tab" id="{anchor}-seg-learned" aria-controls="{anchor}-seg-learned-p" aria-selected="false" tabindex="-1">Learned</button>
+            </div>
+            <div class="seg-panels" data-no-card>
+              <div class="seg-panel is-on" id="{anchor}-seg-problem-p" role="tabpanel" aria-labelledby="{anchor}-seg-problem">
+                <p class="seg-lead">TODO the problem, framed as what the system gets wrong, with <mark>the phrase to read first</mark></p>
+                <p class="seg-note"><b>Why</b>TODO why you took it on</p>
+              </div>
+              <div class="seg-panel" id="{anchor}-seg-research-p" role="tabpanel" aria-labelledby="{anchor}-seg-research">
+                <div class="pv-stats"><p class="pv-stat"><b>TODO</b><span>TODO what the number counts</span></p></div>
+                <p class="pv-find"><b>What I found</b>TODO the one finding</p>
+              </div>
+              <div class="seg-panel" id="{anchor}-seg-people-p" role="tabpanel" aria-labelledby="{anchor}-seg-people">
+                <p class="pv-h">TODO who it is for</p>
+                <p class="pv-cap">TODO what they need, one sentence</p>
+              </div>
+              <div class="seg-panel" id="{anchor}-seg-market-p" role="tabpanel" aria-labelledby="{anchor}-seg-market">
+                <ul class="pv-rows">
+                  <li><b>TODO what exists<small>TODO examples</small></b><span>TODO the gap it leaves</span></li>
+                  <li class="is-this"><b>{name}</b><span>TODO how this one answers it</span></li>
+                </ul>
+              </div>
+              <div class="seg-panel" id="{anchor}-seg-options-p" role="tabpanel" aria-labelledby="{anchor}-seg-options">
+                <p class="pv-cap">TODO the options you explored, and which one won (a visual: see the other scenes' pv-* pieces)</p>
+              </div>
+              <div class="seg-panel" id="{anchor}-seg-learned-p" role="tabpanel" aria-labelledby="{anchor}-seg-learned">
+                <p class="seg-lead">TODO what you learned</p>
+                <p class="seg-note"><b>Where I struggled</b>TODO</p>
+                <p class="seg-note"><b>What I’d do differently</b>TODO</p>
+              </div>
+            </div>
+          </div>
           <div class="project-cta">
             <a class="btn btn-light magnetic" href="work/{slug}/">View case study <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a>
             <button class="btn btn-glass magnetic" type="button" data-live="work/{slug}/" data-live-title="{name}">Try it live</button>
           </div>
         </div>
-      </header>
-
-      <div class="project-media">
-        <div class="window">
-          <div class="window-bar"><span class="lights" aria-hidden="true"><i></i><i></i><i></i></span><span class="window-url"><span>{name}</span></span></div>
-          <img src="assets/img/{hero}" alt="TODO describe the {name} screenshot" width="2000" height="1250" loading="lazy" decoding="async">
-        </div>
       </div>
-
-      <dl class="gcr">
-        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#5E9BFF"></span>Goal</dt><dd>TODO goal</dd></div>
-        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#FF9F43"></span>Challenge</dt><dd>TODO challenge</dd></div>
-        <div class="gcr-card reveal"><dt><span class="dot" style="--d:#3ECF8E"></span>Result</dt><dd>TODO result</dd></div>
-      </dl>
-      <dl class="meta">
-        <div><dt>Role</dt><dd>TODO</dd></div>
-        <div><dt>Timeline</dt><dd>TODO</dd></div>
-        <div><dt>Team</dt><dd>TODO</dd></div>
-        <div><dt>Tools</dt><dd>TODO</dd></div>
-      </dl>
     </div>
   </article>
 

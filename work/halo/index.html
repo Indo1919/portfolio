@@ -16,7 +16,7 @@
 <meta property="og:description" content="Halo turns the signal you already create into status updates in your own voice.">
 <meta property="og:image" content="brand/social/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="generator" content="Halo build 2026-09-27">
+<meta name="generator" content="Halo build 2026-10-14">
 <style>
 /* styles/fonts.css */
 @font-face { font-family: 'Geist'; font-style: normal; font-weight: 100 900; font-display: swap;
@@ -3716,14 +3716,28 @@ details.stg-sends[open] > summary > .i:last-child { transform: rotate(180deg); }
   H.boot = function () {
     H.store.load();
     var s = H.store.state;
-    if (/[?&]skip-onboarding\b/.test(location.search)) { s.session.onboarded = true; s.session.welcomeSeen = true; s.session.tourDone = true; }
-    var th = /[?&]theme=(light|dark)/.exec(location.search); if (th) s.prefs.theme = th[1];
-    var start = location.hash || (s.session.onboarded ? (s.session.lastRoute || '#/home') : '#/welcome');
+    var qs = location.search;
+    // ?fresh: the whole first run, like the Halo mark's "Start the demo over": sample data back, appearance kept.
+    var fresh = /[?&]fresh\b/.test(qs);
+    if (fresh) {
+      var keep = {};
+      ['theme', 'motion', 'sound', 'ai', 'profile'].forEach(function (k) { if (s.prefs[k] !== undefined) keep[k] = s.prefs[k]; });
+      H.store.state = s = H.seed();
+      Object.keys(keep).forEach(function (k) { s.prefs[k] = keep[k]; });
+      H.store.save();
+    }
+    if (/[?&]skip-onboarding\b/.test(qs)) { s.session.onboarded = true; s.session.welcomeSeen = true; s.session.tourDone = true; }
+    // ?tour: open on Home and walk through the product tour (used with skip-onboarding by the case study).
+    var tour = /[?&]tour\b/.test(qs) && s.session.onboarded;
+    if (tour) s.session.tourDone = false;
+    var th = /[?&]theme=(light|dark)/.exec(qs); if (th) s.prefs.theme = th[1];
+    var start = fresh ? '#/welcome' : tour ? '#/home' : location.hash || (s.session.onboarded ? (s.session.lastRoute || '#/home') : '#/welcome');
     H.route = guard(H.parseRoute(start));
     if (location.hash !== H.route.path && history.replaceState) history.replaceState(null, '', H.route.path);
     H.renderNow();
     document.documentElement.classList.add('is-ready');
     if (H.ai && H.ai.init) H.ai.init();
+    if (tour) setTimeout(function () { if (H.tour) H.tour.start(); }, 700);
   };
 })(window.H = window.H || {});
 

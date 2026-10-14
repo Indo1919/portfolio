@@ -252,8 +252,9 @@ def check_project(p, state, index_html, offline=False):
             issues.append(("embed", f"{emb['what']}: index.html is missing {emb['homepage']}"))
     if f'id="{p["anchor"]}"' not in index_html:
         issues.append(("homepage", f'no case-study panel with id="{p["anchor"]}" in index.html'))
-    if f'data-path="work/{slug}/"' not in index_html:
-        issues.append(("homepage", f"not in the at-a-glance list in index.html (data-path=\"work/{slug}/\")"))
+    home = f"work/{slug}/{p.get('page', '')}"  # "page": the case study when the folder opens on the app (Halo)
+    if f'data-path="{home}"' not in index_html:
+        issues.append(("homepage", f"not in the at-a-glance list in index.html (data-path=\"{home}\")"))
     for shot in p.get("shots", []):
         if not (IMG / shot["out"]).exists():
             issues.append(("homepage", f"missing screenshot assets/img/{shot['out']}. Run python3 tools/screenshots.py {slug}"))
@@ -323,7 +324,7 @@ def main():
             commit = state.get(p["slug"], {}).get("commit", "")[:7]
             lines.append(f"✓ {p['name']}: in sync ({commit}), homepage reviewed")
     # projects on the homepage that aren't in the registry
-    for slug in sorted(set(re.findall(r'data-path="work/([^/"]+)/"', index_html)) - {p["slug"] for p in reg["projects"]}):
+    for slug in sorted(set(re.findall(r'data-path="work/([^/"]+)/[^"]*"', index_html)) - {p["slug"] for p in reg["projects"]}):
         attention = True
         lines.append(f"✗ work/{slug}/ is on the homepage but not in assets/data/projects.json")
     report(lines)

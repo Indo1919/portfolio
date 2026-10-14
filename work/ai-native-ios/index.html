@@ -899,12 +899,6 @@ button{font:inherit;color:inherit}
 .hv{display:inline-block;width:14px;height:14px;border-radius:50%;flex:none;margin-top:2px;box-shadow:inset 0 0 0 1.5px var(--ink)}
 .hv.h2{background:var(--ink)}
 .hv.h1{background:linear-gradient(90deg,var(--ink) 50%,transparent 50%)}
-.pp{position:relative;display:block;width:24px;height:44px;border-radius:7px;box-shadow:inset 0 0 0 1.5px var(--ink)}
-.pp::after{content:"";position:absolute;background:var(--ink)}
-.pp-app::after{inset:4px;border-radius:4px;opacity:.28}
-.pp-top::after{left:6px;right:6px;top:4px;height:4px;border-radius:2px}
-.pp-fab::after{right:4px;bottom:6px;width:7px;height:7px;border-radius:50%}
-.pp-dock::after{left:4px;right:4px;bottom:4px;height:5px;border-radius:3px;background:linear-gradient(90deg,#4C7DFF,#FF9A4D)}
 .plc-key{display:flex;gap:20px;margin:16px 0 0;font-size:14px;color:var(--muted)}
 .plc-key span{display:inline-flex;align-items:center;gap:7px}
 .plc-key .hv{margin:0}
@@ -1044,8 +1038,14 @@ button{font:inherit;color:inherit}
 .paper{background:#FBFAF6;border-radius:22px;padding:18px;box-shadow:0 0 0 1px rgba(0,0,0,.06),0 14px 34px rgba(0,0,0,.07)}
 .paper .sk{display:block;width:100%;height:auto}
 .sk-f.pick .paper{box-shadow:0 0 0 2px #FF8A3D,0 14px 34px rgba(255,138,61,.18)}
-.sk-f figcaption{margin-top:12px;font-size:15px;color:var(--muted);line-height:1.4}
+.sk-f figcaption{margin-top:12px;font-size:15px;color:var(--muted);line-height:1.4;min-height:2.8em} /* equal captions keep the cards level */
 .sk-f figcaption b{color:var(--ink)}
+.sk-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px;margin-top:44px}
+.sk-grid .sk-f{max-width:none}
+.sk-grid .paper{padding:14px;border-radius:20px}
+.sk-grid figcaption{font-size:14px}
+@media (max-width:760px){.sk-grid{gap:12px}.sk-grid .paper{padding:10px;border-radius:16px}.sk-grid figcaption{font-size:13px}}
+@media (max-width:560px){.sk-grid{grid-template-columns:repeat(2,minmax(0,170px));justify-content:center;gap:16px}}
 .sk-ar,.wv-ar{position:relative;width:44px;height:2px;background:var(--muted);opacity:.5;flex:none}
 .sk-ar::after,.wv-ar::after{content:"";position:absolute;right:-1px;top:-4px;width:9px;height:9px;border-top:2px solid var(--muted);border-right:2px solid var(--muted);transform:rotate(45deg)}
 .wvis{display:flex;align-items:center;gap:26px}
@@ -1107,11 +1107,33 @@ button{font:inherit;color:inherit}
 .srow .sv{white-space:nowrap}
 @media (max-width:760px){.vv .wv-ar{transform:none}}
 
+/* details on demand: the conclusion stays visible, the full table opens on request */
+.more{margin-top:28px;border-radius:22px;background:var(--paper-2);box-shadow:0 0 0 1px var(--tile-edge)}
+.more>summary{list-style:none;cursor:pointer;display:flex;align-items:center;gap:14px;padding:20px 24px;font-size:17px;font-weight:600;letter-spacing:-.012em}
+.more>summary::-webkit-details-marker{display:none}
+.more>summary span{font-size:14px;font-weight:500;color:var(--muted)}
+.more>summary::after{content:"";flex:none;margin-left:auto;width:28px;height:28px;border-radius:50%;background:var(--paper) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'%3E%3Cpath d='M8 3.5v9M3.5 8h9' stroke='%236E6E73' stroke-width='1.8' stroke-linecap='round'/%3E%3C/svg%3E") center/14px no-repeat;box-shadow:0 0 0 1px var(--tile-edge);transition:transform .3s}
+.more[open]>summary::after{transform:rotate(45deg)}
+.more>.more-in{padding:0 24px 24px}
+.more>.more-in>.h3:first-child{margin-top:8px}
+.glance-why{margin:18px 0 0;max-width:46ch;font-size:clamp(19px,1.9vw,24px);line-height:1.4;letter-spacing:-.02em;color:var(--muted);text-wrap:pretty}
+.glance-why b{color:var(--ink);font-weight:600}
+/* looking back */
+.reflect{margin-top:110px}
+.reflect h3{margin:0;font-size:clamp(26px,2.6vw,34px);letter-spacing:-.028em;line-height:1.12}
+.rf{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:28px}
+.rf div{background:var(--paper);border-radius:26px;padding:26px 24px 30px;box-shadow:0 0 0 1px var(--tile-edge)}
+.rf p{margin:0}
+.rf .k{font-size:14px;font-weight:600;color:var(--muted)}
+.rf .v{margin-top:10px;font-size:19px;line-height:1.36;letter-spacing:-.018em;font-weight:500;text-wrap:pretty}
+.rf div:first-child{background:var(--ink);color:var(--paper)}
+.rf div:first-child .k{color:color-mix(in srgb,var(--paper) 65%,transparent)}
+@media (max-width:880px){.rf{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
-  <filter id="pencil" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="4" result="n"/><feDisplacementMap in="SourceGraphic" in2="n" scale="1.5"/></filter>
 </defs></svg>
 
 <nav class="nav" aria-label="Sections">
@@ -1122,6 +1144,7 @@ button{font:inherit;color:inherit}
     <a class="nv-o" href="#version1">Version 1</a>
     <a class="nv-o" href="#decisions">Decisions</a>
     <a href="#prototype">Prototype</a>
+    <a class="nv-o" href="#reflect">Lessons</a>
     <button class="film-btn" data-film type="button">Watch the film</button>
   </div>
 </nav>
@@ -1147,6 +1170,7 @@ button{font:inherit;color:inherit}
 <section class="sec" id="glance">
   <div class="wrap">
     <h2 class="h2">The project in a minute.</h2>
+    <p class="glance-why"><b>Why I took it on:</b> every era of iOS made the phone more personal, yet AI still arrives as a separate app. I wanted to show what built in could feel like.</p>
     <div class="glance">
       <div class="gl"><p class="gl-k">Goal</p><p class="gl-v">Make AI feel like part of iOS, not another app you have to open.</p></div>
       <div class="gl"><p class="gl-k">Challenge</p><p class="gl-v">iOS 27 made the assistant smarter, but typing to it still starts at the top of the screen, and its history lives in a separate app.</p></div>
@@ -1211,7 +1235,8 @@ button{font:inherit;color:inherit}
       <li class="idea"><div class="tl-mini"><div data-mini="econcept"></div></div><span class="yr">This concept</span><b>The dock asks</b><p>Ask from the place your thumb already rests.</p></li>
     </ol>
 
-    <h3 class="h3 mt">Three eras side by side</h3>
+    <details class="more"><summary>Three eras side by side <span>iOS 7, 17 and 26 compared</span></summary><div class="more-in">
+    <h3 class="h3">Three eras side by side</h3>
     <div class="era" role="table" aria-label="iOS 7, iOS 17 and iOS 26 compared">
       <div class="era-r era-hd" role="row"><span role="columnheader"></span><span role="columnheader"><i class="eb e7">7</i>iOS 7</span><span role="columnheader"><i class="eb e17">17</i>iOS 17</span><span role="columnheader"><i class="eb e26">26</i>iOS 26</span></div>
       <div class="era-r" role="row"><b role="rowheader">Look and feel</b><span role="cell">Flat, bright, minimal</span><span role="cell">Depth, warmth, soft motion</span><span role="cell">Fluid glass, unified across devices</span></div>
@@ -1222,7 +1247,12 @@ button{font:inherit;color:inherit}
       <div class="era-r era-ins" role="row"><b role="rowheader">What I noticed</b><span role="cell" class="span3">Every era got more personal and more polished. AI kept arriving as separate features and apps, never as part of how you move around the phone.</span></div>
     </div>
 
-    <h3 class="h3 mt">Step 1: Gather what people said about iOS 26</h3>
+    </div></details>
+
+    <h3 class="h3 mt">Five sources, one pattern</h3>
+    <p class="sub-lead">Reviews, Reddit, social media, people in person and my own testing. Design was praised everywhere; AI split people.</p>
+    <details class="more"><summary>See the research <span>Every note, and how I sorted it</span></summary><div class="more-in">
+    <h3 class="h3">Step 1: Gather what people said about iOS 26</h3>
     <p class="sub-lead">Five places, the same two questions: what works, and what doesn't.</p>
     <div class="mx">
       <div class="mx-h"><span>Source</span><span>What works</span><span>What doesn't</span></div>
@@ -1258,7 +1288,9 @@ button{font:inherit;color:inherit}
     </div>
     <p class="mx-key syn-key"><span><i class="sv p"></i>Praised</span><span><i class="sv n"></i>Criticized</span><span><i class="sv m"></i>Both</span><span><i class="sv o"></i>Not mentioned</span></p>
 
-    <h3 class="h3 mt">Step 3: Turn the pattern into a question</h3>
+    </div></details>
+
+    <h3 class="h3 mt">From pattern to question</h3>
     <div class="chain" aria-label="From observation to question">
       <div class="ch"><p class="ch-k">What I saw</p><p class="ch-v">Design and ecosystem were praised wherever they came up. AI split people: excited about the features, frustrated by lag and inconsistency.</p></div>
       <div class="ch-ar" aria-hidden="true"></div>
@@ -1290,26 +1322,11 @@ button{font:inherit;color:inherit}
       <div class="stage-h"><span class="stage-n">2</span><div><h3>Sketch</h3><p>I started with widgets at the top, then tried a search bar sitting between the app grid and the dock. That position became the seed of the whole idea.</p><span class="tools">Procreate, Vizcom</span></div></div>
       <div class="sk-row">
         <figure class="sk-f"><div class="paper"><svg viewBox="0 0 200 410" class="sk" role="img" aria-label="Sketch A: widgets at the top">
-          <g id="skA" fill="none" stroke="#2c2c2e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pencil)">
-            <rect x="12" y="6" width="176" height="398" rx="30"/><rect x="78" y="16" width="44" height="12" rx="6"/>
-            <rect x="26" y="44" width="70" height="72" rx="12"/><rect x="104" y="44" width="70" height="72" rx="12"/>
-            <path d="M34 62h40M34 72h28M34 98h46M112 62h34M112 76h50M112 96h22"/>
-            <rect x="28" y="136" width="26" height="26" rx="7"/><rect x="66" y="136" width="26" height="26" rx="7"/><rect x="106" y="136" width="26" height="26" rx="7"/><rect x="146" y="136" width="26" height="26" rx="7"/>
-            <rect x="28" y="180" width="26" height="26" rx="7"/><rect x="66" y="180" width="26" height="26" rx="7"/><rect x="106" y="180" width="26" height="26" rx="7"/><rect x="146" y="180" width="26" height="26" rx="7"/>
-            <rect x="22" y="346" width="156" height="44" rx="16"/><rect x="34" y="355" width="26" height="26" rx="7"/><rect x="72" y="355" width="26" height="26" rx="7"/><rect x="108" y="355" width="26" height="26" rx="7"/><rect x="144" y="355" width="26" height="26" rx="7"/>
-          </g></svg></div><figcaption><b>A.</b> Widgets first, apps below.</figcaption></figure>
+          <g id="skA" fill="none" stroke="#2c2c2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="176" height="398" rx="32"/><rect x="80" y="17" width="40" height="11" rx="5.5"/><rect x="28" y="44" width="68" height="70" rx="13"/><rect x="104" y="44" width="68" height="70" rx="13"/><path d="M38 60h34M38 69h22M38 98h44M114 60h28M114 72h46M114 96h20" stroke-width="1.6"/><rect x="30" y="134" width="26" height="26" rx="7.5"/><rect x="68" y="134" width="26" height="26" rx="7.5"/><rect x="106" y="134" width="26" height="26" rx="7.5"/><rect x="144" y="134" width="26" height="26" rx="7.5"/><rect x="30" y="176" width="26" height="26" rx="7.5"/><rect x="68" y="176" width="26" height="26" rx="7.5"/><rect x="106" y="176" width="26" height="26" rx="7.5"/><rect x="144" y="176" width="26" height="26" rx="7.5"/><rect x="22" y="344" width="156" height="46" rx="17"/><rect x="30" y="354.0" width="26" height="26" rx="7.5"/><rect x="68" y="354.0" width="26" height="26" rx="7.5"/><rect x="106" y="354.0" width="26" height="26" rx="7.5"/><rect x="144" y="354.0" width="26" height="26" rx="7.5"/></g></svg></div><figcaption><b>A.</b> Widgets first, apps below.</figcaption></figure>
         <span class="sk-ar" aria-hidden="true"></span>
         <figure class="sk-f pick"><div class="paper"><svg viewBox="0 0 200 410" class="sk" role="img" aria-label="Sketch B: a search bar between the grid and the dock">
-          <g id="skB" fill="none" stroke="#2c2c2e" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" filter="url(#pencil)">
-            <rect x="12" y="6" width="176" height="398" rx="30"/><rect x="78" y="16" width="44" height="12" rx="6"/>
-            <rect x="28" y="50" width="26" height="26" rx="7"/><rect x="66" y="50" width="26" height="26" rx="7"/><rect x="106" y="50" width="26" height="26" rx="7"/><rect x="146" y="50" width="26" height="26" rx="7"/>
-            <rect x="28" y="96" width="26" height="26" rx="7"/><rect x="66" y="96" width="26" height="26" rx="7"/><rect x="106" y="96" width="26" height="26" rx="7"/><rect x="146" y="96" width="26" height="26" rx="7"/>
-            <rect x="28" y="142" width="26" height="26" rx="7"/><rect x="66" y="142" width="26" height="26" rx="7"/><rect x="106" y="142" width="26" height="26" rx="7"/><rect x="146" y="142" width="26" height="26" rx="7"/>
-            <rect x="28" y="188" width="26" height="26" rx="7"/><rect x="66" y="188" width="26" height="26" rx="7"/><rect x="106" y="188" width="26" height="26" rx="7"/><rect x="146" y="188" width="26" height="26" rx="7"/>
-            <rect x="26" y="300" width="148" height="24" rx="12"/><circle cx="160" cy="312" r="6"/><path d="M38 312h50"/>
-            <rect x="22" y="342" width="156" height="48" rx="16"/><rect x="34" y="353" width="26" height="26" rx="7"/><rect x="72" y="353" width="26" height="26" rx="7"/><rect x="108" y="353" width="26" height="26" rx="7"/><rect x="144" y="353" width="26" height="26" rx="7"/>
-          </g>
-          <ellipse cx="100" cy="312" rx="92" ry="26" fill="none" stroke="#FF8A3D" stroke-width="3" stroke-linecap="round" opacity=".85" stroke-dasharray="560" stroke-dashoffset="0" filter="url(#pencil)"/>
+          <g id="skB" fill="none" stroke="#2c2c2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="176" height="398" rx="32"/><rect x="80" y="17" width="40" height="11" rx="5.5"/><rect x="30" y="50" width="26" height="26" rx="7.5"/><rect x="68" y="50" width="26" height="26" rx="7.5"/><rect x="106" y="50" width="26" height="26" rx="7.5"/><rect x="144" y="50" width="26" height="26" rx="7.5"/><rect x="30" y="94" width="26" height="26" rx="7.5"/><rect x="68" y="94" width="26" height="26" rx="7.5"/><rect x="106" y="94" width="26" height="26" rx="7.5"/><rect x="144" y="94" width="26" height="26" rx="7.5"/><rect x="30" y="138" width="26" height="26" rx="7.5"/><rect x="68" y="138" width="26" height="26" rx="7.5"/><rect x="106" y="138" width="26" height="26" rx="7.5"/><rect x="144" y="138" width="26" height="26" rx="7.5"/><rect x="30" y="182" width="26" height="26" rx="7.5"/><rect x="68" y="182" width="26" height="26" rx="7.5"/><rect x="106" y="182" width="26" height="26" rx="7.5"/><rect x="144" y="182" width="26" height="26" rx="7.5"/><rect x="28" y="298" width="144" height="22" rx="11.0"/><path d="M40 309.0h46"/><circle cx="160" cy="309.0" r="5"/><rect x="22" y="344" width="156" height="46" rx="17"/><rect x="30" y="354.0" width="26" height="26" rx="7.5"/><rect x="68" y="354.0" width="26" height="26" rx="7.5"/><rect x="106" y="354.0" width="26" height="26" rx="7.5"/><rect x="144" y="354.0" width="26" height="26" rx="7.5"/></g>
+          <path class="mk" d="M15.5 311.8C10.2 290.6 64.8 285.1 107.0 285.5C154.6 286.0 191.5 293.8 188.0 309.9C185.4 326.9 135.2 333.4 91.2 332.5C41.9 331.5 10.2 324.2 13.8 306.2C16.4 297.5 38.4 291.1 63.0 288.3" fill="none" stroke="#FF8A3D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
           </svg></div><figcaption><b>B.</b> A bar between the grid and the dock. This one stuck.</figcaption></figure>
       </div>
     </div>
@@ -1372,12 +1389,18 @@ button{font:inherit;color:inherit}
     <p class="chap">Chapter 4</p>
     <h2 class="h2">Where should it live?</h2>
     <p class="lead">iOS 27 put the assistant at the top of the screen. Before committing to the dock, I compared four options on what matters for small, everyday questions.</p>
+    <div class="sk-grid">
+      <figure class="sk-f"><div class="paper"><svg viewBox="0 0 200 410" class="sk" role="img" aria-label="Sketch: its own app"><g fill="none" stroke="#2c2c2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="176" height="398" rx="32"/><rect x="80" y="17" width="40" height="11" rx="5.5"/><rect x="30" y="50" width="26" height="26" rx="7.5"/><rect x="68" y="50" width="26" height="26" rx="7.5"/><rect x="106" y="50" width="26" height="26" rx="7.5"/><rect x="144" y="50" width="26" height="26" rx="7.5"/><rect x="30" y="94" width="26" height="26" rx="7.5"/><rect x="68" y="94" width="26" height="26" rx="7.5"/><rect x="144" y="94" width="26" height="26" rx="7.5"/><rect x="30" y="138" width="26" height="26" rx="7.5"/><rect x="68" y="138" width="26" height="26" rx="7.5"/><rect x="106" y="138" width="26" height="26" rx="7.5"/><rect x="144" y="138" width="26" height="26" rx="7.5"/><rect x="30" y="182" width="26" height="26" rx="7.5"/><rect x="68" y="182" width="26" height="26" rx="7.5"/><rect x="106" y="182" width="26" height="26" rx="7.5"/><rect x="144" y="182" width="26" height="26" rx="7.5"/><rect x="106" y="94" width="26" height="26" rx="7.5" fill="#EEEDE8"/><path d="M119 100.5C120.43 105.57 120.43 105.57 125.5 107C120.43 108.43 120.43 108.43 119 113.5C117.57 108.43 117.57 108.43 112.5 107C117.57 105.57 117.57 105.57 119 100.5Z"/><circle cx="119" cy="107" r="19" stroke-width="1.4" stroke-dasharray="2.5 4"/><rect x="22" y="344" width="156" height="46" rx="17"/><rect x="30" y="354.0" width="26" height="26" rx="7.5"/><rect x="68" y="354.0" width="26" height="26" rx="7.5"/><rect x="106" y="354.0" width="26" height="26" rx="7.5"/><rect x="144" y="354.0" width="26" height="26" rx="7.5"/></g></svg></div><figcaption><b>Its own app.</b> A context switch every time.</figcaption></figure>
+      <figure class="sk-f"><div class="paper"><svg viewBox="0 0 200 410" class="sk" role="img" aria-label="Sketch: top of the screen"><g fill="none" stroke="#2c2c2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="176" height="398" rx="32"/><rect x="80" y="17" width="40" height="11" rx="5.5"/><rect x="28" y="40" width="144" height="22" rx="11.0"/><path d="M40 51.0h46"/><circle cx="160" cy="51.0" r="5"/><path d="M93 76l7 6 7-6" stroke-width="1.6"/><rect x="30" y="96" width="26" height="26" rx="7.5"/><rect x="68" y="96" width="26" height="26" rx="7.5"/><rect x="106" y="96" width="26" height="26" rx="7.5"/><rect x="144" y="96" width="26" height="26" rx="7.5"/><rect x="30" y="140" width="26" height="26" rx="7.5"/><rect x="68" y="140" width="26" height="26" rx="7.5"/><rect x="106" y="140" width="26" height="26" rx="7.5"/><rect x="144" y="140" width="26" height="26" rx="7.5"/><rect x="30" y="184" width="26" height="26" rx="7.5"/><rect x="68" y="184" width="26" height="26" rx="7.5"/><rect x="106" y="184" width="26" height="26" rx="7.5"/><rect x="144" y="184" width="26" height="26" rx="7.5"/><rect x="30" y="228" width="26" height="26" rx="7.5"/><rect x="68" y="228" width="26" height="26" rx="7.5"/><rect x="106" y="228" width="26" height="26" rx="7.5"/><rect x="144" y="228" width="26" height="26" rx="7.5"/><rect x="22" y="344" width="156" height="46" rx="17"/><rect x="30" y="354.0" width="26" height="26" rx="7.5"/><rect x="68" y="354.0" width="26" height="26" rx="7.5"/><rect x="106" y="354.0" width="26" height="26" rx="7.5"/><rect x="144" y="354.0" width="26" height="26" rx="7.5"/></g></svg></div><figcaption><b>Top of the screen.</b> A stretch on large phones.</figcaption></figure>
+      <figure class="sk-f"><div class="paper"><svg viewBox="0 0 200 410" class="sk" role="img" aria-label="Sketch: floating button"><g fill="none" stroke="#2c2c2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="176" height="398" rx="32"/><rect x="80" y="17" width="40" height="11" rx="5.5"/><rect x="30" y="50" width="26" height="26" rx="7.5"/><rect x="68" y="50" width="26" height="26" rx="7.5"/><rect x="106" y="50" width="26" height="26" rx="7.5"/><rect x="144" y="50" width="26" height="26" rx="7.5"/><rect x="30" y="94" width="26" height="26" rx="7.5"/><rect x="68" y="94" width="26" height="26" rx="7.5"/><rect x="106" y="94" width="26" height="26" rx="7.5"/><rect x="144" y="94" width="26" height="26" rx="7.5"/><rect x="30" y="138" width="26" height="26" rx="7.5"/><rect x="68" y="138" width="26" height="26" rx="7.5"/><rect x="106" y="138" width="26" height="26" rx="7.5"/><rect x="144" y="138" width="26" height="26" rx="7.5"/><rect x="30" y="182" width="26" height="26" rx="7.5"/><rect x="68" y="182" width="26" height="26" rx="7.5"/><rect x="106" y="182" width="26" height="26" rx="7.5"/><rect x="144" y="182" width="26" height="26" rx="7.5"/><circle cx="150" cy="300" r="15"/><path d="M150 293.5C151.43 298.57 151.43 298.57 156.5 300C151.43 301.43 151.43 301.43 150 306.5C148.57 301.43 148.57 301.43 143.5 300C148.57 298.57 148.57 298.57 150 293.5Z"/><rect x="22" y="344" width="156" height="46" rx="17"/><rect x="30" y="354.0" width="26" height="26" rx="7.5"/><rect x="68" y="354.0" width="26" height="26" rx="7.5"/><rect x="106" y="354.0" width="26" height="26" rx="7.5"/><rect x="144" y="354.0" width="26" height="26" rx="7.5"/></g></svg></div><figcaption><b>Floating button.</b> Covers part of the home screen.</figcaption></figure>
+      <figure class="sk-f pick"><div class="paper"><svg viewBox="0 0 200 410" class="sk" role="img" aria-label="Sketch: in the dock"><g fill="none" stroke="#2c2c2e" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="12" y="6" width="176" height="398" rx="32"/><rect x="80" y="17" width="40" height="11" rx="5.5"/><rect x="30" y="50" width="26" height="26" rx="7.5"/><rect x="68" y="50" width="26" height="26" rx="7.5"/><rect x="106" y="50" width="26" height="26" rx="7.5"/><rect x="144" y="50" width="26" height="26" rx="7.5"/><rect x="30" y="94" width="26" height="26" rx="7.5"/><rect x="68" y="94" width="26" height="26" rx="7.5"/><rect x="106" y="94" width="26" height="26" rx="7.5"/><rect x="144" y="94" width="26" height="26" rx="7.5"/><rect x="30" y="138" width="26" height="26" rx="7.5"/><rect x="68" y="138" width="26" height="26" rx="7.5"/><rect x="106" y="138" width="26" height="26" rx="7.5"/><rect x="144" y="138" width="26" height="26" rx="7.5"/><rect x="30" y="182" width="26" height="26" rx="7.5"/><rect x="68" y="182" width="26" height="26" rx="7.5"/><rect x="106" y="182" width="26" height="26" rx="7.5"/><rect x="144" y="182" width="26" height="26" rx="7.5"/><rect x="22" y="314" width="156" height="78" rx="19"/><rect x="32" y="324" width="136" height="20" rx="10.0"/><path d="M44 334.0h40"/><circle cx="156" cy="334.0" r="5"/><rect x="30" y="356" width="26" height="26" rx="7.5"/><rect x="68" y="356" width="26" height="26" rx="7.5"/><rect x="106" y="356" width="26" height="26" rx="7.5"/><rect x="144" y="356" width="26" height="26" rx="7.5"/></g><path class="mk" d="M21.3 336.4C16.4 318.0 67.2 313.2 106.6 313.6C150.8 314.0 185.3 320.8 182.0 334.8C179.5 349.6 132.8 355.2 91.8 354.4C45.9 353.6 16.4 347.2 19.6 331.6C22.1 324.0 42.6 318.4 65.6 316.0" fill="none" stroke="#FF8A3D" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></div><figcaption><b>In the dock.</b> Where your thumb rests. This one won.</figcaption></figure>
+    </div>
     <div class="plc" role="table" aria-label="Four placements compared">
       <div class="plc-r plc-hd" role="row"><span role="columnheader"></span>
-        <span role="columnheader"><i class="pp pp-app"></i>Its own app</span>
-        <span role="columnheader"><i class="pp pp-top"></i>Top of the screen</span>
-        <span role="columnheader"><i class="pp pp-fab"></i>Floating button</span>
-        <span role="columnheader" class="win"><i class="pp pp-dock"></i>In the dock</span></div>
+        <span role="columnheader">Its own app</span>
+        <span role="columnheader">Top of the screen</span>
+        <span role="columnheader">Floating button</span>
+        <span role="columnheader" class="win">In the dock</span></div>
       <div class="plc-r" role="row"><b role="rowheader">Easy to reach one-handed</b><span role="cell"><i class="hv h1"></i>Find and open it first</span><span role="cell"><i class="hv h0"></i>A stretch on large phones</span><span role="cell"><i class="hv h2"></i>Reachable</span><span role="cell" class="win"><i class="hv h2"></i>Where your thumb rests</span></div>
       <div class="plc-r" role="row"><b role="rowheader">Home screen stays as it was</b><span role="cell"><i class="hv h0"></i>You leave it</span><span role="cell"><i class="hv h2"></i>Yes</span><span role="cell"><i class="hv h1"></i>Covers part of it</span><span role="cell" class="win"><i class="hv h2"></i>Yes</span></div>
       <div class="plc-r" role="row"><b role="rowheader">Visible without a gesture</b><span role="cell"><i class="hv h0"></i>No</span><span role="cell"><i class="hv h0"></i>Pull down first</span><span role="cell"><i class="hv h2"></i>Yes</span><span role="cell" class="win"><i class="hv h2"></i>Always</span></div>
@@ -1437,7 +1460,7 @@ button{font:inherit;color:inherit}
         <p>Phone, Messages and Mail never move, so muscle memory keeps working. The fourth slot changes with your day, and a tap on its badge says why it's there.</p>
         <p class="why"><span>Traces back to</span>Fix #2: version 1 let all eight dock apps change.</p></div>
       <div class="tile tD" aria-hidden="true">
-        <span class="t-pill tg">Studio crit at 10:30</span><span class="t-pill tg">Leave by 7:45 for dinner</span>
+        <span class="t-pill tg">Design crit at 10:30</span><span class="t-pill tg">Leave by 7:45 for dinner</span>
         <div class="t-dock tg"><i class="t-ico" style="--a:#5BE07A;--b:#25B448"></i><i class="t-ico" style="--a:#5AA2FF;--b:#1F6BEA"></i><i class="t-ico" style="--a:#9A97FF;--b:#5B56E8"></i><span class="t-slot"><i class="t-ico" style="--a:#FFE07A;--b:#F5B700"></i><i class="t-ico" style="--a:#74E8C0;--b:#1DB894"></i></span></div>
         <span class="t-fix">Fixed, fixed, fixed, and one that adapts</span>
       </div>
@@ -1520,6 +1543,15 @@ button{font:inherit;color:inherit}
         <p><b>Does one moving slot help, or just surprise people?</b>A week-long diary study would show whether people start relying on it or stop looking at it.</p>
         <p><b>Does anyone read the chip?</b>If nobody taps it, trust has to come from somewhere else, like how each card is worded.</p>
         <p><b>Is a preview too slow for close friends?</b>Texting a partner might deserve a faster path than booking a table. Testing would show where that line sits.</p>
+      </div>
+    </div>
+
+    <div class="reflect" id="reflect">
+      <h3>Looking back.</h3>
+      <div class="rf">
+        <div><p class="k">What I learned</p><p class="v">When the platform answers half your question, the work is in the other half.</p></div>
+        <div><p class="k">Where I struggled</p><p class="v">When iOS 27 shipped, I had to critique my own version 1 honestly, and rebuild it.</p></div>
+        <div><p class="k">What I’d do differently</p><p class="v">Design for trust from day one. Version 1 never showed where a request went or what the assistant could see.</p></div>
       </div>
     </div>
   </div>
@@ -1621,10 +1653,10 @@ const ico = k => {
   return `<span class="ico" style="--c1:${a.c[0]};--c2:${a.c[1]}">${inner}</span>`;
 };
 
-const widgetsHTML = t => `<div class="ph-widgets"><${t} class="wdg g wdg-cal" data-app="calendar" aria-label="Calendar"><span class="w-d">Monday</span><span class="w-n">5</span><span class="w-ev"><span class="e" style="--c:#FF7A6B"><b>Studio crit</b><span>10:30 AM</span></span><span class="e" style="--c:#62B0FF"><b>Lunch with Leo</b><span>1:00 PM</span></span></span></${t}><${t} class="wdg g wdg-wx" data-app="weather" aria-label="Weather"><span class="w-c">New York</span><span class="w-t">64°</span>${SV(GL.weather)}<span class="w-s">Partly cloudy</span><span class="w-hl">H:68° L:57°</span></${t}></div>`;
+const widgetsHTML = t => `<div class="ph-widgets"><${t} class="wdg g wdg-cal" data-app="calendar" aria-label="Calendar"><span class="w-d">Monday</span><span class="w-n">5</span><span class="w-ev"><span class="e" style="--c:#FF7A6B"><b>Design crit</b><span>10:30 AM</span></span><span class="e" style="--c:#62B0FF"><b>Lunch with Leo</b><span>1:00 PM</span></span></span></${t}><${t} class="wdg g wdg-wx" data-app="weather" aria-label="Weather"><span class="w-c">New York</span><span class="w-t">64°</span>${SV(GL.weather)}<span class="w-s">Partly cloudy</span><span class="w-hl">H:68° L:57°</span></${t}></div>`;
 const gridHTML = t => `<div class="ph-grid">${GRID.map(k => `<${t} class="gapp" data-app="${k}" aria-label="${APPS[k].l}">${ico(k)}<span class="lbl">${APPS[k].l}</span></${t}>`).join('')}</div>`;
 const BASE_EVENTS = [
-  { o: 1030, tm: '10:30 AM', t: 'Studio crit', s: 'Room 402', c: '#FF7A6B' },
+  { o: 1030, tm: '10:30 AM', t: 'Design crit', s: 'Room 402', c: '#FF7A6B' },
   { o: 1300, tm: '1:00 PM', t: 'Lunch with Leo', s: 'Union Square', c: '#62B0FF' },
   { o: 1800, tm: '6:00 PM', t: 'Gallery opening', s: 'West 24th St', c: '#C7AAFF' }
 ];
@@ -1635,7 +1667,7 @@ const OPTS = [
 ];
 const CONTACTS = { Ana: 'Ruiz', Leo: 'Park', Mom: '' };
 const VOICE = ["What's on my calendar today?", "Text Ana I'm running 10 minutes late", "What's the weather tonight?"];
-const SUGG = ["What's the weather tonight?", "Text Ana I'm running late", 'Plan dinner near Union Square at 8', 'Turn on Do Not Disturb until 6', 'Write a thank-you note to my crit panel'];
+const SUGG = ["What's the weather tonight?", "Text Ana I'm running late", 'Plan dinner near Union Square at 8', 'Turn on Do Not Disturb until 6', 'Write a thank-you note to the team'];
 
 const NOTES = {
   home: { t: 'The bar lives in the dock', b: 'It sits where your thumb already rests. Your apps stay exactly where you put them.', c: 'The assistant lives in the dock, not in an app.' },
@@ -1676,7 +1708,7 @@ const STATUS = `<span class="st-t">9:41</span><span class="st-r"><span class="st
 const ribbon = u => `<svg viewBox="0 0 520 640" aria-hidden="true"><defs><linearGradient id="ra${u}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FFB27A"/><stop offset=".5" stop-color="#FFFFFF" stop-opacity=".9"/><stop offset="1" stop-color="#6E8BFF"/></linearGradient><linearGradient id="rb${u}" x1="1" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8FA8FF"/><stop offset="1" stop-color="#FF8A3D"/></linearGradient><filter id="rf${u}"><feGaussianBlur stdDeviation="2.5"/></filter></defs><g fill="none" stroke-linecap="round" filter="url(#rf${u})"><path d="M40 420C80 250 300 170 400 260S420 520 260 520 120 380 230 300 470 280 480 180" stroke="url(#ra${u})" stroke-width="26" opacity=".55"/><path d="M60 460C140 300 330 230 420 330S380 580 230 560" stroke="url(#rb${u})" stroke-width="10" opacity=".7"/><path d="M90 380C170 260 360 220 430 300" stroke="#fff" stroke-width="3" opacity=".55"/></g></svg>`;
 
 const sentence = s => { s = s.trim(); if (!s) return s; s = s[0].toUpperCase() + s.slice(1); return /[.!?]$/.test(s) ? s : s + '.'; };
-const fresh = () => ({ preview: true, askExt: true, cloud: true, slot: true, ext: 'ChatGPT', ga: 0.3, dnd: false, booked: null, slotApp: 'notes', slotWhy: 'Your crit notes, ready for Studio crit at 10:30.', events: BASE_EVENTS.map(e => ({ ...e })), sent: [], history: [], voiceIdx: 0, lastTo: 'Ana' });
+const fresh = () => ({ preview: true, askExt: true, cloud: true, slot: true, ext: 'ChatGPT', ga: 0.3, dnd: false, booked: null, slotApp: 'notes', slotWhy: 'Your crit notes, ready for Design crit at 10:30.', events: BASE_EVENTS.map(e => ({ ...e })), sent: [], history: [], voiceIdx: 0, lastTo: 'Ana' });
 
 function route(q) {
   const s = q.toLowerCase();
@@ -1948,10 +1980,10 @@ class Phone {
   cardAgenda(q) {
     const evs = [...this.state.events].sort((a, b) => a.o - b.o);
     this.card(`${this.head('Your Monday', 'device')}
-<p class="c-sub">${evs.length} things today. Studio crit is first, in about 50 minutes.</p>
+<p class="c-sub">${evs.length} things today. Design crit is first, in about 50 minutes.</p>
 <div class="rows">${evs.map(e => `<div class="rw ev"><span class="ev-c" style="--c:${e.c}"></span><span class="ev-m"><b>${esc(e.t)}</b><span>${esc(e.s)}</span></span><span class="rt">${e.tm}</span></div>`).join('')}</div>
 <div class="c-acts"><button class="btn sb" data-act="openapp" data-app="calendar">Open Calendar</button></div>`, 'agenda');
-    this.hist(q, `${evs.length} events, starting with Studio crit at 10:30.`, 'device');
+    this.hist(q, `${evs.length} events, starting with Design crit at 10:30.`, 'device');
   }
   cardMessage(q, preset, toPreset) {
     let to = toPreset || 'Ana', body = '';
@@ -2231,8 +2263,8 @@ class Phone {
   }
   mapsHTML() {
     const o = this.state.booked;
-    const dest = o ? o.n : 'Studio, Room 402';
-    const det = o ? `${o.w} min walk. Leave by ${o.leave}.` : '18 min walk. Studio crit at 10:30.';
+    const dest = o ? o.n : 'Office, Room 402';
+    const det = o ? `${o.w} min walk. Leave by ${o.leave}.` : '18 min walk. Design crit at 10:30.';
     return `<div class="ap map-v"><svg viewBox="0 0 393 852" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
 <rect width="393" height="852" fill="#141821"/><rect x="40" y="250" width="150" height="120" rx="8" fill="#1d3a2a"/>
 <g stroke="#232a38" stroke-width="12">${[90, 200, 310, 420, 530, 640, 750].map(y => `<path d="M-20 ${y}H420"/>`).join('')}${[30, 130, 230, 330].map(x => `<path d="M${x} -20V880"/>`).join('')}</g>
@@ -2359,7 +2391,7 @@ const FLOWS = {
   },
   dnd: async p => { await p.ask('Turn on Do Not Disturb until 6'); await p.waitFor('[data-act="dnd"]', 3000); await p.wait(2000); await p.tap('[data-act="dnd"]'); await p.wait(3000); },
   ext: async p => {
-    await p.ask('Write a thank-you note to my crit panel');
+    await p.ask('Write a thank-you note to the team');
     if (await p.waitFor('[data-act="ext"]', 2500)) { await p.wait(2600); await p.tap('[data-act="ext"]'); }
     if (await p.waitFor('.card .chip.ext', 5000)) { await p.wait(2400); await p.tap('.card .chip.ext'); await p.wait(3400); await p.tap('.ph-pop [data-act="popclose"]'); }
     await p.wait(700);

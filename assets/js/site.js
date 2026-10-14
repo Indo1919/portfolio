@@ -297,7 +297,7 @@
   feature("widows", () => {
     const ctx = document.createElement("canvas").getContext("2d");
     if (!ctx) return;
-    $$(".section-lead, .project-intro p, .gcr-card dd, .about-body p, .role-body li, .hiw-note, .pull p").forEach(el => {
+    $$(".section-lead, .seg-lead, .seg-note, .pv-cap, .pv-find, .about-body p, .role-body li, .hiw-note").forEach(el => {
       const walker = document.createTreeWalker(el, NodeFilter.SHOW_TEXT);
       let last = null;
       for (let n = walker.nextNode(); n; n = walker.nextNode()) if (n.nodeValue.trim()) last = n;
@@ -369,6 +369,253 @@
   });
 
   /* ---------------------------------------------------------------- Halo light / dark */
+  /* ---------------------------------------------------------------- project scenes
+     Each project shows one part at a time: Problem, Research, People, Market, Options, Learned (tabs, arrow keys).
+     Without this script the parts simply stack, so nothing is ever hidden for good. */
+  feature("scenes", () => {
+    const scenes = $$(".scene");
+    if (!scenes.length) return;
+    root.classList.add("js-segs");
+    scenes.forEach(sc => {
+      const tabs = $$(".seg-tab", sc), panels = $$(".seg-panel", sc);
+      if (!tabs.length || tabs.length !== panels.length) return;
+      const show = (k, focus) => {
+        tabs.forEach((t, j) => { const on = j === k; t.classList.toggle("is-on", on); t.setAttribute("aria-selected", String(on)); t.tabIndex = on ? 0 : -1; });
+        panels.forEach((p, j) => p.classList.toggle("is-on", j === k));
+        if (focus) tabs[k].focus();
+      };
+      tabs.forEach((t, k) => {
+        t.addEventListener("click", () => show(k));
+        t.addEventListener("keydown", e => {
+          const d = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 }[e.key];
+          if (!d) return;
+          e.preventDefault(); show((k + d + tabs.length) % tabs.length, true);
+        });
+      });
+      const qa = new URLSearchParams(location.search).get("tab"); // QA: ?capture&tab=market opens that part everywhere
+      show(qa ? Math.max(0, tabs.findIndex(t => t.id.endsWith(`-seg-${qa}`))) : 0);
+    });
+  });
+
+  /* ---------------------------------------------------------------- Halo film
+     [data-explainer]: Halo’s own 36-second explainer (from the Halo repo, mirrored in work/halo/film), muted and looping
+     while it's on screen. The six steps under it follow its chapters (data-t, the chapter starts in the explainer's
+     source) and jump to one on click. Pause is always there; reduced motion waits for a click; ?capture keeps the poster. */
+  feature("film", () => {
+    $$("[data-explainer]").forEach(box => {
+      const v = $("video", box), btn = $(".film-toggle", box), steps = $$(".film-step", box);
+      if (!v) return;
+      const T = steps.map(s => +s.dataset.t || 0);
+      let wanted = !reduce.matches && !capture, onScreen = false, raf = 0;
+      const sync = () => {
+        const t = v.currentTime || 0, end = v.duration || 36;
+        let k = 0;
+        T.forEach((a, j) => { if (t >= a) k = j; });
+        if (!v.played.length && !t) k = -1; // the poster isn't step 1: light no step until it plays
+        steps.forEach((s, j) => {
+          const a = T[j], b = j + 1 < T.length ? T[j + 1] : end;
+          s.classList.toggle("is-on", j === k);
+          s.style.setProperty("--p", j < k ? 1 : j > k ? 0 : clamp((t - a) / (b - a)).toFixed(3));
+        });
+      };
+      const loop = () => { sync(); raf = v.paused ? 0 : requestAnimationFrame(loop); };
+      const update = () => {
+        const go = wanted && onScreen && document.visibilityState === "visible";
+        if (go && v.paused) v.play().catch(() => { wanted = false; update(); });
+        else if (!go && !v.paused) v.pause();
+        box.classList.toggle("is-paused", !wanted);
+        if (btn) btn.setAttribute("aria-label", wanted ? "Pause the video" : "Play the video");
+      };
+      const seek = t => {
+        if (v.readyState >= 1) v.currentTime = t;
+        else v.addEventListener("loadedmetadata", () => { v.currentTime = t; }, { once: true });
+      };
+      v.addEventListener("play", () => { if (!raf) raf = requestAnimationFrame(loop); });
+      ["pause", "seeked", "loadedmetadata"].forEach(ev => v.addEventListener(ev, sync));
+      if (btn) btn.addEventListener("click", () => { wanted = !wanted; update(); });
+      steps.forEach((s, j) => s.addEventListener("click", () => { seek(T[j] + 0.05); wanted = true; update(); sync(); }));
+      new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; update(); }, { threshold: 0.35 }).observe(box);
+      document.addEventListener("visibilitychange", update);
+      update();
+      sync();
+      const qa = new URLSearchParams(location.search).get("film-t"); // QA: ?capture&film-t=19.8 holds that moment
+      if (capture && qa !== null) { v.preload = "auto"; seek(+qa || 0); }
+    });
+  });
+
+  /* ---------------------------------------------------------------- callouts
+     .co-layer > .co: a detail callout, like an industrial-design drawing. A thin frame marks the exact element
+     (data-r = "x0 y0 x1 y1", fractions of the target), a hairline runs to a liquid-glass card that shows that
+     element magnified with a margin of the real screen around it (data-z = zoom, default 2, kept between 1.6 and 2.6:
+     readable, never blown up; the card sizes itself to the element, so keep frames compact) with a numbered caption. data-at = "x y" is the card's centre in
+     the same units (outside 0–1 sits beside the product); it's kept inside the frame. data-hd: a sharper copy of the
+     image for the loupe (same framing; make one with "scale": 4 in tools/screenshots.py). data-target: the image it
+     magnifies (a selector inside the scene); without it, the film it sits on (Halo), whose callouts show between
+     data-from and data-to seconds, drawn from the film itself (no second video). The others take turns while their
+     scene is on screen and stop once someone uses the live phone. Only use them on a still screen: an image
+     callout shows the poster, so a live phone that animates on its own (AI Native iOS) gets none. Phones (under
+     700px, site.css) show none. Reduced motion and ?capture show the first one, still (?capture&co=2: the second). */
+  feature("callouts", () => {
+    const layers = $$(".co-layer");
+    if (!layers.length) return;
+    const nums = s => String(s || "").trim().split(/\s+/).map(Number);
+    const groups = layers.map(layer => {
+      const scene = layer.closest(".scene") || layer.parentElement;
+      const stage = layer.closest(".film-stage"), film = stage ? $("video", stage) : null;
+      const cos = $$(".co", layer).map(el => {
+        const d = el.dataset, r = nums(d.r), at = nums(d.at);
+        return { el, target: d.target ? $(d.target, scene) : film, card: $(".co-card", el), lens: $(".co-lens", el),
+          cap: $(".co-cap", el), path: $(".co-line path", el), src: "", r, at, z: +d.z || 2, from: +d.from || 0, to: +d.to || 0 };
+      });
+      return { layer, scene, film, cos };
+    });
+
+    const visible = c => c.target && c.target.offsetWidth > 0 && c.r.length === 4 && c.at.length === 2;
+    // where the line from (ax, ay) towards (bx, by) leaves a box of half-size hw × hh centred on (ax, ay)
+    const exit = (ax, ay, hw, hh, bx, by) => {
+      const dx = bx - ax, dy = by - ay, t = Math.min(hw / (Math.abs(dx) || 1e-6), hh / (Math.abs(dy) || 1e-6));
+      return [ax + dx * t, ay + dy * t];
+    };
+    const px = v => `${v.toFixed(1)}px`;
+
+    function place(g, c) {
+      if (!visible(c)) return false;
+      const lr = g.layer.getBoundingClientRect(), tr = c.target.getBoundingClientRect();
+      if (!lr.width || !tr.width) return false;
+      const k = lr.width / g.layer.offsetWidth || 1; // the card may be scaled while it enters
+      const W = tr.width / k, H = tr.height / k, ox = (tr.left - lr.left) / k, oy = (tr.top - lr.top) / k;
+      const LW = g.layer.offsetWidth, LH = g.layer.offsetHeight, M = 10; // M: breathing room from the frame’s edge
+      const [x0, y0, x1, y1] = c.r;
+      const fx = ox + x0 * W, fy = oy + y0 * H, fw = (x1 - x0) * W, fh = (y1 - y0) * H;
+      c.cap.style.whiteSpace = "nowrap"; // the card is at least as wide as its caption on one line
+      const rg = document.createRange();
+      rg.selectNodeContents(c.cap);
+      const cs = getComputedStyle(c.cap);
+      const ks = c.card.getBoundingClientRect().width / (c.card.offsetWidth || 1) || 1; // the card is scaled down until it opens
+      const natural = rg.getBoundingClientRect().width / ks + parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight);
+      c.cap.style.whiteSpace = "";
+      // The loupe: the element at a steady, readable zoom (data-z, default 2; never under 1.6 unless the frame is too
+      // small to fit it, never over 2.6), with a margin of the real screen around it so it has room to breathe.
+      const I = 8; // the card's inset around the lens
+      let maxW = Math.min(LW - 2 * M, 360, Math.max(240, LW * 0.5)), maxH = Math.min(150, LH * 0.36); // under half the frame
+      // a card placed beside the target (data-at outside 0–1) fits the free space on that side, so it never covers it
+      const G = 12, capH = c.cap.offsetHeight || 36;
+      const wr = (c.target.closest(".window") || c.target).getBoundingClientRect(); // a window's title bar is part of the product
+      const bx0 = (wr.left - lr.left) / k, by0 = (wr.top - lr.top) / k, bx1 = (wr.right - lr.left) / k, by1 = (wr.bottom - lr.top) / k;
+      const roomW = c.at[0] < 0 ? bx0 - M - G : c.at[0] > 1 ? LW - bx1 - M - G : Infinity;
+      const roomH = c.at[1] < 0 ? by0 - M - G - I - capH : c.at[1] > 1 ? LH - by1 - M - G - I - capH : Infinity;
+      if (roomW >= 180) maxW = Math.min(maxW, roomW);
+      if (roomH >= 48) maxH = Math.min(maxH, roomH);
+      const pad = z => Math.round(clamp(fh * z * 0.5, 12, 18)); // context on every side, in lens pixels, dimmed (site.css)
+      let z = clamp(c.z, 1.6, 2.6);
+      for (let n = 0; n < 3; n++) z = Math.min(z, (maxW - 2 * I - 2 * pad(z)) / fw, (maxH - 2 * pad(z)) / fh);
+      const p = pad(z);
+      const cw = Math.round(Math.min(Math.max(fw * z + 2 * p + 2 * I, 156, Math.ceil(natural) + 16), maxW));
+      const lw = cw - 2 * I, lh = Math.round(fh * z + 2 * p); // a wider caption widens the view, not the zoom
+      const st = c.el.style;
+      st.setProperty("--cw", `${cw}px`);
+      st.setProperty("--lw", `${lw}px`);
+      st.setProperty("--lh", `${lh}px`);
+      st.setProperty("--hy", `${p}px`); st.setProperty("--hx", px((lw - fw * z) / 2)); // the element inside the lens
+      if (!c.view) { c.view = document.createElement("span"); c.view.className = "co-view"; c.lens.prepend(c.view); }
+      const ch = c.card.offsetHeight; // lens, caption and inset, at this width
+      let cx = clamp(ox + c.at[0] * W, cw / 2 + M, LW - cw / 2 - M), cy = clamp(oy + c.at[1] * H, ch / 2 + M, LH - ch / 2 - M);
+      if (c.at[0] < 0 && roomW >= 180) cx = Math.min(cx, bx0 - G - cw / 2); else if (c.at[0] > 1 && roomW >= 180) cx = Math.max(cx, bx1 + G + cw / 2);
+      if (c.at[1] < 0 && roomH >= 48) cy = Math.min(cy, by0 - G - ch / 2); else if (c.at[1] > 1 && roomH >= 48) cy = Math.max(cy, by1 + G + ch / 2);
+      const P = 3; // the frame sits just outside the element
+      st.setProperty("--fx", px(fx - P)); st.setProperty("--fy", px(fy - P));
+      st.setProperty("--fw", px(fw + 2 * P)); st.setProperty("--fh", px(fh + 2 * P));
+      st.setProperty("--x", px(cx - cw / 2)); st.setProperty("--y", px(cy - ch / 2));
+      const rcx = fx + fw / 2, rcy = fy + fh / 2;
+      st.setProperty("--dx", px(rcx - cx)); st.setProperty("--dy", px(rcy - cy)); // the card grows out of the frame
+      st.setProperty("--s0", Math.max(0.15, Math.min(1, 1 / z)).toFixed(3)); // at this scale the magnified element matches the frame
+      const apart = Math.abs(rcx - cx) > fw / 2 + P + cw / 2 || Math.abs(rcy - cy) > fh / 2 + P + ch / 2;
+      if (apart) { // hairline from the frame's edge to the card's edge
+        const [ax, ay] = exit(rcx, rcy, fw / 2 + P, fh / 2 + P, cx, cy), [bx, by] = exit(cx, cy, cw / 2, ch / 2, rcx, rcy);
+        c.path.setAttribute("d", `M${ax.toFixed(1)} ${ay.toFixed(1)}L${bx.toFixed(1)} ${by.toFixed(1)}`);
+        st.setProperty("--len", Math.hypot(bx - ax, by - ay).toFixed(1));
+      } else { c.path.setAttribute("d", ""); st.setProperty("--len", "0"); }
+      const sw = W * z, sh = H * z, bx = lw / 2 - (x0 * W + fw / 2) * z, by = lh / 2 - (y0 * H + fh / 2) * z; // magnified, element centred
+      c.box = [(x0 * W + fw / 2 - lw / 2 / z) / W, (y0 * H + fh / 2 - lh / 2 / z) / H, lw / z / W, lh / z / H]; // what the lens shows, as fractions
+      if (c.target.tagName === "VIDEO") { // the film: its frames are drawn into the lens (one decoder, always in step)
+        if (!c.canvas) { c.canvas = document.createElement("canvas"); c.view.appendChild(c.canvas); }
+        const dpr = Math.min(2, window.devicePixelRatio || 1);
+        if (c.canvas.width !== Math.round(lw * dpr) || c.canvas.height !== Math.round(lh * dpr)) { c.canvas.width = Math.round(lw * dpr); c.canvas.height = Math.round(lh * dpr); }
+        draw(c);
+      } else {
+        const src = c.el.dataset.hd || c.target.currentSrc || c.target.src; // data-hd: a sharper copy for the loupe (same framing)
+        if (src && c.src !== src) { c.src = src; c.view.style.backgroundImage = `url("${src}")`; }
+        c.view.style.backgroundSize = `${px(sw)} ${px(sh)}`;
+        c.view.style.backgroundPosition = `${px(bx)} ${px(by)}`;
+      }
+      return true;
+    }
+    function draw(c) { // copy the framed part of the current video frame into the lens
+      const v = c.target, cv = c.canvas;
+      if (!cv || v.readyState < 2 || !v.videoWidth) return;
+      if (!c.box) return;
+      const [vx, vy, vw0, vh0] = c.box, vw = v.videoWidth, vh = v.videoHeight;
+      const ctx = cv.getContext("2d");
+      ctx.imageSmoothingEnabled = true; ctx.imageSmoothingQuality = "high"; // the film has more pixels than the lens shows: scale down cleanly
+      // the view can reach past the film's edge: draw only the part inside it, in proportion
+      const sx = Math.max(0, vx), sy = Math.max(0, vy), ex = Math.min(1, vx + vw0), ey = Math.min(1, vy + vh0);
+      if (ex <= sx || ey <= sy) return;
+      const kx = cv.width / vw0, ky = cv.height / vh0;
+      ctx.fillStyle = "#f7f7f5"; ctx.fillRect(0, 0, cv.width, cv.height);
+      try { ctx.drawImage(v, sx * vw, sy * vh, (ex - sx) * vw, (ey - sy) * vh, (sx - vx) * kx, (sy - vy) * ky, (ex - sx) * kx, (ey - sy) * ky); } catch { /* not ready */ }
+    }
+    function set(g, c, on) {
+      if (on === !!c.on) return;
+      if (on && !place(g, c)) return;
+      c.on = on;
+      c.el.classList.toggle("is-on", on);
+    }
+    const replace = () => groups.forEach(g => g.cos.forEach(c => { if (c.on) place(g, c); }));
+    onFrame.push(replace);
+    onResize.push(replace);
+    const still = reduce.matches || capture;
+    const pick = Math.max(0, (+new URLSearchParams(location.search).get("co") || 1) - 1);
+
+    groups.forEach(g => {
+      if (g.film) { // Halo: each callout belongs to a moment in the film
+        const v = g.film;
+        let looping = false;
+        const frame = () => { // redraw the open lens on every new frame while it plays
+          const c = g.cos.find(x => x.on);
+          if (!c || v.paused) { looping = false; return; }
+          draw(c);
+          if (v.requestVideoFrameCallback) v.requestVideoFrameCallback(frame); else requestAnimationFrame(frame);
+        };
+        const tick = () => {
+          const t = v.currentTime || 0;
+          g.cos.forEach(c => set(g, c, t >= c.from && t < c.to));
+          const c = g.cos.find(x => x.on);
+          if (c) draw(c);
+          if (c && !v.paused && !looping) { looping = true; frame(); }
+        };
+        ["timeupdate", "seeked", "loadeddata", "play"].forEach(ev => v.addEventListener(ev, tick));
+        return;
+      }
+      // everyone else: one callout at a time, in turn, while the scene is on screen
+      const box = $(".scene-visual", g.scene) || g.layer.parentElement;
+      let i = -1, timer = 0, onScreen = false, used = false; // once someone has used the live phone, its screen may no longer match
+      const busy = () => used || !!$(".device-live.is-active", g.scene);
+      const hideAll = () => g.cos.forEach(c => set(g, c, false));
+      const run = () => {
+        clearTimeout(timer);
+        const list = g.cos.filter(visible);
+        if (!onScreen || busy() || document.visibilityState !== "visible" || !list.length) { hideAll(); return; }
+        if (still) { set(g, list[Math.min(pick, list.length - 1)], true); return; }
+        hideAll();
+        i = (i + 1) % list.length;
+        timer = setTimeout(() => { set(g, list[i], true); timer = setTimeout(run, 5200); }, 900);
+      };
+      new IntersectionObserver(([e]) => { onScreen = e.isIntersecting; run(); }, { threshold: 0.45 }).observe(box);
+      document.addEventListener("visibilitychange", run);
+      $$(".device-activate", g.scene).forEach(b => b.addEventListener("click", () => { used = true; run(); }));
+    });
+  });
+
   feature("halo-theme", () => {
     const btns = $$("[data-halo-theme]");
     btns.forEach(btn => btn.addEventListener("click", () => {
@@ -645,7 +892,7 @@
     const TRAVEL = 800, NEXT = 3600;
     const LAG = 450; // AI follows: its line trails mine by this much, then pings the move
     const readTime = s => Math.max(1700, Math.min(3000, 500 + [s.label, s.text].join(" ").split(/\s+/).length * 125))
-      + (s.why || s.ai || s.out.length ? 500 : 0);
+      + (s.why || s.ai ? 500 : 0);
     const glide = x => x < 0.5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2; // ease in and out
     const still = () => reduce.matches || capture;
     const txt = (el, s) => { const n = el && $(s, el); return n ? n.textContent.trim() : ""; };
@@ -699,7 +946,7 @@
     // svg scaffolding
     svg.innerHTML =
       `<defs><linearGradient id="hiw-grad" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="1000" y2="0">` +
-      `<stop offset="0" stop-color="#FF7A1A"/><stop offset=".38" stop-color="#FF2E6A"/><stop offset=".7" stop-color="#A35BFF"/><stop offset="1" stop-color="#2F7BFF"/></linearGradient>` +
+      `<stop offset="0" stop-color="#CECBF7"/><stop offset=".38" stop-color="#AEA6F0"/><stop offset=".7" stop-color="#8F81E5"/><stop offset="1" stop-color="#705DC8"/></linearGradient>` +
       `<marker id="hiw-arrow" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M2 1.5 7 5 2 8.5" fill="none" stroke="#f5f5f7" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker>` +
       `<marker id="hiw-arrow-turn" viewBox="0 0 10 10" refX="6.5" refY="5" markerWidth="8" markerHeight="8" markerUnits="userSpaceOnUse" orient="auto"><path d="M2 1.5 7 5 2 8.5" fill="none" stroke="#FF2E6A" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></marker>` +
       `</defs><g class="hiw-ring-g"></g><g class="hiw-edges"></g><g class="hiw-ai-edges"></g>` +
@@ -930,8 +1177,7 @@
       if (!s) return "";
       const info = moveInfo(s.move);
       const more = (s.why ? `<p class="hiw-d-why"><b>Why</b><span>${esc(s.why)}</span></p>` : "") +
-        duo(s.me || info.me, s.ai, noAi(info.isAi)) +
-        (s.out.length ? `<div class="hiw-d-out"><b>Output</b>${chips(s.out, s.eng)}</div>` : "");
+        duo(s.me || info.me, s.ai, noAi(info.isAi)); // outputs wait for the route's summary: one idea at a time
       return `<div class="hiw-d hiw-c">${progress(s.i)}` +
         `<p class="hiw-d-meta"><span class="hiw-d-move">${iconOf(s.move)}${esc(nameOf(s.move))}</span>${s.turn ? `<span class="hiw-c-turn">${esc(s.turn)}</span>` : ""}</p>` +
         `<h4 class="hiw-d-title">${esc(s.label)}</h4><p class="hiw-d-text">${esc(s.text)}</p>` +
@@ -941,7 +1187,7 @@
       const rt = routes[r], next = routes[(r + 1) % routes.length];
       return `<div class="hiw-d hiw-c"><p class="hiw-d-meta"><span class="hiw-d-move">${esc(rt.label)}</span><span class="hiw-d-n">${plural(rt.steps.length, "step", "steps")} · ${plural(rt.turns, "loop", "loops")} back · ${rt.ais ? `AI in ${rt.ais}` : "no AI"}</span></p>` +
         `<h4 class="hiw-d-title hiw-sum-title">${esc(rt.title)}</h4>` +
-        `${rt.outputs.length ? `<div class="hiw-d-out"><b>What it produced</b>${chips(rt.outputs, rt.steps.some(s => s.eng))}</div>` : ""}` +
+        `${rt.outputs.length ? `<div class="hiw-d-out"><b>What it produced</b>${chips(rt.outputs.slice(-6), rt.steps.some(s => s.eng))}</div>` : ""}` + // the last six: what shipped
         duo(rt.lead || "I lead: who to ask, what’s true and what ships.", rt.ais ? rt.follow || "AI follows with patterns, options, critiques, code and renders." : "", rt.follow || "No AI on this route.") +
         `<div class="hiw-end"><button type="button" class="btn btn-light btn-sm hiw-nextroute hiw-upnext"><i aria-hidden="true"></i><span>Up next: ${esc(next.label)}</span> ${svgUse("i-arrow")}</button>` +
         `<button type="button" class="btn btn-text hiw-restart">${svgUse("i-replay")}Walk through again</button></div></div>`;

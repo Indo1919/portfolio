@@ -18,9 +18,12 @@
         "brand/favicon/**",
         "brand/social/**",
         "film/*.mp4",
-        "film/*.jpg"
+        "film/*.jpg",
+        "case-study.html",
+        "case-study/*.jpg"
       ],
-      "inject": ["index.html"],
+      "inject": ["index.html", "case-study.html"],
+      "page": "case-study.html",
       "shots": [
         { "from_repo": "docs/screenshots/home.png", "out": "halo-home.jpg" },
         { "from_repo": "docs/screenshots/home-dark.png", "out": "halo-home-dark.jpg" },
@@ -42,11 +45,24 @@
           "page": "prototype.html",
           "needs": ["innerWidth<=560", "header class=\"top\"", "id=\"devWrap\"", "class=\"sbar\"", "class=\"cam\"", "class=\"gest\"", "body.frameless .tb"],
           "homepage": "data-embed=\"android-app\""
+        },
+        {
+          "what": "the homepage phone opens on Home, which its callouts point at (?start=home in prototype.html)",
+          "page": "prototype.html",
+          "needs": ["get('start')==='home'"],
+          "homepage": "prototype.html?start=home"
         }
       ],
       "shots": [
         { "page": "index.html", "out": "arriba-hero.jpg" },
-        { "page": "index.html", "out": "arriba-phone.jpg", "crop": [2060, 246, 600, 1348] }
+        {
+          "page": "prototype.html", "query": "?start=home", "frame": [390, 844], "embed": "android-app", "wait": 3000,
+          "out": "arriba-phone.jpg"
+        },
+        {
+          "page": "prototype.html", "query": "?start=home", "frame": [390, 844], "embed": "android-app", "wait": 3000, "scale": 4,
+          "max": 2700, "out": "arriba-phone-hd.jpg"
+        }
       ]
     },
     {

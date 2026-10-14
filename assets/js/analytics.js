@@ -20,7 +20,8 @@
      portfolio_bar_click action, project          the bar at the bottom of a case study
      process_explore     action, project, move    "How I work": action = project | step | move | replay | next | back |
                                                   next_route | restart
-     process_complete    project                  walked a route to its last step */
+     process_complete    project                  walked a route to its last step
+     project_segment     project, section         opened a part of a project scene: problem | research | people | market | options | learned */
 (() => {
   const ID = "G-CXQW1Q5LL0";
 
@@ -120,6 +121,7 @@
       return;
     }
 
+    if (el.classList.contains("seg-tab")) return send("project_segment", { project: projectOf(el), section: (el.id.split("-seg-")[1] || "") });
     if (/Resume\.pdf/i.test(href)) return send("resume_download", { link_location: where });
     if (href.startsWith("mailto:")) return send("contact_click", { method: "email", link_location: where });
     if (el.hasAttribute("data-copy")) return send("contact_click", { method: "email_copy", link_location: where });

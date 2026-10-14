@@ -828,7 +828,7 @@ const PAGE = {
   heroLede:["A co-designed mobile platform bringing safety, clarity and opportunity to Peru’s domestic workers.","Una plataforma móvil co-diseñada que lleva seguridad, claridad y oportunidades a las personas trabajadoras del hogar del Perú."],
   heroCta:["Try the prototype","Probar el prototipo"], heroCta2:["Read the story","Leer la historia"],
   heroName:["“¡Arriba Perú!” is shouted before soccer games to rally the country. Here it’s an expression of love for the people who hold Peruvian homes together.","“¡Arriba Perú!” se grita antes de los partidos para alentar al país. Aquí es una expresión de amor por las personas que sostienen los hogares peruanos."],
-  heroCredit:["Matias Indacochea, Syracuse University capstone, 2026","Matias Indacochea, proyecto final en Syracuse University, 2026"],
+  heroCredit:["Designed by Matias Indacochea, 2025–26","Diseñado por Matias Indacochea, 2025–26"],
   filmPause:["Pause","Pausar"], filmPlay:["Play","Reproducir"],
   storyH:["Essential work, behind closed doors.","Trabajo esencial, a puertas cerradas."],
   storyP1:["An estimated 420,000 to 500,000 people do domestic work in Peru. Most are women, and many migrated to Lima from the Andean highlands. Jobs are found by word of mouth or by knocking on doors. Each one starts from zero: no information about the household, no record of how past workers were treated, and no clear way to ask for help.","Se estima que entre 420,000 y 500,000 personas hacen trabajo del hogar en el Perú. La mayoría son mujeres, y muchas migraron a Lima desde la sierra. Los trabajos se consiguen de boca en boca o tocando puertas. Cada uno empieza de cero: sin información del hogar, sin registro de cómo trataron a quienes trabajaron antes y sin una forma clara de pedir ayuda."],
@@ -1599,6 +1599,8 @@ const phoneOf = (id, p = {}) => phoneShell(staticScreen(id, p), SCR[id].sb);
 </script>
 <script>
 const STORY_URL='index.html';
+// ?start=home opens on Home, already signed in: the portfolio's phone shows the product, not the sign-up
+const START=new URLSearchParams(location.search).get('start')==='home'?'home':'splash';
 const K={story:["The story","La historia"],flows:["Try a flow","Prueba un recorrido"],why:["Why it works this way","Por qué funciona así"]};
 const FLOWS=[['onb',["Sign up","Registrarse"],'user'],['jobs',["Find a safe job","Buscar trabajo seguro"],'brief'],['edu',["Know your rights","Conocer tus derechos"],'book'],['wallet',["Track every sol","Controlar cada sol"],'wallet'],['tuts',["Learn by video","Aprender con videos"],'video'],['help',["Get help, quietly","Pedir ayuda en silencio"],'shield'],['lock',["A check-in on the lock screen","Un mensaje en la pantalla bloqueada"],'bell'],['rate',["An anonymous rating","Una opinión anónima"],'heart']];
 const FOF={splash:'onb',lang:'onb',phone:'onb',code:'onb',dni:'onb',yape:'onb',yapeAcct:'onb',pin:'onb',welcome:'onb',login:'onb',jobs:'jobs',job:'jobs',apps:'jobs',edu:'edu',cat:'edu',topic:'edu',rw:'edu',vocab:'edu',traps:'edu',practice:'edu',report:'help',sos:'help',wallet:'wallet',walletFam:'wallet',tuts:'tuts',player:'tuts',lock:'lock'};
@@ -1620,7 +1622,7 @@ document.addEventListener('DOMContentLoaded',()=>{
   $('#screen').addEventListener('click',e=>{const t=e.target.closest('[data-go],[data-act]');if(!t)return;if(t.dataset.act){const f=ACT[t.dataset.act];f&&f(t.dataset.arg,t,e);return;}if(t.dataset.go){closeOvSilent();go(t.dataset.go,t.dataset.p?JSON.parse(t.dataset.p):{});}});
   $('#screen').addEventListener('keydown',e=>{if((e.key==='Enter'||e.key===' ')&&e.target.matches('.jcard')){e.preventDefault();e.target.click();}if(e.key==='Escape')closeOv();});
   document.addEventListener('click',e=>{const lb=e.target.closest('.seg button');if(lb&&!$('#screen').contains(lb)){setLang(lb.dataset.lang);return;}const fb=e.target.closest('[data-flow]');if(fb){flow(fb.dataset.flow);}});
-  addEventListener('resize',fit);fit();setLang(L);show('splash',{},'none');});
+  addEventListener('resize',fit);fit();setLang(L);show(START,{},'none');});
 </script>
 </body>
 </html>

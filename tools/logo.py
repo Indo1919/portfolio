@@ -19,7 +19,7 @@ Run:  python3 tools/logo.py   → writes assets/logo/*.svg
 
 from pathlib import Path
 
-STOPS = [(0, "#FF7A1A"), (0.4, "#FF2E6A"), (0.72, "#A35BFF"), (1, "#2F7BFF")]
+STOPS = [(0, "#CECBF7"), (0.4, "#AEA6F0"), (0.72, "#8F81E5"), (1, "#705DC8")]  # signature violet, light to deep
 R = 16  # shoulder radius (centerline)
 
 SIZES = {

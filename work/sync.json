@@ -1,8 +1,8 @@
 {
   "halo": {
     "repo": "Indo1919/Halo",
-    "commit": "edc29009b530449c63da1389afa46124504711a7",
-    "synced_at": "2026-10-06T08:05:22+00:00",
+    "commit": "3e865cd7611d53a5e27bf6a30a3d89446e3674da",
+    "synced_at": "2026-10-14T22:06:26+00:00",
     "files": {
       "LICENSE": "ee1065e7989c3f19",
       "assets/fonts/Geist-Variable-latin-ext.woff2": "58a6b173d5ca1dec",
@@ -28,13 +28,19 @@
       "brand/social/og-image.png": "83a916176701a2d2",
       "brand/social/social-avatar-400.png": "432c14742763c787",
       "brand/social/social-banner-1500x500.png": "7fc55242aa839527",
+      "case-study/digest.jpg": "b04d382365737785",
+      "case-study/home-dark.jpg": "dd032aeee4612e04",
+      "case-study/home.jpg": "f7c150c4347bff75",
+      "case-study/recap.jpg": "04d525391e239acd",
+      "case-study/voice.jpg": "ce945e3a395ae52d",
+      "case-study.html": "6373244b4e7a38a5",
       "film/halo-explainer-loop.mp4": "6f19571056c294cb",
       "film/halo-explainer-poster.jpg": "d169ba83707bbed8",
       "film/halo-film-poster.jpg": "e71c071a8912fc83",
       "film/halo-launch-15s-vertical.mp4": "ca16f77b42115496",
       "film/halo-launch-film.mp4": "0f7d754e6488f737",
       "halo.config.js": "8cda3971a3089302",
-      "index.html": "6d62711fb108a800",
+      "index.html": "8df01b7bb07aefcc",
       "manifest.webmanifest": "6bd529e3f37abb94"
     },
     "facts": {
@@ -68,13 +74,19 @@
         "brand/social/og-image.png": "83a916176701a2d2",
         "brand/social/social-avatar-400.png": "432c14742763c787",
         "brand/social/social-banner-1500x500.png": "7fc55242aa839527",
+        "case-study/digest.jpg": "b04d382365737785",
+        "case-study/home-dark.jpg": "dd032aeee4612e04",
+        "case-study/home.jpg": "f7c150c4347bff75",
+        "case-study/recap.jpg": "04d525391e239acd",
+        "case-study/voice.jpg": "ce945e3a395ae52d",
+        "case-study.html": "6373244b4e7a38a5",
         "film/halo-explainer-loop.mp4": "6f19571056c294cb",
         "film/halo-explainer-poster.jpg": "d169ba83707bbed8",
         "film/halo-film-poster.jpg": "e71c071a8912fc83",
         "film/halo-launch-15s-vertical.mp4": "ca16f77b42115496",
         "film/halo-launch-film.mp4": "0f7d754e6488f737",
         "halo.config.js": "8cda3971a3089302",
-        "index.html": "6d62711fb108a800",
+        "index.html": "8df01b7bb07aefcc",
         "manifest.webmanifest": "6bd529e3f37abb94"
       },
       "facts": {
@@ -86,11 +98,11 @@
   },
   "arriba-peru": {
     "repo": "Indo1919/Arriba-Peru",
-    "commit": "a68cb69016a9f174e1d396fca3caeb16dc4f8524",
-    "synced_at": "2026-10-06T08:05:22+00:00",
+    "commit": "3980ccc149433a8aa9455407f0a315ec03b902e3",
+    "synced_at": "2026-10-14T22:06:27+00:00",
     "files": {
-      "index.html": "89c6223cc906f436",
-      "prototype.html": "e772e9679738daf1"
+      "index.html": "ce8efab75e78011b",
+      "prototype.html": "2d6da0a8c5727c83"
     },
     "facts": {
       "title": "Arriba Perú — Safer work, clearer rights",
@@ -99,8 +111,8 @@
     },
     "reviewed": {
       "files": {
-        "index.html": "89c6223cc906f436",
-        "prototype.html": "e772e9679738daf1"
+        "index.html": "ce8efab75e78011b",
+        "prototype.html": "2d6da0a8c5727c83"
       },
       "facts": {
         "title": "Arriba Perú — Safer work, clearer rights",
@@ -111,47 +123,47 @@
   },
   "ai-native-ios": {
     "repo": "Indo1919/AI-Native-IOS",
-    "commit": "b33208736834095f7634c90cfe5aa024d4ea0f43",
-    "synced_at": "2026-10-06T08:05:22+00:00",
+    "commit": "a76756260f8705a416fd2c7353904999319e32ae",
+    "synced_at": "2026-10-14T22:06:27+00:00",
     "files": {
-      "index.html": "f3ec826f24008659"
+      "index.html": "bb56a4b85ea1c25f"
     },
     "facts": {
       "title": "AI Native iOS",
       "description": "A speculative iOS 27 concept by Matias Indacochea: the assistant moves into the dock, answers land on the home screen, and nothing acts without a preview.",
-      "text": "0bca5680540fb1b1"
+      "text": "e162b1728a647f2e"
     },
     "reviewed": {
       "files": {
-        "index.html": "f3ec826f24008659"
+        "index.html": "bb56a4b85ea1c25f"
       },
       "facts": {
         "title": "AI Native iOS",
         "description": "A speculative iOS 27 concept by Matias Indacochea: the assistant moves into the dock, answers land on the home screen, and nothing acts without a preview.",
-        "text": "0bca5680540fb1b1"
+        "text": "e162b1728a647f2e"
       }
     }
   },
   "scowtt": {
     "repo": "Indo1919/Scowtt",
-    "commit": "e30e2eca0473bb53b026fd229555dbfc5e5559d1",
-    "synced_at": "2026-10-06T08:07:17+00:00",
+    "commit": "b7a851c4f4206a40ed30d2cd1480e10a4ad61194",
+    "synced_at": "2026-10-14T22:06:28+00:00",
     "files": {
-      "index.html": "37f913de94469cda"
+      "index.html": "2a22b1281f2eb724"
     },
     "facts": {
       "title": "Scowtt, by Matias Indacochea",
       "description": "How I designed Scowtt's colors, original website and product interface, from the first logo directions to a working app.",
-      "text": "1c8cfe95d939bb41"
+      "text": "0569246862dae955"
     },
     "reviewed": {
       "files": {
-        "index.html": "37f913de94469cda"
+        "index.html": "2a22b1281f2eb724"
       },
       "facts": {
         "title": "Scowtt, by Matias Indacochea",
         "description": "How I designed Scowtt's colors, original website and product interface, from the first logo directions to a working app.",
-        "text": "1c8cfe95d939bb41"
+        "text": "0569246862dae955"
       }
     }
   }

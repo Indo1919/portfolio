@@ -13,10 +13,10 @@
 
   const ga = document.createElement("script"); // Google Analytics, same as the homepage
   ga.async = true;
-  ga.src = new URL("assets/js/analytics.js?v=20261009a", base).href;
+  ga.src = new URL("assets/js/analytics.js?v=20261013a", base).href;
   document.head.appendChild(ga);
 
-  const MARK = '<svg class="mark" viewBox="0 -31.04 112.5 95.04" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#FF7A1A"/><stop offset=".4" stop-color="#FF2E6A"/><stop offset=".72" stop-color="#A35BFF"/><stop offset="1" stop-color="#2F7BFF"/></linearGradient></defs><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#g)"/></svg>';
+  const MARK = '<svg class="mark" viewBox="0 -31.04 112.5 95.04" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CECBF7"/><stop offset=".4" stop-color="#AEA6F0"/><stop offset=".72" stop-color="#8F81E5"/><stop offset="1" stop-color="#705DC8"/></linearGradient></defs><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#g)"/></svg>';
   const ICON = {
     back: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19 12H6M11 6l-6 6 6 6"/></svg>',
     prev: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M15 6l-6 6 6 6"/></svg>',
@@ -114,7 +114,7 @@
       const n = projects.length;
       const cur = projects[i], prev = projects[(i - 1 + n) % n], next = projects[(i + 1) % n]; // wraps around
       home.href = `${base.href}#${cur.anchor}`;
-      const url = p => `${base.href}work/${p.slug}/`;
+      const url = p => `${base.href}work/${p.slug}/${p.page || ""}`; // page: a project's case study when its folder opens on the app
       const step = (p, dir) => p
         ? `<a class="step" href="${url(p)}" aria-label="${dir === "prev" ? "Previous" : "Next"} project: ${p.name}" title="${p.name}">${ICON[dir]}</a>`
         : `<a class="step" aria-disabled="true" aria-hidden="true">${ICON[dir]}</a>`;

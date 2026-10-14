@@ -44,7 +44,7 @@ too, and won't publish while it fails (the last good version stays live).
 | `assets/js/site.js` | Nav (active section, sliding indicator, light/dark tone), showcase, scroll motion, live preview sheet, demos. Reads project data from `data-*` attributes in the markup, so content edits are HTML-only |
 | `assets/js/analytics.js` | Google Analytics 4: the measurement ID and every custom event (see Analytics below) |
 | `assets/js/return.js` | The bar injected into every case study: "Back to portfolio", prev/next, all-projects menu. Reads `projects.json` |
-| `assets/data/projects.json` | Project registry: slug, name, anchor, accent, repo, files to mirror, pages to inject, screenshot recipes |
+| `assets/data/projects.json` | Project registry: slug, name, anchor, accent, repo, files to mirror, pages to inject, screenshot recipes, and `page` when a project's folder opens on its app rather than its case study (Halo: `case-study.html`; the case-study bar and the homepage links use it) |
 | `work/<slug>/` | Mirrored case studies. `work/sync.json` records commits, file fingerprints and review state |
 | `brand/index.html` | Identity guidelines for the "mi" mark |
 | `assets/logo/` | Mark, icons, favicons, lockups. SVGs come from `tools/logo.py` |
@@ -63,6 +63,8 @@ python3 tools/sync.py --check         # shows [review] if the homepage summary m
 For a `[review]` item: read the updated page in `work/<slug>/`, update that project's text in
 `index.html` (its `.stage-item` in `#projects` and its `<article>` in `#work`), refresh images with
 `python3 tools/screenshots.py <slug>`, look at the images, then `python3 tools/sync.py --mark-reviewed <slug>`.
+`--only <file>` renders one image. Images are only ever scaled down (upscaling blurs): for more detail, give the shot
+a `"scale"` (default 2) and a crop at that scale.
 Once the site is on GitHub, the workflow does the sync part on its own; the review part still needs you.
 
 ### Change the domain
@@ -76,18 +78,62 @@ Edit `index.html` directly. Each project appears in two places: its row in the `
 The whole panel is clickable: `data-href` on `.project-card` is where it goes (keep it equal to the
 "View case study" link). Clicks on links, buttons, the live phone or anything with `data-no-card` are ignored.
 
-### Add a project
-```bash
-python3 tools/new_project.py <slug> --name "Name" --repo Indo1919/<Repo> --accent "#RRGGBB"
-```
-It adds the registry entry, mirrors the repo, takes the screenshot, and inserts the preview image, list row
-and case-study panel into `index.html` with `TODO` placeholders. Then:
-1. Replace every `TODO` with copy from the project's own page / résumé / notes (never invented).
-2. Fix every count `check.py` lists ("Four projects", the meta description, the About mark text, `tools/og.html`),
-   then re-render the share image.
-3. Optional: a live phone (see Design system) or a richer media composition like the other four.
-4. `python3 tools/check.py` must pass; `python3 tools/review.py` and look at every width.
-The project list and stat counter adapt to any number of projects on their own.
+Each project is a **scene** (`article.project.scene`), about one screen tall (Jibril's feedback, 2026-10-13: the old
+panels were information overload; then a study of how NN/g, Apple, Stripe and Linear guide the eye):
+- `.scene-visual`: the product only, with the project's color glowing behind it (the one focal point). Sides
+  alternate down the page (even scenes flip) so the eye zig-zags visual → words → next visual.
+  Halo's visual is Halo's own 36-second explainer (`[data-explainer]`, feature "film": `work/halo/film/halo-explainer-loop.mp4`,
+  muted, looping while on screen, with a pause button), and six steps under it (Reads, Writes, Sizes, Waits, Answers,
+  Plans) that follow its chapters and jump on click. Matias asked for it (2026-10-13): it's the best showcase of
+  what Halo does. The `data-t` chapter starts come from `CH` in the Halo repo's `src/js/screens/explainer.js`; if the
+  explainer is re-cut, update them and the callout times.
+- **Callouts** (`.co-layer > .co`, feature "callouts"): a detail drawing (Matias's ask: industrial-design callout,
+  liquid glass). A thin accent frame marks the exact element, a hairline runs to a dark glass card with that element
+  magnified in an inset loupe and a numbered caption.
+  - **What they point at** (Matias, 2026-10-14: "not the most important thing"): each callout is one core idea of the
+    product, as its case study names it, on the small detail that proves it. The caption says why it matters to the
+    user, not what the film already narrates. Halo (the case study's "Four ideas you can see on screen"): the Redacted chip
+    ("Private topics stay out"), the trust dial ("You decide what it shares"), "Drafted by Halo from this meeting"
+    ("The ticket writes itself"). Arriba Perú (its home screen): "S/ 100 owed to you" ("Flags unpaid wages"), "What is
+    fair pay? · Audio version" ("Rights, read out loud"). Scowtt (the rebuilt console): the first booked meeting ("The AI
+    books the meeting"), "Invalid leads removed 38" ("Reps only see real leads"). Fewer is better: an idea the film
+    already shows plainly (altitude, colleagues asking) gets no callout, and none goes where its card would cover content.
+  - **The loupe** (Matias: too zoomed in, no breathing room, text too small): the element at a steady zoom (`data-z`,
+    default 2, kept 1.6–2.6) with a margin of the real screen around it, gently dimmed with a feathered edge so the element
+    is the one thing in focus. The card sizes itself (under half the frame, at most 360px). Aim for loupe text of at least
+    ~11px at 1440: Scowtt's screenshot is drawn small, so its callouts ask for `data-z` 2.3–2.6; keep frames compact
+    (about a quarter of the target's width at most) or the zoom can't fit.
+  - **Placement**: `data-r="x0 y0 x1 y1"` is the element as fractions of the target (whole words or whole chips, never
+    half a line), `data-at="x y"` the card's centre in the same units. Outside 0–1 puts the card beside the product, and
+    it then shrinks to the free space on that side (measured from the whole `.window` or phone), so it never covers it.
+    Arriba's cards sit left of the phone; Scowtt's sit above its windows (there is no room below).
+  - Halo's follow the film (`data-from`/`data-to` seconds: each holds 3–4s on an element that stays put the whole time)
+    and are drawn from the film itself into a canvas: never add a second `<video>` of the same file (two decoders froze
+    the main one in testing). Element positions come from the explainer's own timeline (`src/js/screens/explainer.js` in
+    the Halo repo: seek it in the app and measure in canvas units, 1080x608, which are the film's fractions).
+    The others take turns while their scene is on screen. An image callout shows the poster (or a sharper `data-hd` copy:
+    `arriba-phone-hd.jpg`, a 4x render), so a live phone must open on the same screen as its poster: Arriba's iframe loads
+    `prototype.html?start=home` and its posters are rendered from that page in a 390x844 frame (`"frame"` shots in
+    `tools/screenshots.py`). A live phone that animates on its own gets none (AI Native iOS); they stop once someone uses
+    a phone, and phones under 700px show none. Captions: 2–5 words, facts from the case study.
+  - QA: `?capture&film-t=19.8` holds the film; `?capture&co=2` shows a scene's second callout; headless Chrome can't
+    decode video, so check film callouts in the browser preview. Check 1440, 1024 and the pane's own width: no card over
+    its frame or the product, loupe text readable.
+- `.scene-copy`: kicker, title, tagline, `.scene-meta` (role · result, lead with the outcome), then six tabs
+  (feature "scenes"), the case-study pillars Jibril and Matias asked for, each a picture first and a sentence at most:
+  **Problem** (`.seg-lead` with one `<mark>`, a highlighter on the words to read first, framed as what the system
+  gets wrong; then Why), **Research** (`.pv-stats` numbers, method chips, `.pv-find` the one finding), **People**
+  (who it's for and what they need), **Market** (what exists and where this one stands: `.pv-rows`, `.pv-vs`,
+  `.pv-compare2`), **Options** (what I tried and what won: `.pv-modes`, `.pv-pairs`, `.pv-matrix`, `.pv-logos`; the
+  chosen one is `.is-this`) and **Learned** (the learning, Where I struggled, What I'd do differently). One part
+  shows at a time; without the script they stack; on phones and tablets (stacked) each part takes its own height. Two buttons max.
+  Plain words over jargon; cut before you add. Fills behind white text use `--accent-solid` (4.5:1 for every color).
+- Color has a job (60-30-10): a neutral canvas; each scene is its project's color world (`--accent`, `--tint`):
+  the glow, the active tab, the mark, the bullets; the brand gradient only marks entry points (eyebrows, hero
+  "AI-fluent.", the logo dot, "what's next.") and the numbers each take the color of the project they prove.
+- After the four scenes: Samantha Ly's LinkedIn recommendation (`.testimonial`), quoted word for word, linked to
+  his LinkedIn recommendations. Her full text is on his LinkedIn (June 17, 2026); don't paraphrase it.
+- GA: opening a part sends `project_segment` (project, section = problem | research | people | market | options | learned).
 
 ### Edit "How I work" (`#how-i-work`, the Process section)
 Six moves on a ring (Listen, Frame, Build, Stress-test, Decide, Ship) and one route per tab: "My approach"
@@ -169,7 +215,7 @@ by hostname if needed). `assets/js/analytics.js` is the only place with the ID. 
 - **Events:** `resume_download`, `contact_click` (method), `case_study_open`, `project_jump`, `project_preview`,
   `live_preview_open`, `prototype_tap`, `film_play`, `section_view` (section), `portfolio_bar_click` (action,
   destination), `process_explore` (action: project, step, move, replay, next, back, next_route, restart; project; move) and
-  `process_complete` (project; watched a whole route play). Parameters `project`, `link_location`, `method`,
+  `process_complete` (project; watched a whole route play) and `project_segment` (project, section: one of the six scene parts). Parameters `project`, `link_location`, `method`,
   `section`, `action`, `destination` are registered custom dimensions; `move` still needs one (Admin > Custom
   definitions) once How I work is live. A new parameter needs a new custom dimension.
 - **GA settings already made:** key events `resume_download` and `contact_click` (once per session, no value);
@@ -211,9 +257,18 @@ What a visitor sees never depends on everything working:
 ## Design system
 
 - Tokens in `site.css :root`: `--bg #000`, light sections `--l-bg #f5f5f7`, text `--text #f5f5f7`,
-  `--text-2 #a1a1a6`, `--text-3 #6e6e73`, link `#2997ff` (dark) / `#0066cc` (light), radii 36/26/18/12,
-  easing `--ease`. The gradient `--grad` (orange → pink → violet → blue) is the only accent; it comes from
-  the four projects and is also the logo's dot.
+  `--text-2 #a1a1a6`, `--text-3 #6e6e73`, radii 36/26/18/12, easing `--ease`.
+- **Brand color: one signature violet** (Matias chose it, 2026-10-13, so the brand is recognizable). `--b1..--b4`
+  are its four tints, light to deep: Mist `#CECBF7`, Lilac `#AEA6F0`, Violet `#8F81E5` (the signature), Deep `#705DC8`.
+  `--grad` blends them. Links are violet too (`--link #B7B2F2` on dark, `--link-light #5C4AAC` on light). Violet
+  never appears in a project, so it stays apart from the four project colors (Halo orange, Arriba red, AI Native iOS
+  blue, Scowtt taupe). AI's color in How I work is silver (`--ai`, `--ai-deep`) so AI never reads as the brand.
+  Color always has a job: violet marks entry points (eyebrows, "AI-fluent.", "what's next.", the logo dot,
+  capability icons, my line in How I work); each project scene is its own color world; each number wears the
+  color of the project it proves. To change the brand, edit `STOPS` in `tools/logo.py`, the `--b*` tokens, and
+  re-render the PNGs (icons, lockups, `assets/img/og-image.png`) from `tools/icons.html`, `lockup.html`, `og.html`.
+- Breathing room over density: one idea per section, no paragraph where a sentence works, and cut before adding.
+  Step cards in How I work show title, line, why and Me/AI; outputs wait for the route's summary (last six).
 - Type: system SF Pro with Inter fallback, tight tracking (-0.03 to -0.055em on display sizes).
 - Type details: headings use `text-wrap: balance`, body copy `pretty`, and the `widows` feature in `site.js` keeps the
   last two words of leads and card copy together. `optical-titles` pulls each project title left by its first letter's
@@ -228,8 +283,9 @@ What a visitor sees never depends on everything working:
   `#heroMount .phone`). The page loads at `data-viewport` (1440x900), the script measures that element and scales
   the page so only it shows; `data-embed="lock-scroll"` stops the page behind it from scrolling. If the case
   study's hero is redesigned, check the selector still matches. Tap-to-use works the same as Arriba's.
-- The project list (`.stage-list`) and the "case studies" stat (`data-count="projects"`) adapt to any
-  number of projects; with five or more the list hides taglines to fit.
+- "Selected work" (`#projects`): the preview window and project list in the first screen. Matias likes the previews
+  (2026-10-13: a compact link-only row was tried and rolled back); keep them. The list and the "case studies" stat
+  (`data-count="projects"`) adapt to any number of projects; with five or more the list hides taglines to fit.
 - Reusable pieces: `.btn` (`-light`, `-glass`, `-dark`, `-text`, `-sm`), `.chip`, `.eyebrow`,
   `.section-head`/`.section-title`/`.section-lead`, `.window` (+ `.window-bar`, `.lights`, `.window-url`),
   `.float-card`, `.seg`, `.gcr` (Goal/Challenge/Result), `.meta`, `.reveal` (fade-up on scroll).

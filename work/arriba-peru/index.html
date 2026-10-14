@@ -542,6 +542,29 @@ a{color:inherit}
 @media (max-width:900px){.g-stats{grid-template-columns:1fr}.g-made{grid-template-columns:1fr 1fr}.g-stat{min-height:180px}}
 @media (max-width:520px){.g-quote{grid-template-columns:1fr}}
 
+/* the gap, the choices, looking back */
+.g-vs{margin-top:32px;border-radius:40px;background:var(--surface2);padding:28px;display:grid;gap:12px}
+.g-vs-h,.g-vs-r{display:grid;grid-template-columns:minmax(0,1fr) 56px minmax(0,1.2fr);gap:12px;align-items:center}
+.g-vs-h span{font-size:14px;font-weight:600;color:var(--muted);padding:0 6px}
+.g-vs-h span:last-child{color:var(--p2)}
+.g-vs-r s,.g-vs-r b{display:flex;align-items:center;min-height:64px;padding:14px 20px;border-radius:24px;font-size:18px;line-height:1.3}
+.g-vs-r s{background:var(--surface);color:var(--muted);font-weight:500;text-decoration-color:var(--p2);text-decoration-thickness:2px}
+.g-vs-r b{background:#8E1E1C;color:#fff;font-weight:600}
+.g-vs-r i{justify-self:center;width:40px;height:40px}
+.g-choose{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;margin-top:32px}
+.g-choose>div{border-radius:32px;background:var(--surface2);padding:26px 26px 28px;display:flex;flex-direction:column;gap:14px}
+.g-choose .was{align-self:flex-start;display:inline-flex;gap:6px;padding:7px 14px;border-radius:999px;background:var(--surface);font-size:14px;color:var(--muted)}
+.g-choose .was span:last-child{text-decoration:line-through;text-decoration-color:var(--p2);text-decoration-thickness:1.5px}
+.g-choose h3{margin:0;font-size:24px;line-height:1.2;letter-spacing:-.02em;font-weight:600}
+.g-choose p{margin:0;font-size:16.5px;line-height:1.45;color:var(--muted)}
+.g-back{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:32px}
+.g-back div{border-radius:32px;padding:26px;background:var(--surface2);display:flex;flex-direction:column;gap:12px;min-height:200px}
+.g-back div:first-child{background:#8E1E1C;color:#fff}
+.g-back small{font-size:14px;font-weight:600;color:var(--muted)}
+.g-back div:first-child small{color:rgba(255,255,255,.75)}
+.g-back p{margin:0;font-size:20px;line-height:1.32;font-weight:500;letter-spacing:-.015em}
+@media (max-width:900px){.g-choose,.g-back{grid-template-columns:1fr}.g-back div{min-height:0}.g-vs{padding:18px;border-radius:32px}.g-vs-h,.g-vs-r{grid-template-columns:1fr;gap:6px}.g-vs-h{display:none}.g-vs-r i{transform:rotate(90deg);width:28px;height:28px}.g-vs-r{margin-bottom:10px}.g-vs-r s,.g-vs-r b{min-height:0;font-size:16.5px}}
+
 /* closing */
 .g-end{border-radius:48px;background:#8E1E1C var(--patw) 0 0/700px auto;color:#fff;padding:72px 32px;text-align:center;position:relative;overflow:hidden}
 .g-end h2{font-size:clamp(48px,7vw,104px);font-weight:500;letter-spacing:-.045em;line-height:1;margin:18px 0 14px}
@@ -609,6 +632,35 @@ a{color:inherit}
     <h2 class="g-h2 rv" data-g="madeH"></h2>
     <div class="g-made" id="made"></div>
     <div class="g-quote rv"><span id="qshape"></span><div><blockquote data-pg="quote"></blockquote><p data-g="quoteBy"></p></div></div>
+  </div></section>
+
+  <section class="g-sec"><div class="g-wrap">
+    <h2 class="g-h2 rv" data-g="gapH"></h2><p class="g-p rv" data-g="gapP"></p>
+    <div class="g-vs rv">
+      <div class="g-vs-h"><span data-g="gapA"></span><span></span><span data-g="gapB"></span></div>
+      <div class="g-vs-r"><s data-g="gap1a"></s><i class="g-vs-ar"></i><b data-g="gap1b"></b></div>
+      <div class="g-vs-r"><s data-g="gap2a"></s><i class="g-vs-ar"></i><b data-g="gap2b"></b></div>
+      <div class="g-vs-r"><s data-g="gap3a"></s><i class="g-vs-ar"></i><b data-g="gap3b"></b></div>
+    </div>
+  </div></section>
+
+  <section class="g-sec"><div class="g-wrap">
+    <h2 class="g-h2 rv" data-g="chH"></h2><p class="g-p rv" data-g="chP"></p>
+    <div class="g-choose">
+      <div class="rv"><span class="was"><span data-g="instead"></span> <span data-g="ch1w"></span></span><h3 data-g="ch1h"></h3><p data-g="ch1p"></p></div>
+      <div class="rv"><span class="was"><span data-g="instead"></span> <span data-g="ch2w"></span></span><h3 data-g="ch2h"></h3><p data-g="ch2p"></p></div>
+      <div class="rv"><span class="was"><span data-g="instead"></span> <span data-g="ch3w"></span></span><h3 data-g="ch3h"></h3><p data-g="ch3p"></p></div>
+      <div class="rv"><span class="was"><span data-g="instead"></span> <span data-g="ch4w"></span></span><h3 data-g="ch4h"></h3><p data-g="ch4p"></p></div>
+    </div>
+  </div></section>
+
+  <section class="g-sec"><div class="g-wrap">
+    <h2 class="g-h2 rv" data-g="lbH"></h2>
+    <div class="g-back">
+      <div class="rv"><small data-g="lb1k"></small><p data-g="lb1"></p></div>
+      <div class="rv"><small data-g="lb2k"></small><p data-g="lb2"></p></div>
+      <div class="rv"><small data-g="lb3k"></small><p data-g="lb3"></p></div>
+    </div>
   </div></section>
 
   <section class="g-sec" style="padding-top:24px"><div class="g-wrap">
@@ -1029,7 +1081,7 @@ const PAGE = {
   heroLede:["A co-designed mobile platform bringing safety, clarity and opportunity to Peru’s domestic workers.","Una plataforma móvil co-diseñada que lleva seguridad, claridad y oportunidades a las personas trabajadoras del hogar del Perú."],
   heroCta:["Try the prototype","Probar el prototipo"], heroCta2:["Read the story","Leer la historia"],
   heroName:["“¡Arriba Perú!” is shouted before soccer games to rally the country. Here it’s an expression of love for the people who hold Peruvian homes together.","“¡Arriba Perú!” se grita antes de los partidos para alentar al país. Aquí es una expresión de amor por las personas que sostienen los hogares peruanos."],
-  heroCredit:["Matias Indacochea, Syracuse University capstone, 2026","Matias Indacochea, proyecto final en Syracuse University, 2026"],
+  heroCredit:["Designed by Matias Indacochea, 2025–26","Diseñado por Matias Indacochea, 2025–26"],
   filmPause:["Pause","Pausar"], filmPlay:["Play","Reproducir"],
   storyH:["Essential work, behind closed doors.","Trabajo esencial, a puertas cerradas."],
   storyP1:["An estimated 420,000 to 500,000 people do domestic work in Peru. Most are women, and many migrated to Lima from the Andean highlands. Jobs are found by word of mouth or by knocking on doors. Each one starts from zero: no information about the household, no record of how past workers were treated, and no clear way to ask for help.","Se estima que entre 420,000 y 500,000 personas hacen trabajo del hogar en el Perú. La mayoría son mujeres, y muchas migraron a Lima desde la sierra. Los trabajos se consiguen de boca en boca o tocando puertas. Cada uno empieza de cero: sin información del hogar, sin registro de cómo trataron a quienes trabajaron antes y sin una forma clara de pedir ayuda."],
@@ -1819,10 +1871,27 @@ const G = {
   doorsH:["From {n} offices to six doors.","De {n} oficinas a seis puertas."], doorsP:["The rules already exist. The app makes them usable.","Las normas ya existen. La app las vuelve útiles."],
   s1:["domestic workers in Peru, most of them women","personas trabajadoras del hogar en el Perú, la mayoría mujeres"], s2:["domestic workers in Lima co-designed every screen","personas trabajadoras del hogar en Lima co-diseñaron cada pantalla"], s3:["of workers own or regularly use a phone","de las personas trabajadoras tiene o usa un celular"],
   madeH:["Made with the people it serves.","Hecho con las personas a quienes sirve."],
+  gapH:["Gig apps assume what workers don’t have.","Las apps de trabajo dan por sentado lo que no tienen."],
+  gapP:["Existing apps expect smartphone fluency, banking and a feed of jobs. In Lima’s domestic work, those don’t hold.","Las apps actuales esperan que sepas usar bien el celular, tengas cuenta bancaria y busques en una lista de trabajos. En el trabajo del hogar en Lima, eso no se cumple."],
+  gapA:["Gig apps assume","Las apps de trabajo suponen"], gapB:["Arriba Perú builds on","Arriba Perú parte de"],
+  gap1a:["Smartphone fluency","Saber usar bien el celular"], gap1b:["Voice first, every screen read aloud","Voz primero, cada pantalla se lee en voz alta"],
+  gap2a:["A bank account","Una cuenta bancaria"], gap2b:["Yape and cash, in one place","Yape y efectivo, en un solo lugar"],
+  gap3a:["A job feed first","Una lista de trabajos primero"], gap3b:["The worker’s own profile first","Primero, su propio perfil"],
+  chH:["What we chose, and what we didn’t.","Lo que elegimos, y lo que no."],
+  chP:["Each choice came out of the co-design sessions.","Cada decisión salió de las sesiones de co-diseño."],
+  instead:["Instead of","En lugar de"],
+  ch1w:["a job feed","una lista de trabajos"], ch1h:["Home is the worker’s own profile.","El inicio es su propio perfil."], ch1p:["Workers wanted to control how they’re presented before families see them.","Querían decidir cómo presentarse antes de que las familias las vean."],
+  ch2w:["typed forms","formularios escritos"], ch2h:["Sign up by voice.","Registro con la voz."], ch2p:["Text felt like a school test. Voice felt like storytelling.","Escribir se sentía como un examen del colegio. Hablar, como contar una historia."],
+  ch3w:["a footer","un pie de página"], ch3h:["Rights sit next to payments.","Los derechos van junto a los pagos."], ch3p:["Participants insisted. Their decision, not mine.","Las participantes insistieron. Fue su decisión, no la mía."],
+  ch4w:["every feature at once","todo a la vez"], ch4h:["Four tools at launch.","Cuatro herramientas al inicio."], ch4p:["On purpose, so people who distrust new apps aren’t overwhelmed.","A propósito, para no abrumar a quienes desconfían de las apps nuevas."],
+  lbH:["Looking back.","Mirando atrás."],
+  lb1k:["What I learned","Lo que aprendí"], lb1:["How I ran the research was a design decision in itself.","Cómo hice la investigación fue, en sí, una decisión de diseño."],
+  lb2k:["Where I struggled","Dónde me costó"], lb2:["No budget to travel to Lima, so I ran six weeks of research remotely.","Sin presupuesto para viajar a Lima, hice seis semanas de investigación a distancia."],
+  lb3k:["What I’d do differently","Qué haría distinto"], lb3:["Partner with an NGO from day one, and print an explainer for people without smartphones.","Aliarme con una ONG desde el primer día e imprimir una guía para quienes no tienen smartphone."],
   me1:["WhatsApp video calls","Videollamadas por WhatsApp"], me2:["Voice-note diaries","Diarios en notas de voz"], me3:["An anthropologist’s guidance","Guía de una antropóloga"], me4:["Sketches sent back by video","Bocetos de vuelta por video"],
   quoteBy:["Insight from my conversation with Dr. María Amalia Pesantes, medical anthropologist.","Idea de mi conversación con la Dra. María Amalia Pesantes, antropóloga médica."],
   endP:["An expression of love for the country, built with and for the people it serves.","Una expresión de amor por el país, hecha con y para las personas a quienes sirve."],
-  credit:["Matias Indacochea · Syracuse University, Industrial & Interaction Design capstone, 2026","Matias Indacochea · Syracuse University, proyecto final de Diseño Industrial e Interacción, 2026"],
+  credit:["Designed by Matias Indacochea, 2025–26","Diseñado por Matias Indacochea, 2025–26"],
   pause:["Pause","Pausar"], play:["Play","Reproducir"], full:["Full screen","Pantalla completa"], scene:["Scene","Escena"],
   // film
   fKick:["A co-designed platform for Peru’s domestic workers","Una plataforma co-diseñada para las personas trabajadoras del hogar del Perú"],
@@ -1938,6 +2007,7 @@ function buildPage() {
   $('#maze').innerHTML = MAZE.map(m => `<div>${m}</div>`).join('');
   $('#six').innerHTML = Object.keys(EDU).map(k => `<div style="background:${EDU[k].bg}">${shp(CATSHAPE[k], 'rgba(255,255,255,.7)', EDU[k].ink, 44, EDU[k].icon, 20)}${tr(EDU[k].t)}</div>`).join('');
   $('#arrow').innerHTML = shp('circle', '#8E1E1C', '#fff', 72, 'arrowR', 32);
+  $$('.g-vs-ar').forEach(el => el.innerHTML = shp('circle', '#8E1E1C', '#fff', 40, 'arrowR', 18));
   $('#made').innerHTML = [['video', 'me1', '#FFDAD5', '#5C0E0B', 'cookie9'], ['mic', 'me2', '#FFDCC2', '#3A1C00', 'circle'], ['users', 'me3', '#D6E6FA', '#1F4E85', 'flower'], ['pencil', 'me4', '#CDEFD3', '#0F4D1F', 'clover']].map(m => `<div class="rv">${shp(m[4], m[2], m[3], 64, m[0], 28)}${g(m[1])}</div>`).join('');
   $('#qshape').innerHTML = logo(72);
   $$('.js-cond').forEach(el => el.innerHTML = logo(40));

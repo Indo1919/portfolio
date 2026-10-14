@@ -186,10 +186,11 @@ def check_registry():
         slugs.add(s)
         if f'id="{p["anchor"]}"' not in index:
             fail("registry", f"{p['name']}: no case-study panel with id=\"{p['anchor']}\" in index.html")
-        if f'data-path="work/{s}/"' not in index:
-            fail("registry", f"{p['name']}: no row in the at-a-glance list (data-path=\"work/{s}/\")")
-        if f'data-href="work/{s}/"' not in index:
-            warn("registry", f"{p['name']}: its panel isn't clickable as a whole (data-href=\"work/{s}/\")")
+        home = f"work/{s}/{p.get('page', '')}"  # "page": the case study when the folder opens on the app (Halo)
+        if f'data-path="{home}"' not in index:
+            fail("registry", f"{p['name']}: no row in the at-a-glance list (data-path=\"{home}\")")
+        if f'data-href="{home}"' not in index:
+            warn("registry", f"{p['name']}: its panel isn't clickable as a whole (data-href=\"{home}\")")
         page = ROOT / "work" / s / p["inject"][0]
         if not page.exists():
             fail("registry", f"{p['name']}: work/{s}/{p['inject'][0]} is missing. Run python3 tools/sync.py {s}")
@@ -197,12 +198,12 @@ def check_registry():
             if not (ROOT / "assets/img" / shot["out"]).exists():
                 fail("registry", f"{p['name']}: assets/img/{shot['out']} is missing. Run python3 tools/screenshots.py {s}")
     # order on the homepage follows the registry
-    listed = re.findall(r'data-path="work/([^/"]+)/"', index)
+    listed = re.findall(r'data-path="work/([^/"]+)/[^"]*"', index)
     if [s for s in listed if s in slugs] != [p["slug"] for p in projects if p["slug"] in listed]:
         warn("registry", "the at-a-glance list isn't in the same order as projects.json")
     for s in sorted(set(listed) - slugs):
         fail("registry", f"work/{s}/ is on the homepage but not in projects.json")
-    panels = len(re.findall(r'<article class="project"', index))
+    panels = len(re.findall(r'<article class="project[ "]', index))
     if panels != len(projects):
         fail("registry", f"{panels} case-study panels on the homepage but {len(projects)} projects in projects.json")
     return projects

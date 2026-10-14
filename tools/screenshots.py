@@ -12,10 +12,14 @@ Each project's "shots" in assets/data/projects.json says what to capture:
       screenshot the page's first screen at 1440x900, 2x
   {"page": ..., "section": "product", "css": "...", "crop": [x, y, w, h], "out": ...}
       start the screenshot at the element with that id, add CSS for the capture only
-      (hide a header, tighten padding), then crop (pixels at 2x)
+      (hide a header, tighten padding), then crop (pixels at 2x, or at "scale" when set: a callout that magnifies an image needs a 4x copy)
   "wait": 5000
       milliseconds of page time before the capture, for animated pages
       (the same number always lands on the same moment)
+  {"page": "prototype.html", "query": "?start=home", "frame": [390, 844], "embed": "android-app", "out": ...}
+      a live phone's poster: the page inside an iframe of exactly that size (the size the homepage phone gives it),
+      with the same presentation CSS the homepage injects (EMBED_CSS[embed] in site.js), so the still and the live
+      phone line up and callouts drawn on the still frame the same words. Cropped to the frame automatically.
 
 Images land in assets/img/ as JPEG. Run tools/sync.py first so work/ is current.
 Needs Google Chrome and sips (macOS). Look at the results before publishing.
@@ -23,6 +27,7 @@ Needs Google Chrome and sips (macOS). Look at the results before publishing.
 
 import argparse
 import json
+import re
 import subprocess
 import sys
 import tempfile
@@ -35,9 +40,34 @@ IMG = ROOT / "assets" / "img"
 WORK = ROOT / "work"
 
 
+def embed_css(key):
+    """The presentation CSS the homepage injects into a live phone (EMBED_CSS in site.js)."""
+    js = (ROOT / "assets" / "js" / "site.js").read_text(encoding="utf-8")
+    m = re.search(r'"%s":\s*`([^`]*)`' % re.escape(key), js)
+    if not m:
+        raise SystemExit(f"EMBED_CSS[{key!r}] isn't in assets/js/site.js")
+    return m.group(1)
+
+
 def capture_page(slug, shot, port, tmp):
     """Screenshot a temporary copy of the page (same folder, so relative paths work) without the portfolio bar."""
     page = WORK / slug / shot["page"]
+    if shot.get("frame"):  # a phone-sized iframe around the real page, styled the way the homepage phone styles it
+        w, h = shot["frame"]
+        css = json.dumps(embed_css(shot["embed"]) if shot.get("embed") else "")
+        html = (f'<!doctype html><meta charset="utf-8"><style>html,body{{margin:0;background:#000}}'
+                f'iframe{{display:block;border:0;margin:8px;width:{w}px;height:{h}px}}</style>'  # 8px in: sips ignores a zero crop offset
+                f'<iframe src="{shot["page"]}{shot.get("query", "")}"></iframe><script>var f=document.querySelector("iframe");'
+                f'f.addEventListener("load",function(){{var d=f.contentDocument,s=d.createElement("style");s.textContent={css};d.head.appendChild(s);}});</script>')
+        temp = page.with_name(f".shot-{shot['out']}.html")
+        temp.write_text(html, encoding="utf-8")
+        out = Path(tmp) / (shot["out"] + ".png")
+        try:
+            chrome(["--window-size=1440,900", f"--force-device-scale-factor={shot.get('scale', 2)}", f"--virtual-time-budget={shot.get('wait', 7000)}",
+                    f"--screenshot={out}", f"http://127.0.0.1:{port}/work/{slug}/{temp.name}"], out=out)
+        finally:
+            temp.unlink(missing_ok=True)
+        return out if out.exists() else None
     html = page.read_text(encoding="utf-8").replace('<script src="../../assets/js/return.js" defer></script>', "")
     extra = ""
     if shot.get("css"):
@@ -51,7 +81,7 @@ def capture_page(slug, shot, port, tmp):
     temp.write_text(html.replace("</head>", extra + "</head>", 1), encoding="utf-8")
     out = Path(tmp) / (shot["out"] + ".png")
     try:
-        chrome(["--window-size=1440,900", "--force-device-scale-factor=2", f"--virtual-time-budget={shot.get('wait', 7000)}",
+        chrome(["--window-size=1440,900", f"--force-device-scale-factor={shot.get('scale', 2)}", f"--virtual-time-budget={shot.get('wait', 7000)}",
                 f"--screenshot={out}", f"http://127.0.0.1:{port}/work/{slug}/{temp.name}"], out=out)
     finally:
         temp.unlink(missing_ok=True)
@@ -69,19 +99,25 @@ def from_repo(repo, branch, rel, tmp):
 
 def finish(png, shot):
     """Crop (optional), convert to JPEG and size for the web."""
-    if shot.get("crop"):
-        x, y, w, h = shot["crop"]
+    k = shot.get("scale", 2)
+    crop = shot.get("crop") or (shot.get("frame") and [8 * k, 8 * k, shot["frame"][0] * k, shot["frame"][1] * k])
+    if crop:
+        x, y, w, h = crop
         subprocess.run(["sips", "-c", str(h), str(w), "--cropOffset", str(y), str(x), str(png),
                         "--out", str(png)], capture_output=True, check=True)
     out = IMG / shot["out"]
-    subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "82", "-Z", str(shot.get("max", 2000)),
-                    str(png), "--out", str(out)], capture_output=True, check=True)
+    dims = subprocess.run(["sips", "-g", "pixelWidth", "-g", "pixelHeight", str(png)], capture_output=True, text=True).stdout.split()
+    longest = max(int(v) for v in dims if v.isdigit())
+    size = ["-Z", str(shot.get("max", 2000))] if longest > shot.get("max", 2000) else []  # only ever scale down: upscaling just blurs
+    subprocess.run(["sips", "-s", "format", "jpeg", "-s", "formatOptions", "82", *size, str(png), "--out", str(out)],
+                   capture_output=True, check=True)
     return out
 
 
 def main():
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("slugs", nargs="*")
+    ap.add_argument("--only", help="render just this output file (e.g. arriba-phone-hd.jpg)")
     args = ap.parse_args()
     projects = json.loads(REGISTRY.read_text())["projects"]
     if args.slugs:
@@ -93,6 +129,8 @@ def main():
         for p in projects:
             with tempfile.TemporaryDirectory(prefix="portfolio-shots-") as tmp:
                 for shot in p.get("shots", []):
+                    if args.only and shot["out"] != args.only:
+                        continue
                     if "from_repo" in shot:
                         src = from_repo(p["repo"], p.get("branch", "main"), shot["from_repo"], tmp)
                         png = Path(tmp) / (shot["out"] + ".png")
