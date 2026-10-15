@@ -6,6 +6,14 @@ compatibility_date = "2026-09-01"
 [ai]
 binding = "AI"
 
+# Per-visitor rate limit across Cloudflare's network (the worker falls back to a simple counter without it)
+[[ratelimits]]
+name = "LIMITER"
+namespace_id = "1001"
+[ratelimits.simple]
+limit = 10
+period = 60
+
 [vars]
 # Sites allowed to call the chat (comma separated, exact origins, no trailing slash).
 ALLOWED_ORIGINS = "https://matiasindacochea.com,https://www.matiasindacochea.com,https://indo1919.github.io,http://localhost:4321,http://localhost:4330"
