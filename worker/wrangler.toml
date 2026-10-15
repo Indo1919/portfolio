@@ -1,0 +1,15 @@
+name = "matias-ai"
+main = "src/index.js"
+compatibility_date = "2026-09-01"
+
+# Cloudflare's own models: no API key needed. (Remove to use only Claude.)
+[ai]
+binding = "AI"
+
+[vars]
+# Sites allowed to call the chat (comma separated, exact origins, no trailing slash).
+ALLOWED_ORIGINS = "https://matiasindacochea.com,https://www.matiasindacochea.com,https://indo1919.github.io,http://localhost:4321,http://localhost:4330"
+RATE_PER_MIN = "10"
+
+# Optional, for Claude instead of Workers AI (a secret, never a var):
+#   npx wrangler secret put ANTHROPIC_API_KEY
