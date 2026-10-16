@@ -123,10 +123,10 @@
   },
   "ai-native-ios": {
     "repo": "Indo1919/AI-Native-IOS",
-    "commit": "a76756260f8705a416fd2c7353904999319e32ae",
-    "synced_at": "2026-10-14T22:06:27+00:00",
+    "commit": "8371df4679617c0865cc78af1999cbbc2265c295",
+    "synced_at": "2026-10-16T20:55:34+00:00",
     "files": {
-      "index.html": "bb56a4b85ea1c25f"
+      "index.html": "b57c5c5718f096f0"
     },
     "facts": {
       "title": "AI Native iOS",
@@ -135,7 +135,7 @@
     },
     "reviewed": {
       "files": {
-        "index.html": "bb56a4b85ea1c25f"
+        "index.html": "b57c5c5718f096f0"
       },
       "facts": {
         "title": "AI Native iOS",
@@ -146,24 +146,24 @@
   },
   "scowtt": {
     "repo": "Indo1919/Scowtt",
-    "commit": "b7a851c4f4206a40ed30d2cd1480e10a4ad61194",
-    "synced_at": "2026-10-14T22:06:28+00:00",
+    "commit": "eaca57ae056b6ccfdccf5759d691cbac78325fdc",
+    "synced_at": "2026-10-16T20:55:35+00:00",
     "files": {
-      "index.html": "2a22b1281f2eb724"
+      "index.html": "ec31a7bdd63a4630"
     },
     "facts": {
       "title": "Scowtt, by Matias Indacochea",
       "description": "How I designed Scowtt's colors, original website and product interface, from the first logo directions to a working app.",
-      "text": "0569246862dae955"
+      "text": "a52fab9484a0f890"
     },
     "reviewed": {
       "files": {
-        "index.html": "2a22b1281f2eb724"
+        "index.html": "ec31a7bdd63a4630"
       },
       "facts": {
         "title": "Scowtt, by Matias Indacochea",
         "description": "How I designed Scowtt's colors, original website and product interface, from the first logo directions to a working app.",
-        "text": "0569246862dae955"
+        "text": "a52fab9484a0f890"
       }
     }
   }

@@ -73,6 +73,18 @@ button{font:inherit;color:inherit}
 .cta svg{width:15px;height:15px}
 .hero-dev{display:flex;flex-direction:column;align-items:center;width:100%}
 .cap{min-height:52px;margin:22px 0 0;font-size:16px;line-height:1.4;color:#C7C7CC;text-align:center;max-width:32ch;transition:opacity .35s}
+/* the hero plays the film on a loop: its chapter above the phone, progress and a pause button under it */
+.hero-chap{min-height:26px;margin:0 0 16px;font-size:18px;font-weight:600;letter-spacing:-.015em;color:#F5F5F7;text-align:center;text-wrap:balance;transition:opacity .3s}
+.hero-chap.fade{opacity:0}
+.hero-film{display:flex;align-items:center;gap:14px;margin-top:18px}
+.hero-dots{display:flex;gap:6px}
+.hero-dots i{display:block;width:20px;height:3px;border-radius:2px;background:rgba(255,255,255,.16);transition:background .35s}
+.hero-dots i.done{background:rgba(255,255,255,.45)}
+.hero-dots i.cur{background:#fff}
+.hero-pause{display:grid;place-items:center;width:30px;height:30px;padding:0;border:0;border-radius:50%;background:rgba(255,255,255,.1);color:#fff;cursor:pointer;transition:background .2s}
+.hero-pause:hover{background:rgba(255,255,255,.18)}
+.hero-pause svg{width:12px;height:12px}
+.hero-film+.cap{margin-top:12px}
 .cap.fade{opacity:0}
 @media (max-width:880px){
   .hero-in{grid-template-columns:1fr;gap:40px;padding-top:48px}
@@ -1160,7 +1172,9 @@ button{font:inherit;color:inherit}
       </div>
     </div>
     <div class="hero-dev">
+      <p class="hero-chap" id="heroChap" aria-live="polite"></p>
       <div class="mount" id="heroMount"></div>
+      <div class="hero-film"><span class="hero-dots" id="heroDots" aria-hidden="true"></span><button class="hero-pause" id="heroPause" type="button" aria-label="Pause the film"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z" fill="currentColor"/></svg></button></div>
       <p class="cap" id="heroCap" aria-live="polite"></p>
     </div>
   </div>
@@ -2494,7 +2508,7 @@ const filmEl = $('#film');
 
 function fitOne(p, box, h) { const w = box.clientWidth || 417; p.fit(Math.max(0.4, Math.min(w / 417, h / 876, 1))); }
 function fitAll() {
-  fitOne(hero, heroMount, Math.min(innerHeight * 0.78, 740));
+  fitOne(hero, heroMount, Math.min(innerHeight * 0.7, 700));
   fitOne(proto, protoMount, Math.min(innerHeight - 110, 820));
   if (!filmEl.hidden) { const fs = $('.film-stage', filmEl); fitOne(filmP, fs, Math.max(300, fs.clientHeight - 90)); }
 }
@@ -2513,16 +2527,35 @@ const visIO = new IntersectionObserver(es => es.forEach(e => {
 const heroCap = $('#heroCap');
 hero.on('note', k => { if (k === 'thinking') return; const n = NOTES[k]; if (!n || !n.c || heroCap.textContent === n.c) return; heroCap.classList.add('fade'); setTimeout(() => { heroCap.textContent = n.c; heroCap.classList.remove('fade'); }, 250); });
 heroCap.textContent = NOTES.home.c;
+// the hero plays the film (FILM, below) on a loop: each chapter's title above the phone, then its flow
+const heroChap = $('#heroChap'), heroDots = $('#heroDots'), heroPause = $('#heroPause');
+let heroHeld = false; // someone pressed pause: it stays paused until they press play
+function heroChapter(i, t) {
+  if (heroChap.textContent !== t) { heroChap.classList.add('fade'); setTimeout(() => { heroChap.textContent = t; heroChap.classList.remove('fade'); }, 300); }
+  $$('i', heroDots).forEach((el, j) => { el.className = j < i ? 'done' : j === i ? 'cur' : ''; });
+}
 async function heroLoop(p) {
+  const chapters = FILM.filter(st => st.title && !st.end);
+  if (heroDots.children.length !== chapters.length) heroDots.innerHTML = chapters.map(() => '<i></i>').join('');
   for (;;) {
-    await p.wait(1600);
-    await FLOWS.weather(p); p.goHomeAll(); await p.wait(800);
-    await FLOWS.message(p); p.goHomeAll(); await p.wait(800);
-    await FLOWS.plan(p); p.goHomeAll(); await p.wait(900);
-    await FLOWS.dnd(p); await p.wait(1200);
-    p.reset(); await p.wait(800);
+    let c = 0;
+    for (const st of FILM) {
+      if (st.end) break;
+      if (st.title) { heroChapter(c++, st.title); await p.wait(1500); }
+      else { await st.run(p); await p.wait(700); }
+    }
+    p.reset(); await p.wait(900);
   }
 }
+function setHeroPause(paused) {
+  hero.paused = paused; heroHeld = paused;
+  heroPause.setAttribute('aria-label', paused ? 'Play the film' : 'Pause the film');
+  heroPause.innerHTML = paused ? '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 2.5v11l9-5.5z" fill="currentColor"/></svg>' : '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 3h3v10H4zM9 3h3v10H9z" fill="currentColor"/></svg>';
+}
+heroPause.addEventListener('click', () => {
+  if (!hero.running) { hero.script(heroLoop); setHeroPause(false); return; }
+  setHeroPause(!hero.paused);
+});
 hero.scr.classList.add('boot', 'booting');
 setTimeout(() => hero.scr.classList.remove('boot'), 150);
 setTimeout(() => hero.scr.classList.remove('booting'), 1400);
@@ -2530,11 +2563,13 @@ let heroVisible = false;
 if (!RM) {
   new IntersectionObserver(es => es.forEach(e => {
     heroVisible = e.isIntersecting;
-    if (heroVisible && !hero.running && filmEl.hidden) setTimeout(() => { if (heroVisible && !hero.running && filmEl.hidden) hero.script(heroLoop); }, 1200);
+    if (heroVisible && !hero.running && filmEl.hidden && !heroHeld) setTimeout(() => { if (heroVisible && !hero.running && filmEl.hidden && !heroHeld) hero.script(heroLoop); }, 1200);
     else if (!heroVisible && hero.running) { hero.cancelScript(); hero.reset(); }
   }), { threshold: 0.35 }).observe(hero.fitEl);
 } else {
-  heroCap.textContent = 'Press "Watch the film" to see it in motion, or try the prototype below.';
+  heroCap.textContent = 'Press play to see it in motion, or try the prototype below.';
+  heroChap.textContent = 'Most of what we ask a phone is small.';
+  setHeroPause(true);
 }
 
 // prototype: notes + rail
@@ -2610,7 +2645,7 @@ function closeFilm() {
   filmEl.hidden = true; document.body.style.overflow = '';
   fTitle.classList.remove('show'); fPhone.classList.remove('show');
   if (filmOpener) filmOpener.focus({ preventScroll: true });
-  if (heroVisible && !RM) setTimeout(() => { if (!hero.running && filmEl.hidden) hero.script(heroLoop); }, 800);
+  if (heroVisible && !RM && !heroHeld) setTimeout(() => { if (!hero.running && filmEl.hidden && !heroHeld) hero.script(heroLoop); }, 800);
 }
 function setPauseIcon(paused) {
   fPause.setAttribute('aria-label', paused ? 'Play' : 'Pause');
