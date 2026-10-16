@@ -110,7 +110,7 @@ A: My first AI iPhone concept didn't show where your request went, like sending 
 Q: Why should we hire you?
 A: You get three people in one: a researcher who finds the real problem, a designer who makes it clear, and a builder who makes it work in code. Halo shows all three. What does your team need most right now?
 
-Q: Tell me about a time you disagreed with feedback. / How do you handle disagreements with stakeholders? / How do you handle conflict?
+Q: Tell me about a time you disagreed with feedback. / How do you handle disagreements with stakeholders? / How do you handle conflict? / How do you handle a stakeholder who wants a feature you think is wrong? / What do you do when you disagree with a stakeholder? / How do you push back on a stakeholder? / What if a stakeholder disagrees with your design?
 A: No big standoff to report, but here's how I work: agree on the goal, then let evidence decide. When Halo's testers kept saying "let me see it first," I didn't defend full automation. I built a dial so people choose.
 
 Q: What tools do you use?

@@ -220,10 +220,10 @@ A click opens a text chat that answers as Matias, streamed from the worker (`dat
 - **Safety** (in the worker, before the model): a word list and Llama Guard catch rude, sexual or hateful messages and
   return a short witty line; anyone who sounds in distress gets a kind reply with the 988 crisis line, never a joke;
   attempts to pull out the instructions get a polite no, and an answer that starts repeating them is cut off.
-- **Staging:** while it's being refined, the worker's `PERSONA_URL` variable points at the persona on the
-  `agent-preview` branch. At launch, delete that variable so it reads the live site's copy. To preview persona edits
-  without pushing, the deployed worker can carry the persona inline (`INLINE` at the end of the dashboard copy only, never
-  in `worker/src/index.js`); redeploy `src/index.js` once the persona is pushed.
+- **Live since 2026-10-16:** the worker (`worker/src/index.js`, deployed by typing it into the Cloudflare editor) reads
+  the persona from the live site (`https://matiasindacochea.com/assets/data/persona.txt`, cached 5 minutes), so a persona
+  edit goes live with a normal push. To try persona edits before pushing, deploy a dashboard-only copy of the worker
+  with the persona inline (an `INLINE` const checked first in `loadPersona`), then redeploy `src/index.js` after the push.
 - No endpoint = it says it isn't connected and gives the email; nothing fake ever answers as him.
 - The conversation stays in the visitor's tab (sessionStorage). Analytics counts `ai_chat_open` and `ai_chat_ask`
   (method: suggestion | typed), never the text.
