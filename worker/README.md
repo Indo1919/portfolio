@@ -30,7 +30,18 @@ Or with Wrangler: `npm i -g wrangler && wrangler login && wrangler deploy` from 
 Only the portfolio's origins; at most 12 messages of 1,200 characters; about 10 requests a minute per
 visitor; the persona can't be replaced from the browser; the worker never logs conversations.
 
+Safety, before the persona ever sees a message:
+- Someone who sounds in distress (a word list, or Llama Guard's self-harm category) gets a kind reply and the
+  988 crisis line, never a joke.
+- Rude, sexual or hateful messages (the `RUDE` word list, then `@cf/meta/llama-guard-3-8b` for the rest) get one
+  of the short witty lines in `WITTY`, and count three times against the rate limit. Llama Guard's privacy,
+  advice, IP, defamation and election categories are left to the persona (`IGNORE`), so "what's your email?" works.
+- Attempts to pull out the instructions (`TRICK`) get a polite no; an answer that starts repeating them (`LEAK`)
+  is cut off.
+
 ## Changing what it knows or how it sounds
 Edit `assets/data/persona.txt` and push; the worker picks it up within five minutes. Keep it to facts that are
 on the site, the resume or Matias's own notes. If a project or the resume changes, update it too.
 Changing the worker code itself means pasting `src/index.js` into the dashboard editor again (or `wrangler deploy`).
+The dashboard editor in the in-app browser won't take a paste: type it in with leading spaces stripped (the code
+avoids backslashes for that reason), check the line count and the 0 errors badge, then Deploy.

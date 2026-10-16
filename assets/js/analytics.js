@@ -106,6 +106,14 @@
     const href = el.getAttribute("href") || "";
     const where = areaOf(el);
 
+    // Matias's AI (the chat in the corner): count opens and questions, never what anyone types
+    if (el.closest("[data-muse]")) {
+      if (el.classList.contains("muse-launch")) return el.getAttribute("aria-expanded") === "true" ? send("ai_chat_open", {}) : undefined;
+      if (el.classList.contains("muse-chip")) return send("ai_chat_ask", { method: "suggestion" });
+      if (el.classList.contains("muse-send")) return send("ai_chat_ask", { method: "typed" });
+      if (!href || href[0] === "#") return;
+    }
+
     // "How I work" (About): which project, step or move people explore. Links inside it fall through.
     const hiw = el.closest("[data-hiw]");
     if (hiw && !href) {

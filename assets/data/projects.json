@@ -84,7 +84,7 @@
       ],
       "shots": [
         { "page": "index.html", "out": "aiios-hero.jpg", "wait": 5000 },
-        { "page": "index.html", "out": "aiios-phone.jpg", "wait": 5000, "crop": [1803, 234, 663, 1404] }
+        { "page": "index.html", "out": "aiios-phone.jpg", "wait": 5000, "crop": [1832, 320, 600, 1260] }
       ]
     },
     {

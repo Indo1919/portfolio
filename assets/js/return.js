@@ -13,7 +13,7 @@
 
   const ga = document.createElement("script"); // Google Analytics, same as the homepage
   ga.async = true;
-  ga.src = new URL("assets/js/analytics.js?v=20261013a", base).href;
+  ga.src = new URL("assets/js/analytics.js?v=20261015a", base).href;
   document.head.appendChild(ga);
 
   const MARK = '<svg class="mark" viewBox="0 -31.04 112.5 95.04" aria-hidden="true"><defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#CECBF7"/><stop offset=".4" stop-color="#AEA6F0"/><stop offset=".72" stop-color="#8F81E5"/><stop offset="1" stop-color="#705DC8"/></linearGradient></defs><path d="M7 64V23a16 16 0 0 1 32 0v41M39 23a16 16 0 0 1 32 0v41M103 64V0" fill="none" stroke="currentColor" stroke-width="14"/><circle cx="103" cy="-21.54" r="9.5" fill="url(#g)"/></svg>';

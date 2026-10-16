@@ -49,6 +49,7 @@ too, and won't publish while it fails (the last good version stays live).
 | `brand/index.html` | Identity guidelines for the "mi" mark |
 | `assets/logo/` | Mark, icons, favicons, lockups. SVGs come from `tools/logo.py` |
 | `assets/img/` | Project screenshots (from `tools/screenshots.py`) and the share image |
+| `worker/` | Matias's AI: the Cloudflare Worker behind the homepage chat (guards and safety in `src/index.js`, deploy steps in its README; the persona is `assets/data/persona.txt`). Not published |
 | `tools/` | `check.py` (site check), `sync.py`, `new_project.py`, `screenshots.py`, `review.py`, `logo.py`, shared `chrome.py`, render templates |
 | `.github/workflows/sync-and-publish.yml` | On GitHub: syncs projects every 30 min, runs `check.py`, publishes only the site files to Pages |
 | Markers in `index.html` | `<!-- stage-images:end -->`, `<!-- stage-list:end -->`, `<!-- projects:end -->`: where `new_project.py` inserts. Keep them |
@@ -175,6 +176,59 @@ and step clicks let people jump. Hovering a move shows its principle. Matias fou
 - Layout: the ring and the panel sit side by side when the card is 1000px+ wide, stacked below that. Maps under
   720px wide (`compact` in JS) run the routes inside the ring with labels outside; wider maps orbit outside.
 
+### Matias's AI, "mi" (the chat in the corner)
+Its name is **mi** (Matias's call, 2026-10-15): the logo, it reads "me", and the character is its dot. The header says
+"mi" with "Matias's AI" under it; the bubble opens on "Hi! Ask mi anything".
+The character is the "mi" mark with its dot alive (`[data-muse]`, feature "muse"; Matias, 2026-10-16: it has to say AI
+and be on brand). The mark says whose it is, the dot is the character, and its sparkle says AI. The dot floats over the i;
+every ~5.6s, as the bubble swaps to the next line (`ASK` in site.js, opening on "Hi! I'm mi, Matias's AI"), it does one
+short move in turn (`MOVES`): mv-hop (off the i), mv-tour (a karaoke ball over i, m, m), mv-spark (it turns into a ✦ AI
+sparkle for a beat, paired with "Ask how I work with AI") and mv-double, each under 2.2s, then rests. While I answer
+(is-typing) it bounces across the letters and finishes its lap before settling; the chat's typing bubble shows the same
+ball hopping (at least 0.7s). Hovering the orb makes it bounce on the i. Reduced motion: it stays still. Earlier tries
+(hoodie character, plush, Bitmoji-style him, the dot alone) were rejected: too much detail, or not clearly his or AI.
+The launcher orb is Liquid Glass, after Apple's iOS 26 material (Matias, 2026-10-16): a faint violet tint over a blurred,
+saturated backdrop that the rim bends (`#lg-lens`, Chromium only via `html.lg-lens`), a specular edge lit from the top
+left that turns toward the pointer (`--la`, `--lx`, `--ly`), and it goes light with a dark mark over light sections
+(`[data-muse][data-tone]`, read each frame like the nav's). The small orb in the panel gets only the rim (no glass on glass).
+Reduce Transparency makes it opaque, Increase Contrast thickens the rim. The orbit ends with a smack on the i, a jelly
+shake and two bounces.
+A click opens a text chat that answers as Matias, streamed from the worker (`data-endpoint` = its `/chat` URL).
+- **Readable answers:** plain words and at most one everyday comparison per answer ("like a volume knob", "like a
+  test drive"); project names wear their project's color in my bubbles (`.p-halo`, `.p-arriba`, `.p-aiios`, `.p-scowtt`),
+  and "mi" wears the violet wherever it introduces itself (`.mi-name`).
+- **Suggestions** (`.muse-chip`, most relevant first: their order in the markup is the priority): four show every time the
+  chat opens, and three fresh ones (never one already asked) after each answer. Each chip's text matches a `MODEL ANSWERS`
+  question in the persona, so it gets that answer word for word; keep them in sync.
+- **Process first** (Matias, 2026-10-15: too centered on job history): answers lead with how he works and thinks as a
+  designer and prove it with projects; job history (Scowtt, Greenopia, DzynLit, Jetzy) comes up only when asked about roles,
+  experience, startups or leadership. Suggestions are the questions recruiters ask most (2026-10-16): tell me about yourself, your process, a project
+  walkthrough, cross-functional work, AI, research, feedback, success, decisions, a mistake, ambiguity, why hire, what's
+  next, what kind of designer. Process answers name the interviews (Halo: contributors, managers, freelancers, 45 min) and
+  the cross-disciplinary work (Scowtt's product and engineering, Arriba's anthropologist).
+- **Facts only.** The persona is `assets/data/persona.txt` (the worker fetches it, cached 5 minutes): voice, honesty
+  rules, interview playbook (answer first, STAR, a story bank of true stories, never invent a scene), how-I-grow stories
+  for weakness questions, and every fact it may use. Professional only: no private life, no names of other people.
+  When the site's facts change (a project, the resume, a new role), update the persona too.
+- **Short answers** (Matias kept hearing the replies were too long; research in 2026-10-15's session: NN/g "Less Chat,
+  More Answer", Grice's maxim of quantity, recruiters' ~60s answers and 6 to 20s portfolio scans). The shape: answer in the
+  first sentence, one proof from the work, stop. 25 to 55 words (~15s to read), never over 70; past 75 words the worker
+  stops at the end of the sentence (`MAX_WORDS`). `MODEL ANSWERS` in the persona (40) are the standard for the questions
+  recruiters ask most. The worker returns one as written when the question matches it exactly or closely (`answerFor`:
+  keyword overlap of 0.6 or more, filler words ignored), so the free model can't paraphrase or invent on those. Bullets only for steps or lists (at most 3), rendered
+  as a list by the chat. Banned filler words are listed in the persona. Test with ask questions and count words.
+- **Safety** (in the worker, before the model): a word list and Llama Guard catch rude, sexual or hateful messages and
+  return a short witty line; anyone who sounds in distress gets a kind reply with the 988 crisis line, never a joke;
+  attempts to pull out the instructions get a polite no, and an answer that starts repeating them is cut off.
+- **Staging:** while it's being refined, the worker's `PERSONA_URL` variable points at the persona on the
+  `agent-preview` branch. At launch, delete that variable so it reads the live site's copy. To preview persona edits
+  without pushing, the deployed worker can carry the persona inline (`INLINE` at the end of the dashboard copy only, never
+  in `worker/src/index.js`); redeploy `src/index.js` once the persona is pushed.
+- No endpoint = it says it isn't connected and gives the email; nothing fake ever answers as him.
+- The conversation stays in the visitor's tab (sessionStorage). Analytics counts `ai_chat_open` and `ai_chat_ask`
+  (method: suggestion | typed), never the text.
+- Model: Workers AI by default (no key); with the `ANTHROPIC_API_KEY` secret, Claude Haiku. Deploy steps in `worker/README.md`.
+
 ### Remove or reorder a project
 Change `projects.json`, then match `index.html` (both places) and delete `work/<slug>/` if removed.
 
@@ -215,7 +269,7 @@ by hostname if needed). `assets/js/analytics.js` is the only place with the ID. 
 - **Events:** `resume_download`, `contact_click` (method), `case_study_open`, `project_jump`, `project_preview`,
   `live_preview_open`, `prototype_tap`, `film_play`, `section_view` (section), `portfolio_bar_click` (action,
   destination), `process_explore` (action: project, step, move, replay, next, back, next_route, restart; project; move) and
-  `process_complete` (project; watched a whole route play) and `project_segment` (project, section: one of the six scene parts). Parameters `project`, `link_location`, `method`,
+  `process_complete` (project; watched a whole route play) and `project_segment` (project, section: one of the six scene parts). `ai_chat_open` and `ai_chat_ask` (method) count use of the chat, never its content. Parameters `project`, `link_location`, `method`,
   `section`, `action`, `destination` are registered custom dimensions; `move` still needs one (Admin > Custom
   definitions) once How I work is live. A new parameter needs a new custom dimension.
 - **GA settings already made:** key events `resume_download` and `contact_click` (once per session, no value);

@@ -1501,6 +1501,227 @@
     addEventListener("load", () => { land(); setTimeout(land, 300); });
   });
 
+  /* ---------------------------------------------------------------- Matias's AI
+     [data-muse]: an original illustrated me in the corner. The bubble shows what I'm doing (sketching,
+     building, testing a new model); a click opens a chat that answers as me. The answers come from a
+     small server (worker/ in this repo) that holds the facts and the model; data-endpoint is its /chat
+     URL. Empty endpoint: it says it isn't connected yet and points to my email, so nothing fake ever
+     answers as me. The conversation stays in this tab (sessionStorage) and is never sent to analytics. */
+  feature("muse", () => {
+    const box = $("[data-muse]");
+    if (!box) return;
+    const launch = $(".muse-launch", box), panel = $(".muse-panel", box), log = $(".muse-log", box);
+    const form = $(".muse-form", box), input = $(".muse-in", box), sendBtn = $(".muse-send", box);
+    const chipsBox = $(".muse-chips", box), statusText = $(".muse-status-text", box), closeBtn = $(".muse-x", box);
+    const big = $(".muse-launch .muse-char", box);
+    const small = big.cloneNode(true);
+    $(".muse-orb-sm", box).appendChild(small);
+    const endpoint = (box.dataset.endpoint || "").trim();
+    const EMAIL = "matiasindacochea@outlook.com";
+    const say = {
+      offline: `I’m not connected yet. Email me at ${EMAIL} and the real me will reply within a day.`,
+      error: `I can’t answer right now. Email me at ${EMAIL}, I reply within a day.`,
+      busy: `Lots of questions at once. Try again in a minute, or email me at ${EMAIL}.`,
+    };
+    const MOVES = ["mv-hop", "mv-tour", "mv-spark", "mv-double", "mv-orbit"], STATES = [...MOVES, "is-typing"];
+    const MOVE_ENDS = ["mvHopDot", "mvTourDot", "mvSparkShape", "mvDoubleDot", "mvOrbitDot"];
+    const pose = (svg, st) => { STATES.forEach(c => svg.classList.toggle(c, c === st)); };
+    const move = (svg, name) => { pose(svg, ""); void svg.getBoundingClientRect(); svg.classList.add(name); }; // restart the move
+    const hop = svg => move(svg, "mv-hop");
+    [big, small].forEach(svg => svg.addEventListener("animationend", e => { if (MOVE_ENDS.includes(e.animationName)) MOVES.forEach(m => svg.classList.remove(m)); }));
+    // answering: the dot bounces around my letters; when I'm done it finishes the lap and lands back on the i
+    let settleTimer = 0;
+    const typing = on => {
+      clearTimeout(settleTimer);
+      if (on) { delete small.dataset.settle; pose(small, "is-typing"); return; }
+      small.dataset.settle = "1";
+      settleTimer = setTimeout(() => { delete small.dataset.settle; pose(small, ""); }, 2100);
+    };
+    small.addEventListener("animationiteration", e => {
+      if (e.animationName === "typeDot" && small.dataset.settle) { clearTimeout(settleTimer); delete small.dataset.settle; pose(small, ""); }
+    });
+
+    // the bubble: the dot of my mark hops off the i and suggests a question
+    const ASK = ["Hi! I’m mi, Matias’s AI", "Ask how I design", "Ask how I work with AI", "Ask how I prototype", "Ask what I’m looking for next"]; // one line per move; the sparkle goes with AI
+    // my AI’s name in my violet wherever it introduces itself (only after "I’m" or "called", so Spanish "mi" stays plain)
+    const nameMi = html => html.replace(/(I(?:&#39;|’|')m|called) mi\b/g, '$1 <span class="mi-name">mi</span>');
+    // project names wear their project’s color in answers (styled only in my bubbles), so the reader never loses the thread
+    const PROJECT_TAGS = [["AI Native iOS", "p-aiios"], ["Arriba Perú", "p-arriba"], ["Arriba Peru", "p-arriba"], ["Halo", "p-halo"], ["Scowtt", "p-scowtt"]]
+      .map(([name, cls]) => [new RegExp(`\\b${name}(?![\\wà-ÿ])`, "g"), `<span class="${cls}">${name}</span>`]);
+    const tagProjects = html => PROJECT_TAGS.reduce((h, [re, tag]) => h.replace(re, tag), html);
+    let d = 0, doingTimer = 0;
+    const cycle = () => {
+      clearTimeout(doingTimer);
+      if (box.classList.contains("is-open") || document.hidden) return;
+      const text = ASK[d];
+      move(big, MOVES[d % MOVES.length]);
+      d = (d + 1) % ASK.length;
+      statusText.classList.add("is-swap");
+      setTimeout(() => { statusText.innerHTML = nameMi(text); statusText.classList.remove("is-swap"); }, 480); // swaps near the top of the hop
+      doingTimer = setTimeout(cycle, 5600);
+    };
+    if (!reduce.matches && !capture) { setTimeout(cycle, 1600); document.addEventListener("visibilitychange", () => { if (!document.hidden) cycle(); }); }
+    if (matchMedia("(max-width: 560px)").matches) setTimeout(() => box.classList.add("is-quiet"), 9000); // small screens: the bubble steps back
+
+    // the conversation (this tab only)
+    let msgs = [];
+    try { msgs = JSON.parse(sessionStorage.getItem("mi-ai-chat") || "[]").filter(m => m && m.role && m.content).slice(-12); } catch { msgs = []; }
+    const save = () => { try { sessionStorage.setItem("mi-ai-chat", JSON.stringify(msgs.slice(-12))); } catch { /* private mode */ } };
+    const LABELS = { "work/halo/case-study.html": "the Halo case study", "work/arriba-peru/": "the Arriba Perú case study",
+      "work/ai-native-ios/": "the AI Native iOS case study", "work/scowtt/": "the Scowtt case study",
+      "assets/docs/Matias-Indacochea-Resume.pdf": "my resume" };
+    const escapeHtml = t => t.replace(/[&<>"']/g, c => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+    const linkify = t => escapeHtml(t)
+      .replace(/\*\*([^*]+)\*\*/g, "<b>$1</b>")
+      .replace(/\b(?:https?:\/\/(?:www\.)?matiasindacochea\.com\/)?(work\/(?:halo\/case-study\.html|arriba-peru\/|ai-native-ios\/|scowtt\/)|assets\/docs\/Matias-Indacochea-Resume\.pdf)/g,
+        (m, path) => `<a href="${path}">${LABELS[path] || path}</a>`)
+      .replace(/(^|[\s(])#(contact|work|about|process)\b/g, (m, pre, id) => `${pre}<a href="#${id}">${id === "contact" ? "contact" : id}</a>`)
+      .replace(/\b([\w.+-]+@[\w-]+\.[\w.-]+\w)\b/g, '<a href="mailto:$1">$1</a>')
+      .replace(/\b(?:https?:\/\/)?(?:www\.)?(linkedin\.com\/in\/[\w-]+)\/?/g, '<a href="https://www.$1" target="_blank" rel="noopener">LinkedIn</a>');
+    // short paragraphs, and "- " lines become a real list; no dash-as-punctuation, as in my writing
+    const line = t => tagProjects(nameMi(linkify(t.replace(/ [-\u2013\u2014] /g, ", "))));
+    const render = (el, text) => {
+      el.innerHTML = text.split(/\n{2,}/).map(block => {
+        let html = "", items = [];
+        const flush = () => {
+          if (!items.length) return;
+          const tail = items[items.length - 1].match(/^(.*[.!])\s+([A-Z][^.!?]*\?)$/); // a question stuck to the last bullet goes under the list
+          if (tail) items[items.length - 1] = tail[1];
+          html += `<ul>${items.map(i => `<li>${line(i)}</li>`).join("")}</ul>` + (tail ? `<p>${line(tail[2])}</p>` : "");
+          items = [];
+        };
+        block.split("\n").forEach(l => {
+          const item = l.match(/^\s*(?:[-\u2022*]|\d+[.)])\s+(.*)/);
+          if (item) items.push(item[1]);
+          else { flush(); if (l.trim()) html += `<p>${line(l)}</p>`; }
+        });
+        flush();
+        return html;
+      }).join("");
+    };
+    const add = (role, text) => {
+      const el = document.createElement("div");
+      el.className = `muse-msg ${role === "user" ? "me" : "ai"}`;
+      if (text) render(el, text);
+      log.appendChild(el);
+      log.scrollTop = log.scrollHeight;
+      return el;
+    };
+    msgs.forEach(m => add(m.role, m.content));
+    // suggestions, most relevant first (their order in the markup): four on open, three fresh ones after each answer
+    // Liquid Glass: the rim bends the backdrop where the browser can (Chromium), the specular edge turns toward the pointer,
+    // and the glass goes light or dark with the section underneath so the mark stays legible
+    const orb = $(".muse-launch .muse-orb", box);
+    if (navigator.userAgentData && navigator.userAgentData.brands.some(b => /Chromium/.test(b.brand))) document.documentElement.classList.add("lg-lens");
+    const toneSecs = $$("section[data-tone], footer[data-tone]");
+    const toneUnder = () => {
+      const r = orb.getBoundingClientRect(), y = r.top + r.height / 2;
+      const sec = toneSecs.find(el => { const b = el.getBoundingClientRect(); return b.top <= y && b.bottom > y; });
+      const tone = sec ? sec.dataset.tone : "dark";
+      if (box.dataset.tone !== tone) box.dataset.tone = tone;
+    };
+    onFrame.push(toneUnder); toneUnder();
+    if (!reduce.matches && matchMedia("(hover: hover)").matches) {
+      let lightFrame = 0;
+      addEventListener("pointermove", e => {
+        if (lightFrame) return;
+        lightFrame = requestAnimationFrame(() => {
+          lightFrame = 0;
+          const r = orb.getBoundingClientRect(), dx = e.clientX - (r.left + r.width / 2), dy = e.clientY - (r.top + r.height / 2);
+          const a = Math.atan2(dy, dx), reach = 12 + 14 * Math.min(1, Math.hypot(dx, dy) / 600);
+          orb.style.setProperty("--la", `${(a * 180 / Math.PI + 90).toFixed(1)}deg`);
+          orb.style.setProperty("--lx", `${(50 + Math.cos(a) * reach).toFixed(1)}%`);
+          orb.style.setProperty("--ly", `${(50 + Math.sin(a) * reach).toFixed(1)}%`);
+        });
+      }, { passive: true });
+    }
+
+    const pickChips = () => {
+      const asked = new Set(msgs.filter(m => m.role === "user").map(m => m.content.trim().toLowerCase()));
+      let left = msgs.length ? 3 : 4;
+      $$(".muse-chip", box).forEach(c => { const show = left > 0 && !asked.has(c.textContent.trim().toLowerCase()); c.hidden = !show; if (show) left--; });
+      chipsBox.hidden = !$$(".muse-chip:not([hidden])", box).length;
+    };
+    pickChips();
+
+    let busy = false;
+    const sleep = ms => new Promise(r => setTimeout(r, ms));
+    async function ask(question) {
+      const text = question.trim().slice(0, 600);
+      if (!text || busy) return;
+      busy = true; sendBtn.disabled = true; chipsBox.hidden = true; input.value = "";
+      add("user", text);
+      msgs.push({ role: "user", content: text });
+      const bubble = add("ai", "");
+      bubble.classList.add("is-typing");
+      typing(true);
+      const t0 = Date.now();
+      let out = "";
+      try {
+        if (!endpoint) { await sleep(700); throw Object.assign(new Error("offline"), { say: say.offline }); }
+        const res = await fetch(endpoint, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify({ messages: msgs.slice(-12) }) });
+        if (res.status === 429) throw Object.assign(new Error("busy"), { say: say.busy });
+        if (!res.ok || !res.body) throw new Error(`status ${res.status}`);
+        const reader = res.body.getReader(), dec = new TextDecoder();
+        let buf = "";
+        for (;;) {
+          const { value, done } = await reader.read();
+          if (done) break;
+          buf += dec.decode(value, { stream: true });
+          const parts = buf.split("\n\n"); buf = parts.pop();
+          for (const part of parts) {
+            const line = part.trim();
+            if (!line.startsWith("data:")) continue;
+            const data = line.slice(5).trim();
+            if (data === "[DONE]") continue;
+            let t = "";
+            try { t = JSON.parse(data).t || ""; } catch { /* partial */ }
+            if (!t) continue;
+            if (!out && Date.now() - t0 < 700) await sleep(700 - (Date.now() - t0)); // even an instant reply shows me typing for a moment
+            out += t; render(bubble, out); log.scrollTop = log.scrollHeight;
+          }
+        }
+        if (!out.trim()) throw new Error("empty");
+        msgs.push({ role: "assistant", content: out.trim() });
+        save();
+      } catch (err) {
+        msgs.pop(); // the question goes unanswered, so it isn't sent again as history
+        render(bubble, err.say || say.error);
+      }
+      bubble.classList.remove("is-typing");
+      typing(false);
+      busy = false; sendBtn.disabled = false;
+      pickChips();
+      log.scrollTop = log.scrollHeight;
+    }
+
+    // open and close
+    let lastFocus = null;
+    const open = () => {
+      lastFocus = document.activeElement;
+      clearTimeout(doingTimer);
+      panel.hidden = false;
+      requestAnimationFrame(() => box.classList.add("is-open"));
+      launch.setAttribute("aria-expanded", "true");
+      hop(small);
+      setTimeout(() => input.focus({ preventScroll: true }), 260);
+      log.scrollTop = log.scrollHeight;
+    };
+    const close = () => {
+      box.classList.remove("is-open");
+      launch.setAttribute("aria-expanded", "false");
+      setTimeout(() => { if (!box.classList.contains("is-open")) panel.hidden = true; }, 350);
+      if (lastFocus && lastFocus.focus) lastFocus.focus({ preventScroll: true }); else launch.focus({ preventScroll: true });
+      if (!reduce.matches && !capture) doingTimer = setTimeout(cycle, 1200);
+    };
+    launch.addEventListener("click", () => (box.classList.contains("is-open") ? close() : open()));
+    closeBtn.addEventListener("click", close);
+    document.addEventListener("keydown", e => { if (e.key === "Escape" && box.classList.contains("is-open")) close(); });
+    form.addEventListener("submit", e => { e.preventDefault(); ask(input.value); });
+    $$(".muse-chip", box).forEach(c => c.addEventListener("click", () => ask(c.textContent)));
+    log.addEventListener("click", e => { const a = e.target.closest("a[href^='#']"); if (a) close(); }); // a section link: get out of the way
+  });
+
   /* ---------------------------------------------------------------- the loop */
   let ticking = false;
   const runFrame = () => {
